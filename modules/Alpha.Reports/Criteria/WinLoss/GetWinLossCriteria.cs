@@ -1,0 +1,50 @@
+using Alpha.Shared.Enumerations;
+using Fanex.Data;
+using Fanex.Data.Repository;
+
+namespace Alpha.Reports.Criteria.WinLoss;
+
+public class GetWinLossCriteria : CriteriaBase
+{
+    public GetWinLossCriteria(
+        int custId,
+        DateTime fromDate,
+        DateTime toDate,
+        string productIds,
+        DateTime moveBetsDay,
+        DateTime balanceUpDay,
+        UserLevel custLevel)
+    {
+        CustId = custId;
+        FromDate = fromDate;
+        ToDate = toDate;
+        ProductIds = productIds;
+        MoveBetsDay = moveBetsDay;
+        BalanceUpDay = balanceUpDay;
+        CustLevel = custLevel;
+    }
+
+    public int CustId { get; }
+
+    public DateTime FromDate { get; }
+
+    public DateTime ToDate { get; }
+
+    public string ProductIds { get; }
+
+    public DateTime MoveBetsDay { get; }
+
+    public DateTime BalanceUpDay { get; }
+
+    [SpParam(Ignored = true)]
+    public UserLevel CustLevel { get; }
+
+    public override string GetSettingKey()
+        => CustLevel.IsSuper()
+        ? "Age_Rpt_SumWinLoss_Master"
+        : CustLevel.IsMaster()
+            ? "Age_Rpt_SumWinLoss_Agent"
+            : "Age_Rpt_SumWinLoss_Member";
+
+    public override bool IsValid() => CustId > 0 && FromDate <= ToDate;
+}

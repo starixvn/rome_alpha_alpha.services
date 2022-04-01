@@ -1,0 +1,25 @@
+FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:6.0 as builder
+WORKDIR /src
+
+COPY host/Alpha.API/Alpha.API.csproj ./host/Alpha.API/
+RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
+RUN dotnet restore host/Alpha.API/Alpha.API.csproj -v n
+
+COPY modules/. ./modules/
+COPY host/Alpha.API ./host/Alpha.API
+
+WORKDIR /src/host/Alpha.API
+RUN dotnet publish -r linux-x64 --self-contained false -o /app
+
+FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:6.0 as base
+
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /etc/ssl/openssl.cnf
+RUN sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/g' /usr/lib/ssl/openssl.cnf
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/g' /usr/lib/ssl/openssl.cnf
+
+WORKDIR /app
+COPY --from=builder /app .
+ENV TZ="America/La_Paz"
+
+ENTRYPOINT ["dotnet", "Alpha.API.dll"]
