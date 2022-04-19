@@ -1,6 +1,11 @@
 namespace Alpha.API.Client.Models.Customers;
 
-public record CustomerStatus(bool IsActive, byte Locked, bool IsProtectedMode)
-{
-    public bool IsLocked { get; } = Locked != 0;
-}
+public record CustomerStatus(
+    int CustId,
+    int SubAccId,
+    bool IsActive,
+    bool IsProtectedMode,
+    bool IsLocked,
+    bool IsSubAcc,
+    bool HasReportPermission,
+    bool HasMemberInformationPermission);

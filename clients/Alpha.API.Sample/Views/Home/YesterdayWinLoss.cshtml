@@ -1,5 +1,24 @@
 ﻿@{
     ViewData["Title"] = "Yesterday Win Loss";
+    var winLoss = (WinLossMaster)ViewData["YesterdayWinLoss"];
+    var downlineWinLoss = (WinLossAgent)ViewData["YesterdayDownlineWinLoss"];
+    var topUsername = (IEnumerable<string>)ViewData["TopUsername"];
 }
 
-<h3>@ViewData["Title"]</h3>
+<h6>Yesterday Win Loss - GetWinLoss(int custId, byte custLevel, DateTime date)</h6>
+<p>
+    <span>Super = SupertestTE01</span><br>
+    <span style="color:red">@JsonSerializer.Serialize(winLoss)</span>
+</p>
+
+<h6>Downline Win Loss - GetDownlineWinLoss(int custId, byte custLevel, DateTime date, int downlineId)</h6>
+<p>
+    <span>Super = SupertestTE01 | Master = SUPERTESTTE010S</span><br>
+    <span style="color:red">@JsonSerializer.Serialize(downlineWinLoss)</span>
+</p>
+
+<h6>Top Yesterday Win Loss - GetTopUsername(int custId, byte custLevel, DateTime date, int top = 5)</h6>
+<p>
+    <span>Super = SupertestTE01 --></span>
+    <span style="color:red">@JsonSerializer.Serialize(topUsername)</span>
+</p>

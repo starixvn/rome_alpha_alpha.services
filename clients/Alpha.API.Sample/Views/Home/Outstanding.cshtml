@@ -1,16 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Outstanding";
-    var myOutstanding = (MyOutstanding)ViewData["MyOutstanding"];
-    var downlineOutstanding = (IEnumerable<DownlineOutstanding>)ViewData["DownlineOutstanding"];
-    var topOutstanding = (TopOutstanding)ViewData["TopOutstanding"];
+    var downlineOutstanding = (OutstandingReport)ViewData["DownlineOutstanding"];
+    var topOutstanding = (OutstandingReport)ViewData["TopOutstanding"];
     var topOutstandingUsername = (IEnumerable<string>)ViewData["TopOutstandingUsername"];
 }
-
-<h6>My Outstanding - GetMyOutstandingAsync(int custId, int subAccId, byte custLevel)</h6>
-<p>
-    <span>Super: SupertestTE01 --></span>
-    <span style="color:red">@JsonSerializer.Serialize(myOutstanding)</span>
-</p>
 
 <h6>Downline Outstanding - GetDownlineOutstandingAsync(int custId, int subAccId, byte custLevel, int downlineId, string language)</h6>
 <p>
@@ -22,8 +15,7 @@
 <p>
     <span>Agent = SupertestTE010101</span><br>
     <span style="color:red">Total: @JsonSerializer.Serialize(topOutstanding.Total)</span><br>
-    <span style="color:red">Top Outstanding: @JsonSerializer.Serialize(topOutstanding.TopOutstandings)</span><br>
-    <span style="color:red">Hidden Downlines Count: @topOutstanding.HiddenDownlinesCount</span>
+    <span style="color:red">Top Outstanding: @JsonSerializer.Serialize(topOutstanding.Outstandings)</span><br>
 </p>
 
 <h6>Top Outstanding Username - GetTopOutstandingUsernameAsync(int custId, int subAccId, byte custLevel, int top)</h6>

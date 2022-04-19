@@ -4,11 +4,11 @@ namespace Alpha.API.Client.Services;
 
 public interface ICustomerService
 {
-    Task<CustomerStatus> GetCustomerStatusAsync(int custId, int subAccId);
-    
-    Task<DownlineInfo> GetDownlineInfoAsync(int custId, string downlineUsername);
+    Task<IEnumerable<CustomerStatus>> GetCustomerStatusByBatch(IEnumerable<CustomerStatusParam> data);
 
-    Task<bool> IsSubAccHasReportPermissionAsync(int custId, int subAccId);
+    Task<CustomerStatus> GetCustomerStatus(int custId, int subAccId);
+    
+    Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername);
 }
 
 public class CustomerService : ServiceBase, ICustomerService
@@ -17,13 +17,13 @@ public class CustomerService : ServiceBase, ICustomerService
     {
     }
 
-    public Task<CustomerStatus> GetCustomerStatusAsync(int custId, int subAccId)
-        => GetAsync<CustomerStatus>($"/api/Customer/GetCustomerStatus?custId={custId}&subAccId={subAccId}");
+    public Task<IEnumerable<CustomerStatus>> GetCustomerStatusByBatch(IEnumerable<CustomerStatusParam> data)
+        => Post<IEnumerable<CustomerStatus>>($"/api/Customer/GetCustomerStatusByBatch", data);
 
-    public Task<DownlineInfo> GetDownlineInfoAsync(int custId, string downlineUsername)
-        => GetAsync<DownlineInfo>(
+    public Task<CustomerStatus> GetCustomerStatus(int custId, int subAccId)
+        => Get<CustomerStatus>($"/api/Customer/GetCustomerStatus?custId={custId}&subAccId={subAccId}");
+
+    public Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername)
+        => Get<DownlineInfo>(
             $"/api/Customer/GetDownlineInfo?custId={custId}&downlineUsername={downlineUsername}");
-
-    public Task<bool> IsSubAccHasReportPermissionAsync(int custId, int subAccId)
-        => GetAsync<bool>($"/api/Customer/IsSubAccHasReportPermission?custId={custId}&subAccId={subAccId}");
 }

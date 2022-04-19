@@ -1,6 +1,33 @@
 ﻿@{
     ViewData["Title"] = "Balance Info";
+    var myBalance = (CustomerBalance)ViewData["MyBalance"];
+    var downlineBalance = (DownlineBalance)ViewData["DownlineBalance"];
+    var topBalance = (IEnumerable<TopBalance>)ViewData["TopBalance"];
+    var topUsername = (IEnumerable<string>)ViewData["TopUsername"];
 }
 
-<h3>@ViewData["Title"]</h3>
+<h6>My Balance - GetMyBalance(int custId, byte custLevel)</h6>
+<p>
+    <span>Super = SupertestTE01</span><br>
+    <span style="color:red">@JsonSerializer.Serialize(myBalance)</span>
+</p>
+
+<h6>Downline Balance - GetDownlineBalance(int custId, byte custLevel, int downlineId)</h6>
+<p>
+    <span>Super = SupertestTE01 | Master = SUPERTESTTE010S</span><br>
+    <span style="color:red">@JsonSerializer.Serialize(downlineBalance)</span>
+</p>
+
+<h6>Top Balance - GetTopBalance(int custId, byte custLevel, int top = 50)</h6>
+<p>
+    <span>Super = SupertestTE01</span><br>
+    <span style="color:red">@JsonSerializer.Serialize(topBalance)</span><br>
+</p>
+
+<h6>Top Balance Username - GetTopUsername(int custId, byte custLevel, int top = 5)</h6>
+<p>
+    <span>Super = SupertestTE01 --></span>
+    <span style="color:red">@JsonSerializer.Serialize(topUsername)</span>
+</p>
+
 

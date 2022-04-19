@@ -1,14 +1,16 @@
 FROM registry.nexdev.net:5050/docker/dotnet/core/sdk:6.0 as builder
 WORKDIR /src
 
-COPY host/Alpha.API/Alpha.API.csproj ./host/Alpha.API/
+COPY src/Alpha.API/Alpha.API.csproj ./Alpha.API/
 RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
-RUN dotnet restore host/Alpha.API/Alpha.API.csproj -v n
+RUN dotnet restore Alpha.API/Alpha.API.csproj -v n
 
-COPY modules/. ./modules/
-COPY host/Alpha.API ./host/Alpha.API
+COPY src/Alpha.Customers ./Alpha.Customers
+COPY src/Alpha.Reports ./Alpha.Reports
+COPY src/Alpha.Shared ./Alpha.Shared
+COPY src/Alpha.API ./Alpha.API
 
-WORKDIR /src/host/Alpha.API
+WORKDIR /src/Alpha.API
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM registry.nexdev.net:5050/docker/dotnet/core/aspnet:6.0 as base

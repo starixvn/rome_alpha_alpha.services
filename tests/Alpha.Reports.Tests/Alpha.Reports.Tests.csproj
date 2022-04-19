@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\modules\Alpha.Reports\Alpha.Reports.csproj" />
+    <ProjectReference Include="..\..\src\Alpha.Reports\Alpha.Reports.csproj" />
   </ItemGroup>
 
 </Project>

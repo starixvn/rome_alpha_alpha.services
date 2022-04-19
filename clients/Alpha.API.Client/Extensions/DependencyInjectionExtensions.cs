@@ -1,5 +1,4 @@
 using System.Net;
-using Alpha.API.Client.Infrastructure;
 using Alpha.API.Client.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,22 +9,35 @@ public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)
     {
-        var alphaAPIBaseUrl = configuration.GetValue<string>("AlphaAPI:BaseUrl");
-        services.AddScoped<AlphaAPIHmacDelegatingHandler>();
+        var alphaAPIBaseUrl = configuration.GetValue<string>("AlphaAPIBaseUrl");
 
         services
             .AddHttpClient<ICustomerService, CustomerService>(httpClient
                 => httpClient.BaseAddress = new Uri(alphaAPIBaseUrl))
-            .AddHttpMessageHandler<AlphaAPIHmacDelegatingHandler>()
             .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
             });
         
         services
-            .AddHttpClient<IReportService, ReportService>(httpClient
+            .AddHttpClient<IOutstandingService, OutstandingService>(httpClient
                 => httpClient.BaseAddress = new Uri(alphaAPIBaseUrl))
-            .AddHttpMessageHandler<AlphaAPIHmacDelegatingHandler>()
+            .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            });
+
+        services
+            .AddHttpClient<IBalanceInfoService, BalanceInfoService>(httpClient
+                => httpClient.BaseAddress = new Uri(alphaAPIBaseUrl))
+            .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            });
+
+        services
+            .AddHttpClient<IWinLossService, WinLossService>(httpClient
+                => httpClient.BaseAddress = new Uri(alphaAPIBaseUrl))
             .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip

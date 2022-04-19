@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Customer";
+    var customerStatus = (IEnumerable<CustomerStatus>)ViewData["customerStatus"];
+
     var superStatus = (CustomerStatus)ViewData["superStatus"];
     var superSubAccStatus = (CustomerStatus)ViewData["superSubAccStatus"];
 
@@ -13,12 +15,14 @@
 
     var member = (DownlineInfo)ViewData["member"];
     var memberInvalid = (DownlineInfo)ViewData["memberInvalid"];
-
-    var subAccHasReportPermission = (bool)ViewData["subAccHasReportPermission"];
-    var subAccNoReportPermission = (bool)ViewData["subAccNoReportPermission"];
 }
 
-<h6>GetCustomerStatusAsync(int custId, int subAccId)</h6>
+<h6>GetCustomerStatusByBatch(IEnumerable<CustomerStatusParam> data)</h6>
+<p>
+    <span style="color:red">@JsonSerializer.Serialize(customerStatus)</span>
+</p>
+
+<h6>GetCustomerStatus(int custId, int subAccId)</h6>
 <p>
     <span>Super: supertest1 --></span>
     <span style="color:red">@JsonSerializer.Serialize(superStatus)</span>
@@ -28,7 +32,7 @@
     <span style="color:red">@JsonSerializer.Serialize(superSubAccStatus)</span>
 </p>
 
-<h6>GetDownlineInfoAsync(int custId, string downlineUsername)</h6>
+<h6>GetDownlineInfo(int custId, string downlineUsername)</h6>
 <p>
     <span>DownlineUsername: master1 --></span>
     <span style="color:red">@JsonSerializer.Serialize(master)</span>
@@ -60,14 +64,4 @@
 <p>
     <span>DownlineUsername = memberxxxxxxxxxx --></span>
     <span style="color:red">@JsonSerializer.Serialize(memberInvalid)</span>
-</p>
-
-<h6>IsSubAccHasReportPermissionAsync(int custId, int subAccId)</h6>
-<p>
-    <span>SubAccId: 520850 | SubAccName: MASTER1Sub05 --> Reports Permission:</span>
-    <span style="color:red">@subAccHasReportPermission</span>
-</p>
-<p>
-    <span>SubAccId: 91726 | SubAccName: MASTER1Sub01 --> Reports Permission:</span>
-    <span style="color:red">@subAccNoReportPermission</span>
 </p>
