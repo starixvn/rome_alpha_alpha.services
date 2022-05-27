@@ -21,11 +21,19 @@ public class GetDownlineOutstandingCriteria : CriteriaBase
     public UserLevel CustLevel { get; }
 
     public override string GetSettingKey()
-        => CustLevel.IsSuper()
-        ? "Age_Rpt_DownlineOutstanding_Master"
-        : CustLevel.IsMaster()
-            ? "Age_Rpt_DownlineOutstanding_Agent"
-            : "Age_Rpt_DownlineOutstanding_Member";
+    {
+        if (CustLevel.IsSuper())
+        {
+            return "Age_Rpt_DownlineOutstanding_Master";
+        }
+
+        if (CustLevel.IsMaster())
+        {
+            return "Age_Rpt_DownlineOutstanding_Agent";
+        }
+
+        return "Age_Rpt_DownlineOutstanding_Member";
+    }
 
     public override bool IsValid() => DownlineId > 0;
 }

@@ -13,5 +13,5 @@ public class DomainException : Exception
 
     public int ErrorCode { get; }
 
-    public IDictionary<string, object> ErrorData { get; } = default!;
+    public IDictionary<string, object> ErrorData { get; }
 }

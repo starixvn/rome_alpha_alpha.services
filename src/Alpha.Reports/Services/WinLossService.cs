@@ -28,7 +28,6 @@ public class WinLossService : IWinLossService
     public WinLossService(
         IProductService productService,
         IReportDateService reportDateService,
-        IMinimizeUMService minimizeUMService,
         IOptions<ReportAppSettings> options,
         IDynamicRepository dynamicRepository)
     {
@@ -75,7 +74,7 @@ public class WinLossService : IWinLossService
         if (custLevel.IsSuper())
         {
             return (await GetWinLoss<WinLossMaster>(custId, custLevel, date))
-                .OrderByDescending(w => w.MasterTotal)
+                .OrderByDescending(w => Math.Abs(w.MasterTotal))
                 .Select(w => w.CustName)
                 .Take(top);
         }
@@ -83,13 +82,13 @@ public class WinLossService : IWinLossService
         if (custLevel.IsMaster())
         {
             return (await GetWinLoss<WinLossAgent>(custId, custLevel, date))
-                .OrderByDescending(w => w.AgentTotal)
+                .OrderByDescending(w => Math.Abs(w.AgentTotal))
                 .Select(w => w.CustName)
                 .Take(top);
         }
 
         return (await GetWinLoss<WinLossMember>(custId, custLevel, date))
-                .OrderByDescending(w => w.MemberWinLoss)
+                .OrderByDescending(w => Math.Abs(w.MemberWinLoss))
                 .Select(w => w.CustName)
                 .Take(top);
     }

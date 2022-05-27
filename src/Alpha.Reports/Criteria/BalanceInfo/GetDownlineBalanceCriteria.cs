@@ -18,11 +18,19 @@ public class GetDownlineBalanceCriteria : CriteriaBase
     public UserLevel CustLevel { get; }
 
     public override string GetSettingKey()
-        => CustLevel.IsMaster()
-        ? "Age_BalanceMasterSel"
-        : CustLevel.IsAgent()
-            ? "Age_BalanceAgentSel"
-            : "Age_BalanceMemberSel";
+    {
+        if (CustLevel.IsMaster())
+        {
+            return "Age_BalanceMasterSel";
+        }
+
+        if (CustLevel.IsAgent())
+        {
+            return "Age_BalanceAgentSel";
+        }
+
+        return "Age_BalanceMemberSel";
+    }
 
     public override bool IsValid() => CustId > 0;
 }

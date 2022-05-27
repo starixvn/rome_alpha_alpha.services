@@ -1,3 +1,4 @@
+using Alpha.API.Attributes;
 using Alpha.API.Requests.Reports.WinLoss;
 using Alpha.Reports.Models.WinLoss;
 using MediatR;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Alpha.API.Controllers;
 
+[TypeFilter(typeof(MinimizeUMAttribute))]
 public class WinLossController : ControllerBaseApi
 {
     public WinLossController(IMediator mediator) : base(mediator)

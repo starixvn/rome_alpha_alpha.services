@@ -1,6 +1,6 @@
 namespace Alpha.API.Client.Exceptions;
 
-internal static class APIErrorCode
+internal static class ApiErrorCode
 {
     public const int MinimizeUM = 1001;
 }

@@ -1,3 +1,5 @@
+using Alpha.API.Client.Models.Outstanding;
+
 namespace Alpha.API.Client.Models.BalanceInfo;
 
 public record DownlineBalance(
@@ -5,7 +7,6 @@ public record DownlineBalance(
     decimal? YesterdayCash,
     decimal TotalBalance,
     decimal YesterdayBalance,
-    decimal Outstanding,
     decimal PendingTransfer3rd,
     decimal? UsedCredit,
     decimal GivenCredit,
@@ -13,6 +14,5 @@ public record DownlineBalance(
     IEnumerable<TotalDownline> TotalDownlines,
     decimal? NetPosition,
     decimal? BetCredit,
-    decimal UplineOutstanding,
-    decimal TotalOutstanding
+    CustomerOutstanding Outstanding
 );

@@ -22,24 +22,24 @@ public class ServiceBase
         {
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                return default(T);
+                return default;
             }
 
             return await response.Content.ReadFromJsonAsync<T>().ConfigureAwait(false);
         }
 
-        var apiError = await response.Content.ReadFromJsonAsync<APIError>().ConfigureAwait(false);
+        var apiError = await response.Content.ReadFromJsonAsync<ApiError>().ConfigureAwait(false);
         throw BuildException(apiError);
     }
 
-    private static Exception BuildException(APIError apiError)
+    private static Exception BuildException(ApiError apiError)
         => apiError.Code switch
         {
-            APIErrorCode.MinimizeUM => BuildMinimizeUMException(apiError),
+            ApiErrorCode.MinimizeUM => BuildMinimizeUMException(apiError),
             _ => new Exception(apiError.Message)
         };
 
-    private static Exception BuildMinimizeUMException(APIError apiError)
+    private static Exception BuildMinimizeUMException(ApiError apiError)
         => new MinimizeUMException(
             apiError.Message,
             apiError.Data["startTime"].ToString(),
@@ -53,6 +53,6 @@ public class ServiceBase
         
         return response.IsSuccessStatusCode
             ? await response.Content.ReadFromJsonAsync<T>().ConfigureAwait(false)
-            : default(T);
+            : default;
     }
 }

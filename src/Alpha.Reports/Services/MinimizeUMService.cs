@@ -5,7 +5,7 @@ namespace Alpha.Reports.Services;
 
 public interface IMinimizeUMService
 {
-    void ThrowIfUM(string settingKey);
+    void ThrowIfUM(string controllerName);
 }
 
 public class MinimizeUMService : IMinimizeUMService

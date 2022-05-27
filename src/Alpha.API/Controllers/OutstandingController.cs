@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Alpha.API.Controllers;
 
-[TypeFilter(typeof(MinimizeUMFilter))]
+[TypeFilter(typeof(MinimizeUMAttribute))]
 public class OutstandingController : ControllerBaseApi
 {
     public OutstandingController(IMediator mediator) : base(mediator)

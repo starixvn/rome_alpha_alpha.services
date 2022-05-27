@@ -31,8 +31,8 @@ public static class ExceptionMiddlewareExtensions
             await logger.ErrorAsync(await BuildError(context.Request, exception), exception);
 
             var apiError = exception is DomainException domainException
-                ? new APIError(domainException)
-                : new APIError(response.StatusCode, $"An error occurred. {(isDevelopment ? exception.ToString() : string.Empty)})");
+                ? new ApiError(domainException)
+                : new ApiError(response.StatusCode, $"An error occurred. {(isDevelopment ? exception.ToString() : string.Empty)})");
 
             await response.WriteAsync(JsonSerializer.Serialize(apiError));
         }

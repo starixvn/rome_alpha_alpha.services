@@ -2,14 +2,14 @@ using Alpha.Shared.Exceptions;
 
 namespace Alpha.Shared.Models;
 
-public sealed record APIError
+public sealed record ApiError
 {
-    public APIError(DomainException exception)
+    public ApiError(DomainException exception)
         : this(exception.ErrorCode, exception.Message, exception.ErrorData)
     {
     }
 
-    public APIError(int code, string message, IDictionary<string, object> data = default!)
+    public ApiError(int code, string message, IDictionary<string, object> data = default!)
     {
         Code = code;
         Message = message;

@@ -1,3 +1,5 @@
+using Alpha.Reports.Models.Outstanding;
+
 namespace Alpha.Reports.Models.BalanceInfo;
 
 public class CustomerBalance
@@ -16,7 +18,8 @@ public class CustomerBalance
         decimal yesterdayWinLoss,
         decimal givenCredit,
         decimal memberCredit,
-        decimal pendingTransfer3rd)
+        decimal pendingTransfer3rd,
+        CustomerOutstanding outstanding)
     {
         CurrencyName = currencyName;
         CashBalance = cashBalance;
@@ -28,6 +31,7 @@ public class CustomerBalance
         GivenCredit = givenCredit;
         MemberCredit = memberCredit;
         PendingTransfer3rd = pendingTransfer3rd;
+        Outstanding = outstanding;
     }
 
     public string CurrencyName { get; } = default!;
@@ -50,7 +54,5 @@ public class CustomerBalance
 
     public decimal PendingTransfer3rd { get; }
 
-    public decimal Outstanding { get; set; }
-
-    public decimal TotalOutstanding { get; set; }
+    public CustomerOutstanding Outstanding { get; set; }
 }

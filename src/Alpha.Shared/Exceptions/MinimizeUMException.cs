@@ -3,7 +3,7 @@ namespace Alpha.Shared.Exceptions;
 public sealed class MinimizeUMException : DomainException
 {
     public MinimizeUMException(string startTime, string endTime)
-        : base($"Our server is too busy at the moment so this function is turned off temporarily {startTime} - {endTime} (GMT+8). Please try again later and sorry for the inconvenience.",
+        : base($"Sorry, the system is under maintenance from {startTime} to {endTime} GMT+8. Please come back later",
         1001,
         new Dictionary<string, object>
         {

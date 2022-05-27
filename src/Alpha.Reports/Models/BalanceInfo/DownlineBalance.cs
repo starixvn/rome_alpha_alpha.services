@@ -7,53 +7,50 @@ public record DownlineBalance
     public DownlineBalance(
         MasterBalance balance,
         CreditInfo creditInfo,
-        Statistics statistics,
-        IEnumerable<TotalDownline> totalDownlines)
+        IEnumerable<TotalDownline> totalDownlines,
+        CustomerOutstanding outstanding)
     {
         TotalCash = RoundUpNumber(balance.MasterCash);
         YesterdayCash = RoundUpNumber(balance.YesterdayMasterCash);
         TotalBalance = RoundUpNumber(balance.MasterCash + balance.AgentCash + balance.CustomerCash);
         YesterdayBalance = RoundUpNumber(balance.YesterdayMasterCash + balance.YesterdayAgentCash + balance.YesterdayCustomerCash);
-        Outstanding = RoundUpNumber(balance.MasterPositionTaking);
         PendingTransfer3rd = balance.PendingTransfer3rd;
         UsedCredit = RoundUpNumber(creditInfo.UsedCredit);
         GivenCredit = RoundUpNumber(creditInfo.GivenCredit);
-        UplineOutstanding = RoundUpNumber(statistics.Outstanding);
-        TotalOutstanding = RoundUpNumber(statistics.TotalOutstanding);
         TotalDownlines = totalDownlines;
+        Outstanding = outstanding;
     }
 
     public DownlineBalance(
         AgentBalance balance,
         CreditInfo creditInfo,
-        Statistics statistics,
-        IEnumerable<TotalDownline> totalDownlines)
+        IEnumerable<TotalDownline> totalDownlines,
+        CustomerOutstanding outstanding)
     {
         TotalCash = RoundUpNumber(balance.AgentCash);
         YesterdayCash = RoundUpNumber(balance.YesterdayAgentCash);
         TotalBalance = RoundUpNumber(balance.AgentCash + balance.CustomerCash);
         YesterdayBalance = RoundUpNumber(balance.YesterdayAgentCash + balance.YesterdayCustomerCash);
-        Outstanding = RoundUpNumber(balance.AgentPositionTaking);
         PendingTransfer3rd = balance.PendingTransfer3rd;
         UsedCredit = RoundUpNumber(creditInfo.UsedCredit);
         GivenCredit = RoundUpNumber(creditInfo.GivenCredit);
         MemberMaxCredit = RoundUpNumber(creditInfo.MemberMaxCredit ?? 0);
-        UplineOutstanding = RoundUpNumber(statistics.Outstanding);
-        TotalOutstanding = RoundUpNumber(statistics.TotalOutstanding);
         TotalDownlines = totalDownlines;
+        Outstanding = outstanding;
     }
 
-    public DownlineBalance(MemberBalance balance, CreditInfo creditInfo, Statistics statistics)
+    public DownlineBalance(
+        MemberBalance balance,
+        CreditInfo creditInfo,
+        CustomerOutstanding outstanding)
     {
         TotalBalance = RoundUpNumber(balance.CustomerCash);
         YesterdayBalance = RoundUpNumber(balance.YesterdayCustomerCash);
-        Outstanding = RoundUpNumber(balance.CustomerOutstanding);
         PendingTransfer3rd = balance.PendingTransfer3rd;
         GivenCredit = RoundUpNumber(creditInfo.GivenCredit);
         NetPosition = RoundDownNumber(balance.NetPosition);
         BetCredit = RoundDownNumber(creditInfo.GivenCredit + balance.Balance + balance.NetPosition);
-        UplineOutstanding = RoundUpNumber(statistics.Outstanding);
-        TotalOutstanding = RoundUpNumber(statistics.TotalOutstanding);
+        Outstanding = outstanding;
     }
 
     public decimal? TotalCash { get; }
@@ -63,8 +60,6 @@ public record DownlineBalance
     public decimal TotalBalance { get; }
 
     public decimal YesterdayBalance { get; }
-
-    public decimal Outstanding { get; }
 
     public decimal PendingTransfer3rd { get; }
 
@@ -80,9 +75,7 @@ public record DownlineBalance
 
     public decimal? BetCredit { get; }
 
-    public decimal UplineOutstanding { get; }
-
-    public decimal TotalOutstanding { get; }
+    public CustomerOutstanding Outstanding { get; }
 
     private static decimal RoundUpNumber(decimal value)
         => Math.Round(value, 2, MidpointRounding.AwayFromZero);

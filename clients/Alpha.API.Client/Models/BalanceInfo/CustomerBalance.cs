@@ -1,3 +1,5 @@
+using Alpha.API.Client.Models.Outstanding;
+
 namespace Alpha.API.Client.Models.BalanceInfo;
 
 public record CustomerBalance(
@@ -11,5 +13,4 @@ public record CustomerBalance(
     decimal GivenCredit,
     decimal MemberCredit,
     decimal PendingTransfer3rd,
-    decimal Outstanding,
-    decimal TotalOutstanding);
+    CustomerOutstanding Outstanding);

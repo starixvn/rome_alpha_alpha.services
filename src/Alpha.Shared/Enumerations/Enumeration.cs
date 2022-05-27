@@ -45,20 +45,20 @@ public abstract class Enumeration : IComparable
         => Math.Abs(firstValue.Value - secondValue.Value);
 
     public static T FromValue<T>(byte value) where T : Enumeration
-        => Parse<T, byte>(value, "value", item => item.Value == value);
+        => Parse<T, byte>(item => item.Value == value);
 
-    private static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration
+    private static T Parse<T, K>(Func<T, bool> predicate) where T : Enumeration
     {
         var matchingItem = GetAll<T>().FirstOrDefault(predicate);
-        ArgumentNullException.ThrowIfNull(matchingItem, nameof(value));
+        ArgumentNullException.ThrowIfNull(matchingItem, nameof(K));
 
         return matchingItem;
     }
 
-    public int CompareTo(object? other)
+    public int CompareTo(object? obj)
     {
-        ArgumentNullException.ThrowIfNull(other);
-        return Value.CompareTo(((Enumeration)other).Value);
+        ArgumentNullException.ThrowIfNull(obj);
+        return Value.CompareTo(((Enumeration)obj).Value);
     }
 
     public static bool operator ==(Enumeration left, Enumeration right)

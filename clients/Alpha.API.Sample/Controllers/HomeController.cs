@@ -69,7 +69,8 @@ public class HomeController : Controller
         ViewData["MyBalance"] = await balanceInfoService.GetMyBalance(superId, superLevel);
         
         var masterId = 23722864;
-        ViewData["DownlineBalance"] = await balanceInfoService.GetDownlineBalance(superId, superLevel, masterId);
+        byte masterLevel = 3;
+        ViewData["DownlineBalance"] = await balanceInfoService.GetDownlineBalance(masterId, masterLevel);
         
         ViewData["TopBalance"] = await balanceInfoService.GetTopBalance(superId, superLevel);
         

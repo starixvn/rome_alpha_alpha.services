@@ -1,6 +1,5 @@
 using Alpha.Reports.Criteria.BalanceInfo;
 using Alpha.Reports.Models.BalanceInfo;
-using Alpha.Reports.Models.Outstanding;
 using Alpha.Shared.Enumerations;
 using Fanex.Data.Repository;
 
@@ -10,7 +9,7 @@ public interface IBalanceInfoService
 {
     Task<CustomerBalance> GetCustomerBalance(int custId, UserLevel custLevel);
 
-    Task<DownlineBalance> GetDownlineBalance(int custId, UserLevel custLevel, int downlineId);
+    Task<DownlineBalance> GetDownlineBalance(int custId, UserLevel custLevel);
 
     Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, int top);
 
@@ -37,91 +36,87 @@ public class BalanceInfoService : IBalanceInfoService
     {
         var moveBetsDay = await reportDateService.GetMoveBetsDay();
 
-        var statisticsTask = outstandingService.GetStatistics(custId, custLevel);
+        var outstandingTask = outstandingService.GetCustomerOutstanding(custId);
         var balanceTask = dynamicRepository.GetAsync<CustomerBalance>(
             new GetCustomerBalanceCriteria(custId, custLevel, moveBetsDay));
 
-        await Task.WhenAll(statisticsTask, balanceTask);
+        await Task.WhenAll(outstandingTask, balanceTask);
 
-        var statistics = await statisticsTask;
         var balance = await balanceTask;
-        balance.Outstanding = statistics.Outstanding;
-        balance.TotalOutstanding = statistics.TotalOutstanding;
+        balance.Outstanding = await outstandingTask;
 
         return balance;
     }
 
-    public Task<DownlineBalance> GetDownlineBalance(int custId, UserLevel custLevel, int downlineId)
+    public Task<DownlineBalance> GetDownlineBalance(int custId, UserLevel custLevel)
     {
-        if (custLevel.IsSuper())
-        {
-            return GetMasterBalance(custId, downlineId);
-        }
-
         if (custLevel.IsMaster())
         {
-            return GetAgentBalance(custId, downlineId);
+            return GetMasterBalance(custId);
         }
 
-        return GetMemberBalance(custId, downlineId);
+        if (custLevel.IsAgent())
+        {
+            return GetAgentBalance(custId);
+        }
+
+        return GetMemberBalance(custId);
     }
 
-    private async Task<DownlineBalance> GetMasterBalance(int custId, int downlineId)
+    private async Task<DownlineBalance> GetMasterBalance(int custId)
     {
         var balanceTask = dynamicRepository.GetAsync<MasterBalance>(
-            new GetDownlineBalanceCriteria(downlineId, UserLevel.Master));
+            new GetDownlineBalanceCriteria(custId, UserLevel.Master));
 
-        var creditInfoTask = GetCreditInfo(downlineId);
+        var creditInfoTask = GetCreditInfo(custId);
 
-        var statisticsTask = outstandingService.GetStatistics(custId, UserLevel.Super);
+        var outstandingTask = outstandingService.GetCustomerOutstanding(custId);
 
-        var totalDownlinesTask = GetTotalDownlines(downlineId, UserLevel.Master);
+        var totalDownlinesTask = GetTotalDownlines(custId, UserLevel.Master);
 
-        await Task.WhenAll(balanceTask, creditInfoTask, statisticsTask, totalDownlinesTask);
+        await Task.WhenAll(balanceTask, creditInfoTask, outstandingTask, totalDownlinesTask);
 
-        return new DownlineBalance(await balanceTask, await creditInfoTask, await statisticsTask, await totalDownlinesTask);
+        return new DownlineBalance(await balanceTask, await creditInfoTask, await totalDownlinesTask, await outstandingTask);
     }
 
-    private async Task<DownlineBalance> GetAgentBalance(int custId, int downlineId)
+    private async Task<DownlineBalance> GetAgentBalance(int custId)
     {
         var balanceTask = dynamicRepository.GetAsync<AgentBalance>(
-            new GetDownlineBalanceCriteria(downlineId, UserLevel.Agent));
+            new GetDownlineBalanceCriteria(custId, UserLevel.Agent));
 
-        var creditInfoTask = GetCreditInfo(downlineId);
+        var creditInfoTask = GetCreditInfo(custId);
 
-        var statisticsTask = outstandingService.GetStatistics(custId, UserLevel.Master);
+        var outstandingTask = outstandingService.GetCustomerOutstanding(custId);
 
-        var totalDownlinesTask = GetTotalDownlines(downlineId, UserLevel.Agent);
+        var totalDownlinesTask = GetTotalDownlines(custId, UserLevel.Agent);
 
-        await Task.WhenAll(balanceTask, creditInfoTask, statisticsTask, totalDownlinesTask);
+        await Task.WhenAll(balanceTask, creditInfoTask, outstandingTask, totalDownlinesTask);
 
-        return new DownlineBalance(await balanceTask, await creditInfoTask, await statisticsTask, await totalDownlinesTask);
+        return new DownlineBalance(await balanceTask, await creditInfoTask, await totalDownlinesTask, await outstandingTask);
     }
 
-    private async Task<DownlineBalance> GetMemberBalance(int custId, int downlineId)
+    private async Task<DownlineBalance> GetMemberBalance(int custId)
     {
-        var outstandingCommand = new GetMemberOutstandingCommand(downlineId);
-        var outstandingTask = dynamicRepository.ExecuteAsync(outstandingCommand);
-
-        var balanceInfoCommand = new GetMemberBalanceCommand(downlineId);
+        var balanceInfoCommand = new GetMemberBalanceCommand(custId);
         var balanceInfoTask = dynamicRepository.ExecuteAsync(balanceInfoCommand);
 
         var balanceTask = dynamicRepository.GetAsync<MemberBalance>(
-            new GetDownlineBalanceCriteria(downlineId, UserLevel.Member));
+            new GetDownlineBalanceCriteria(custId, UserLevel.Member));
 
-        var creditInfoTask = GetCreditInfo(downlineId);
+        var creditInfoTask = GetCreditInfo(custId);
 
-        var statisticsTask = outstandingService.GetStatistics(custId, UserLevel.Agent);
+        var outstandingTask = outstandingService.GetCustomerOutstanding(custId);
 
-        await Task.WhenAll(outstandingTask, balanceInfoTask, balanceTask, creditInfoTask, statisticsTask);
+        await Task.WhenAll(balanceInfoTask, balanceTask, creditInfoTask, outstandingTask);
 
+        var outstanding = await outstandingTask;
         var memberBalance = await balanceTask;
         memberBalance.Balance = balanceInfoCommand.Balance;
         memberBalance.NetPosition = balanceInfoCommand.NetPosition;
         memberBalance.PendingTransfer3rd = balanceInfoCommand.PendingTransfer3rd;
-        memberBalance.CustomerOutstanding = outstandingCommand.Outstanding;
+        memberBalance.CustomerOutstanding = outstanding.MemberOutstanding;
 
-        return new DownlineBalance(memberBalance, await creditInfoTask, await statisticsTask);
+        return new DownlineBalance(memberBalance, await creditInfoTask, outstanding);
     }
 
     private Task<CreditInfo> GetCreditInfo(int custId)

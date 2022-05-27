@@ -24,11 +24,19 @@ public class GetTopBalanceCriteria : CriteriaBase
     public UserLevel CustLevel { get; }
 
     public override string GetSettingKey()
-        => CustLevel.IsSuper()
-        ? "Age_CustomerSelBalanceList_Master"
-        : CustLevel.IsMaster()
-            ? "Age_CustomerSelBalanceList_Agent"
-            : "Age_CustomerSelBalanceList_Member";
+    {
+        if (CustLevel.IsSuper())
+        {
+            return "Age_CustomerSelBalanceList_Master";
+        }
+
+        if (CustLevel.IsMaster())
+        {
+            return "Age_CustomerSelBalanceList_Agent";
+        }
+
+        return "Age_CustomerSelBalanceList_Member";
+    }
     
     public override bool IsValid() => CustId > 0;
 }

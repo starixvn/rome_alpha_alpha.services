@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Alpha.API.Attributes;
 
 [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
-public sealed class MinimizeUMFilter : Attribute, IAuthorizationFilter
+public sealed class MinimizeUMAttribute : Attribute, IAuthorizationFilter
 {
     private readonly IMinimizeUMService minimizeUMService;
 
-    public MinimizeUMFilter(IMinimizeUMService minimizeUMService)
+    public MinimizeUMAttribute(IMinimizeUMService minimizeUMService)
         => this.minimizeUMService = minimizeUMService;
 
     public void OnAuthorization(AuthorizationFilterContext context)

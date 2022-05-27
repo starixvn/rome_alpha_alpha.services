@@ -21,11 +21,19 @@ public class GetCustomerBalanceCriteria : CriteriaBase
     public UserLevel CustLevel { get; }
 
     public override string GetSettingKey()
-        => CustLevel.IsSuper()
-        ? "Age_CustomerSelBalanceInfo_SAg"
-        : CustLevel.IsMaster()
-            ? "Age_CustomerSelBalanceInfo_MAg"
-            : "Age_CustomerSelBalanceInfo_Ag";
+    {
+        if (CustLevel.IsSuper())
+        {
+            return "Age_CustomerSelBalanceInfo_SAg";
+        }
+
+        if (CustLevel.IsMaster())
+        {
+            return "Age_CustomerSelBalanceInfo_MAg";
+        }
+
+        return "Age_CustomerSelBalanceInfo_Ag";
+    }
 
     public override bool IsValid() => CustId > 0;
 }

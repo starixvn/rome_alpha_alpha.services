@@ -19,7 +19,7 @@ public interface IOutstandingService
 
     Task<OutstandingReport> GetTopOutstanding(int custId, UserLevel custLevel, int top);
 
-    Task<Statistics> GetStatistics(int custId, UserLevel custLevel);
+    Task<CustomerOutstanding> GetCustomerOutstanding(int custId);
 }
 
 public class OutstandingService : IOutstandingService
@@ -121,6 +121,6 @@ public class OutstandingService : IOutstandingService
         return new OutstandingReport(outstandings, total);
     }
 
-    public Task<Statistics> GetStatistics(int custId, UserLevel custLevel)
-        => dynamicRepository.GetAsync<Statistics>(new GetStatisticsCriteria(custId, custLevel));
+    public Task<CustomerOutstanding> GetCustomerOutstanding(int custId)
+        => dynamicRepository.GetAsync<CustomerOutstanding>(new GetCustomerOutstandingCriteria(custId));
 }

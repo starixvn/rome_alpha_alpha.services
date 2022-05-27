@@ -41,15 +41,7 @@
       <Mapping DataField="AgentOutstanding" ObjectProperty="Outstanding" />
     </Setting>
 
-    <Setting Key="Age_CustomerSelStatisticsInfo_Ag" SpName="Age_CustomerSelStatisticsInfo_Ag" DbName="DBBOF.bodb02.BODBDownlineNet" TimeOut="600">
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_MAg" SpName="Age_CustomerSelStatisticsInfo_MAg" DbName="DBBOF.bodb02.BODBDownlineNet" TimeOut="600">
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
-    <Setting Key="Age_CustomerSelStatisticsInfo_SAg" SpName="Age_CustomerSelStatisticsInfo_SAg" DbName="DBBOF.bodb02.BODBDownlineNet" TimeOut="600">
-      <Mapping DataField="total_outstanding" ObjectProperty="TotalOutstanding" />
-    </Setting>
+    <Setting Key="Age_CustomerSelOutstanding" SpName="Age_CustomerSelOutstanding_xtest" DbName="DBBOF.bodb02.BODBDownlineNet" />
   </Function>
 
   <Function Name="Balance Info">
@@ -96,8 +88,9 @@
     </Setting>
 
     <Setting Key="Acc_CustomerSelTotalDownline" SpName="Acc_CustomerSelTotalDownline" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_OutstandingMemberSel" SpName="Acc_OutstandingMemberSel" DbName="DBBOF.bodb02.BODBDownlineNet" />
     <Setting Key="Acc_BalanceMemberSel" SpName="Acc_BalanceMemberSel" DbName="DBTXN.bodb02.BODBDownlineNet" />
+  
+    <Setting Key="Acc_CustomerSelOutstanding" SpName="Acc_CustomerSelOutstanding" DbName="DBAGE.bodb02.BODBDownlineNet" />
   </Function>
 
   <Function Name="Win Loss"> 

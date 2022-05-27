@@ -40,11 +40,19 @@ public class GetWinLossCriteria : CriteriaBase
     public UserLevel CustLevel { get; }
 
     public override string GetSettingKey()
-        => CustLevel.IsSuper()
-        ? "Age_Rpt_WinLoss_Master"
-        : CustLevel.IsMaster()
-            ? "Age_Rpt_WinLoss_Agent"
-            : "Age_Rpt_WinLoss_Member";
+    {
+        if (CustLevel.IsSuper())
+        {
+            return "Age_Rpt_WinLoss_Master";
+        }
+
+        if (CustLevel.IsMaster())
+        {
+            return "Age_Rpt_WinLoss_Agent";
+        }
+
+        return "Age_Rpt_WinLoss_Member";
+    }
 
     public override bool IsValid() => CustId > 0 && FromDate <= ToDate;
 }

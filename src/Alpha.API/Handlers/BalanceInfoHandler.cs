@@ -20,7 +20,7 @@ public class BalanceInfoHandler :
         => balanceInfoService.GetCustomerBalance(query.CustId, query.CustLevel);
 
     public Task<DownlineBalance> Handle(GetDownlineBalanceQuery query, CancellationToken cancellationToken)
-        => balanceInfoService.GetDownlineBalance(query.CustId, query.CustLevel, query.DownlineId);
+        => balanceInfoService.GetDownlineBalance(query.CustId, query.CustLevel);
 
     public Task<IEnumerable<string>> Handle(GetTopBalanceUsernameQuery query, CancellationToken cancellationToken)
         => balanceInfoService.GetTopUsername(query.CustId, query.CustLevel, query.Top);
