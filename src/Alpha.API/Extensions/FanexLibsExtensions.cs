@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Fanex.Data;
 using Fanex.Data.Repository;
 using Fanex.Data.SqlServer;
@@ -11,6 +12,7 @@ using Sentry;
 
 namespace Alpha.API.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddFanexDataWithSqlServer(this IServiceCollection services, IConfiguration configuration)
@@ -47,26 +49,7 @@ public static class FanexLibsExtensions
             .Use(GetLogEngines(configuration));
 
         ExceptionHandler
-            // To use custom config
-            .UseConfig(new LoggingConfiguration()
-                // To ignore exceptions
-                // .IgnoreException<DivideByZeroException>()
-                // To hide sensitive information
-                // .HideSensitiveInfo(
-                //     new List<string>
-                //     {
-                //         "(?:password=)(?<paramValue>[^&|^\\s]+)",
-                //         "(\"password\":)(?<paramValue>[^,|^\r]+)",
-                //         "(?:seccode=)(?<paramValue>[^&|^\\s]+)",
-                //         "(\"seccode\":)(?<paramValue>[^,|^\r]+)",
-                //         "(?:securitycode=)(?<paramValue>[^&|^\\s]+)",
-                //         "(\"securitycode\":)(?<paramValue>[^,|^\r]+)"
-                //     })
-                // To Enable Log Http Header
-                .GetHttpHeaderInfo()
-            // To Enable Log Http Session
-            // .GetHttpSessionInfo()
-            );
+            .UseConfig(new LoggingConfiguration().GetHttpHeaderInfo());
 
         return services.AddSingleton(Logger.Log);
     }
@@ -86,9 +69,5 @@ public static class FanexLibsExtensions
     }
 
     public static IServiceCollection AddFanexCachingMemory(this IServiceCollection services)
-    {
-        //Fanex.Caching.Memory.MemoryCacheServiceCollectionExtensions.AddMemoryCache(services);
-
-        return services.AddSingleton<Fanex.Caching.ICacheService, Fanex.Caching.CacheService>();
-    }
+        => services.AddSingleton<Fanex.Caching.ICacheService, Fanex.Caching.CacheService>();
 }

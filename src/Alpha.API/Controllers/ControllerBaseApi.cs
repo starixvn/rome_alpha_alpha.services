@@ -6,7 +6,7 @@ namespace Alpha.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public abstract class ControllerBaseApi : ControllerBase
+public class ControllerBaseApi : ControllerBase
 {
     private readonly IMediator mediator;
 

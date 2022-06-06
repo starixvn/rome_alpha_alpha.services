@@ -27,4 +27,14 @@ public class GetOfferedProductsCriteriaTests
         // Act & Assert
         Assert.Equal(expected, criteria.IsValid());
     }
+
+    [Fact]
+    public void Constructor_Assigns_CorrectPropertyValues()
+    {
+        // Arrange & Act
+        var criteria = new GetOfferedProductsCriteria(1176070, 1);
+
+        // Assert
+        Assert.Equal(1, criteria.SettingStatus);
+    }
 }

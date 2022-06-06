@@ -16,8 +16,9 @@ public class ServiceBase
 
     public async Task<T> Get<T>(string url)
     {
+#pragma warning disable S4005
         var response = await httpClient.GetAsync(url);
-
+#pragma warning restore S4005
         if (response.IsSuccessStatusCode)
         {
             if (response.StatusCode == HttpStatusCode.NoContent)
@@ -33,11 +34,9 @@ public class ServiceBase
     }
 
     private static Exception BuildException(ApiError apiError)
-        => apiError.Code switch
-        {
-            ApiErrorCode.MinimizeUM => BuildMinimizeUMException(apiError),
-            _ => new Exception(apiError.Message)
-        };
+        => apiError.Code == ApiErrorCode.MinimizeUM
+        ? BuildMinimizeUMException(apiError)
+        : throw new Exception(apiError.Message);
 
     private static Exception BuildMinimizeUMException(ApiError apiError)
         => new MinimizeUMException(
@@ -47,10 +46,11 @@ public class ServiceBase
 
     public async Task<T> Post<T>(string url, object data)
     {
+#pragma warning disable S4005
         var response = await httpClient.PostAsync(
             url,
             new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json"));
-        
+#pragma warning restore S4005
         return response.IsSuccessStatusCode
             ? await response.Content.ReadFromJsonAsync<T>().ConfigureAwait(false)
             : default;

@@ -4,25 +4,24 @@ using Alpha.API.Sample.Models;
 using Alpha.API.Client.Services;
 using Alpha.API.Client.Exceptions;
 using Alpha.API.Client.Models.Customers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Alpha.API.Sample.Controllers;
 
+[ExcludeFromCodeCoverage]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> logger;
     private readonly ICustomerService customerService;
     private readonly IOutstandingService outstandingService;
     private readonly IBalanceInfoService balanceInfoService;
     private readonly IWinLossService winLossService;
 
     public HomeController(
-        ILogger<HomeController> logger,
         ICustomerService customerService,
         IOutstandingService outstandingService,
         IBalanceInfoService balanceInfoService,
         IWinLossService winLossService)
     {
-        this.logger = logger;
         this.customerService = customerService;
         this.outstandingService = outstandingService;
         this.balanceInfoService = balanceInfoService;
@@ -31,28 +30,23 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Outstanding()
     {
-        var superId = 23003140;
-        var superName = "SupertestTE01";
-        byte superLevel = 4;
-        // var superSubAccId = 920715;
-        // var superSubAccName = "SUPERTESTTE01Sub99";
-        // ViewData["MyOutstandingSubAcc"] = await reportService.GetMyOutstandingAsync(superId, superSubAccId, custLevel);
-        
-        var agentId = 23003322;
-        var agentName = "SupertestTE010101";
-        byte agentLevel = 2;
-        var memberId = 23003440;
-        var memberName = "SupertestTE010101001";
+        const int superId = 17_996_398;
+        const byte superLevelId = 4;
+        const int masterId = 18_004_021;
+        const string language = "th-TH";
         try
         {
-            ViewData["DownlineOutstanding"] = await outstandingService.GetDownlineOutstanding(17996398, 4, 18004021, "en-US");
+            ViewData["DownlineOutstanding"] = await outstandingService.GetDownlineOutstanding(superId, superLevelId, masterId, language);
         }
         catch (MinimizeUMException ex)
         {
             Console.WriteLine(ex.ToString());
         }
         
-        ViewData["TopOutstanding"] = await outstandingService.GetTopOutstanding(agentId, agentLevel, 5);
+        const int agentId = 23_003_322;
+        const byte agentLevel = 2;
+        const int top = 5;
+        ViewData["TopOutstanding"] = await outstandingService.GetTopOutstanding(agentId, agentLevel, top);
 
         ViewData["TopOutstandingUsername"] = await outstandingService.GetTopUsername(agentId, agentLevel);
 
@@ -61,15 +55,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> BalanceInfo()
     {
-        //var superId = 23003140;
-        var superId = 1176070;
-        var superName = "SupertestTE01";
-        byte superLevel = 4;
+        const int superId = 1_176_070;
+        const byte superLevel = 4;
 
         ViewData["MyBalance"] = await balanceInfoService.GetMyBalance(superId, superLevel);
         
-        var masterId = 23722864;
-        byte masterLevel = 3;
+        const int masterId = 23_722_864;
+        const byte masterLevel = 3;
         ViewData["DownlineBalance"] = await balanceInfoService.GetDownlineBalance(masterId, masterLevel);
         
         ViewData["TopBalance"] = await balanceInfoService.GetTopBalance(superId, superLevel);
@@ -81,14 +73,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> TodayWinLoss()
     {
-        var superId = 17996398;
-        var superName = "SupertestTE01";
-        byte superLevel = 4;
+        const int superId = 17_996_398;
+        const byte superLevel = 4;
         var today = DateTime.Today;
 
         ViewData["TodayWinLoss"] = await winLossService.GetWinLoss(superId, superLevel, today);
         
-        var masterId = 23722864;
+        const int masterId = 23_722_864;
         ViewData["TodayDownlineWinLoss"] = await winLossService.GetDownlineWinLoss(superId, superLevel, today, masterId);
                 
         ViewData["TopUsername"] = await winLossService.GetTopUsername(superId, superLevel, today);
@@ -98,14 +89,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> YesterdayWinLoss()
     {
-        var superId = 17996398;
-        var superName = "SupertestTE01";
-        byte superLevel = 4;
+        const int superId = 17_996_398;
+        const byte superLevel = 4;
         var yesterday = DateTime.Today.AddDays(-1);
 
         ViewData["YesterdayWinLoss"] = await winLossService.GetWinLoss(superId, superLevel, yesterday);
         
-        var masterId = 23722864;
+        const int masterId = 23_722_864;
         ViewData["YesterdayDownlineWinLoss"] = await winLossService.GetDownlineWinLoss(superId, superLevel, yesterday, masterId);
                 
         ViewData["TopUsername"] = await winLossService.GetTopUsername(superId, superLevel, yesterday);
@@ -115,41 +105,41 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Customer()
     {
-        var superId = 1176070;
-        var superName = "supertest1";
+        const int superId = 1_176_070;
 
         ViewData["customerStatus"] = await customerService.GetCustomerStatusByBatch(new[]
         {
-            new CustomerStatusParam(23003140, 0),
-            new CustomerStatusParam(1176070, 0),
-            new CustomerStatusParam(1176070, 87413),
-            new CustomerStatusParam(1176083, 0),
-            new CustomerStatusParam(33278659, 0),
-            new CustomerStatusParam(33278689, 0),
-            new CustomerStatusParam(33278717, 0),
-            new CustomerStatusParam(1176086, 0)
+            new CustomerStatusParam(23_003_140, 0),
+            new CustomerStatusParam(1_176_070, 0),
+            new CustomerStatusParam(1_176_070, 87_413),
+            new CustomerStatusParam(1_176_083, 0),
+            new CustomerStatusParam(33_278_659, 0),
+            new CustomerStatusParam(33_278_689, 0),
+            new CustomerStatusParam(33_278_717, 0),
+            new CustomerStatusParam(1_176_086, 0)
         });
 
-        ViewData["superStatus"] = await customerService.GetCustomerStatus(1176070, 0);
-        ViewData["superSubAccStatus"] = await customerService.GetCustomerStatus(1176070, 98583);
+        const int superSubAccId = 98_583;
+        ViewData["superStatus"] = await customerService.GetCustomerStatus(superId, 0);
+        ViewData["superSubAccStatus"] = await customerService.GetCustomerStatus(superId, superSubAccId);
 
-        var master = "master1";
+        const string master = "master1";
         ViewData["master"] = await customerService.GetDownlineInfo(superId, master);
-        var masterSubAcc = "master1sub01";
+        const string masterSubAcc = "master1sub01";
         ViewData["masterSubAcc"] = await customerService.GetDownlineInfo(superId, masterSubAcc);
-        var masterInvalid = "masterxxxxxxxxxx";
+        const string masterInvalid = "masterxxxxxxxxxx";
         ViewData["masterInvalid"] = await customerService.GetDownlineInfo(superId, masterInvalid);
 
-        var agent = "agent01";
+        const string agent = "agent01";
         ViewData["agent"] = await customerService.GetDownlineInfo(superId, agent);
-        var agentSubAcc = "AGENT01Sub04";
+        const string agentSubAcc = "AGENT01Sub04";
         ViewData["agentSubAcc"] = await customerService.GetDownlineInfo(superId, agentSubAcc);
-        var agentInvalid = "agentxxxxxxxxxx";
+        const string agentInvalid = "agentxxxxxxxxxx";
         ViewData["agentInvalid"] = await customerService.GetDownlineInfo(superId, agentInvalid);
 
-        var member = "member01";
+        const string member = "member01";
         ViewData["member"] = await customerService.GetDownlineInfo(superId, member);
-        var memberInvalid = "memberxxxxxxxxxx";
+        const string memberInvalid = "memberxxxxxxxxxx";
         ViewData["memberInvalid"] = await customerService.GetDownlineInfo(superId, memberInvalid);
 
         return View();

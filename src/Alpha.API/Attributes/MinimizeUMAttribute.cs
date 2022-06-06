@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Alpha.Reports.Services;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Alpha.API.Attributes;
 
+[ExcludeFromCodeCoverage]
 [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
 public sealed class MinimizeUMAttribute : Attribute, IAuthorizationFilter
 {

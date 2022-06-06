@@ -2,17 +2,17 @@ namespace Alpha.Reports.Models.Outstanding;
 
 public record OutstandingReport
 {
-    public OutstandingReport() : this(Enumerable.Empty<OutstandingEntity>())
+    public OutstandingReport() : this(Enumerable.Empty<OutstandingModel>())
     {
     }
 
-    public OutstandingReport(IEnumerable<OutstandingEntity> outstandings, OutstandingEntity total = null)
+    public OutstandingReport(IEnumerable<OutstandingModel> outstandings, OutstandingModel total = null)
     {
         Outstandings = outstandings;
         Total = total;
     }
 
-    public IEnumerable<OutstandingEntity> Outstandings { get; }
+    public IEnumerable<OutstandingModel> Outstandings { get; }
 
-    public OutstandingEntity Total { get; }
+    public OutstandingModel Total { get; }
 }

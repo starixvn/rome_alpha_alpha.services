@@ -1,4 +1,3 @@
-using System.Reflection;
 using Alpha.API.Extensions;
 using Alpha.Customers.Extensions;
 using Alpha.Reports.Extensions;
@@ -6,7 +5,7 @@ using Alpha.Shared.Extensions;
 using Fanex.Logging;
 using MediatR;
 
-var assembly = Assembly.GetExecutingAssembly();
+var assembly = typeof(Program).Assembly;
 var assemblyName = assembly.GetName().Name;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,9 +39,6 @@ app.UseSwagger().UseSwaggerUI();
 
 app
     .ConfigureExceptionHandler(isDevelopment, Logger.Log);
-    //.UseHttpsRedirection()
-    //.UseAuthorization();
-    //.UseCustomLocalization();
 
 app.MapGet("/", () => $"{assemblyName} is running.");
 

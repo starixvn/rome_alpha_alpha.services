@@ -49,76 +49,105 @@ public class OutstandingService : IOutstandingService
             SystemTime.Today);
         var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(
             new GetDownlineOutstandingCriteria(param.CustLevel, productIds.JoinWithComma(), param.DownlineId));
-        
-        OutstandingEntity total = outstandings.Any()
-            ? GetProductNameAndAccummulateTotal(outstandings, param.Language)
-            : null;
+
+        return outstandings.Any()
+            ? GetProductNameAndAccummulateTotal(param.CustLevel, outstandings, param.Language)
+            : new OutstandingReport();
+    }
+
+    private OutstandingReport GetProductNameAndAccummulateTotal(
+        UserLevel custLevel,
+        IEnumerable<OutstandingEntity> outstandingEntities,
+        string language)
+    {
+        OutstandingModel outstandingModel;
+        var outstandings = new List<OutstandingModel>();
+        var totalMemberOutStanding = 0M;
+        var totalOutStanding = 0M;
+
+        foreach (var entity in outstandingEntities)
+        {
+            outstandingModel = GetOutstandingModel(
+                custLevel,
+                entity,
+                cacheRefService.GetProductName(entity.Id, language));
+            outstandings.Add(outstandingModel);
+
+            totalMemberOutStanding += outstandingModel.MemberOutstanding;
+            totalOutStanding += outstandingModel.Outstanding;
+        }
+
+        var total = new OutstandingModel(0, "Total", totalMemberOutStanding, totalOutStanding);
 
         return new OutstandingReport(outstandings, total);
     }
 
-    private OutstandingEntity GetProductNameAndAccummulateTotal(
-        IEnumerable<OutstandingEntity> outstandings,
-        string language)
-    {
-        var totalMemberOutStanding = 0M;
-        var totalOutStanding = 0M;
-
-        foreach (var item in outstandings)
-        {
-            item.Name = cacheRefService.GetProductName(item.Id, language);
-            totalMemberOutStanding += item.MemberOutstanding;
-            totalOutStanding += item.Outstanding;
-        }
-
-        return new OutstandingEntity(0, "Total", totalMemberOutStanding, totalOutStanding);
-    }
-
     public async Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, int top)
-        => (await GetTopOutstanding(custId, custLevel, top)).Outstandings.Select(o => o.Name);
+    {
+        var productIds = (await productService.GetOfferedProducts(custId, appSettings.SettingStatus, SystemTime.Today)).JoinWithComma();
+        var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(
+            new GetTopOutstandingCommand(custId, custLevel, productIds, top));
+
+        return outstandings.Select(o => o.Name);
+    }
 
     public async Task<OutstandingReport> GetTopOutstanding(int custId, UserLevel custLevel, int top)
     {
         var productIds = (await productService.GetOfferedProducts(custId, appSettings.SettingStatus, SystemTime.Today)).JoinWithComma();
+        var command = new GetTopOutstandingCommand(custId, custLevel, productIds, top);
+        var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(command);
+
+        return outstandings.Any()
+            ? new OutstandingReport(
+                outstandings.Select(entity => GetOutstandingModel(custLevel, entity)),
+                GetTotalTopOutstanding(command))
+            : new OutstandingReport();
+    }
+
+    private static OutstandingModel GetTotalTopOutstanding(GetTopOutstandingCommand command)
+    {
+        decimal totalOutStanding;
         
+        if (command.CustLevel.IsSuper())
+        {
+            totalOutStanding = command.TotalSuperOutstanding.Value;
+        }
+        else if (command.CustLevel.IsMaster())
+        {
+            totalOutStanding = command.TotalMasterOutstanding.Value;
+        }
+        else
+        {
+            totalOutStanding = command.TotalAgentOutstanding.Value;
+        }
+            
+        return new OutstandingModel(0, "Total", command.TotalMemberOutstanding, totalOutStanding);
+    }
+
+    // Have to do manual mapping from OutstandingEntity --> OutstandingModel.
+    // Cannot using Mapping attr of Fanex.Data because it has a bug caching or something.
+    // https://nexdev.net/issues/173718
+    private static OutstandingModel GetOutstandingModel(
+        UserLevel custLevel,
+        OutstandingEntity entity,
+        string productName = null)
+    {
+        decimal outstandingValue;
+
         if (custLevel.IsSuper())
         {
-            return await GetTopMasterOutstanding(custId, productIds, top);
+            outstandingValue = entity.SuperOutstanding.Value;
         }
-
-        if (custLevel.IsMaster())
+        else if (custLevel.IsMaster())
         {
-            return await GetTopAgentOutstanding(custId, productIds, top);
+            outstandingValue = entity.MasterOutstanding.Value;
+        }
+        else
+        {
+            outstandingValue = entity.AgentOutstanding.Value;
         }
 
-        return await GetTopMemberOutstanding(custId, productIds, top);
-    }
-
-    private async Task<OutstandingReport> GetTopMasterOutstanding(int custId, string productIds, int top)
-    {
-        var command = new GetTopMasterOutstandingCriteria(custId, productIds, top);
-        var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(command);
-        var total = new OutstandingEntity(0, "Total", command.TotalMemberOutstanding, command.TotalSuperOutstanding);
-
-        return new OutstandingReport(outstandings, total);
-    }
-
-    private async Task<OutstandingReport> GetTopAgentOutstanding(int custId, string productIds, int top)
-    {
-        var command = new GetTopAgentOutstandingCriteria(custId, productIds, top);
-        var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(command);
-        var total = new OutstandingEntity(0, "Total", command.TotalMemberOutstanding, command.TotalMasterOutstanding);
-
-        return new OutstandingReport(outstandings, total);
-    }
-
-    private async Task<OutstandingReport> GetTopMemberOutstanding(int custId, string productIds, int top)
-    {
-        var command = new GetTopMemberOutstandingCriteria(custId, productIds, top);
-        var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(command);
-        var total = new OutstandingEntity(0, "Total", command.TotalMemberOutstanding, command.TotalAgentOutstanding);
-
-        return new OutstandingReport(outstandings, total);
+        return new OutstandingModel(entity.Id, productName ?? entity.Name, entity.MemberOutstanding, outstandingValue);
     }
 
     public Task<CustomerOutstanding> GetCustomerOutstanding(int custId)

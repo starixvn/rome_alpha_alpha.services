@@ -8,6 +8,7 @@ public class CustomerBalance
     {
     }
 
+#pragma warning disable S107
     public CustomerBalance(
         string currencyName,
         decimal cashBalance,
@@ -20,6 +21,7 @@ public class CustomerBalance
         decimal memberCredit,
         decimal pendingTransfer3rd,
         CustomerOutstanding outstanding)
+#pragma warning restore S107
     {
         CurrencyName = currencyName;
         CashBalance = cashBalance;

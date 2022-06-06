@@ -6,6 +6,7 @@ public record MasterBalance
     {
     }
     
+#pragma warning disable S107
     public MasterBalance(
         decimal masterCash,
         decimal yesterdayMasterCash,
@@ -16,6 +17,7 @@ public record MasterBalance
         decimal yesterdayCustomerCash,
         decimal customerOutstanding,
         decimal pendingTransfer3rd)
+#pragma warning restore S107
     {
         MasterCash = masterCash;
         YesterdayMasterCash = yesterdayMasterCash;

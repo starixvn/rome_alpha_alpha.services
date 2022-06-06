@@ -1,7 +1,15 @@
+using System.Runtime.Serialization;
+
 namespace Alpha.Shared.Exceptions;
 
+[Serializable]
 public class DomainException : Exception
 {
+    protected DomainException(SerializationInfo info, StreamingContext context) 
+        : base(info, context)
+    {
+    }
+
     protected DomainException(
         string message,
         int errorCode,

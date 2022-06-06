@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Alpha.Shared.Enumerations;
 
-public abstract class Enumeration : IComparable
+[ExcludeFromCodeCoverage]
+public class Enumeration : IComparable
 {
     protected Enumeration()
     {
@@ -66,4 +68,41 @@ public abstract class Enumeration : IComparable
 
     public static bool operator !=(Enumeration left, Enumeration right)
         => !(left == right);
+
+    public static bool operator >(Enumeration left, Enumeration right)
+    {
+        ValidateInputArguments(left, right);
+        return left.Value > right.Value;
+    }
+
+    public static bool operator >=(Enumeration left, Enumeration right)
+    {
+        ValidateInputArguments(left, right);
+        return left.Value >= right.Value;
+    }
+
+    public static bool operator <(Enumeration left, Enumeration right)
+    {
+        ValidateInputArguments(left, right);
+        return left.Value < right.Value;
+    }
+
+    public static bool operator <=(Enumeration left, Enumeration right)
+    {
+        ValidateInputArguments(left, right);
+        return left.Value <= right.Value;
+    }
+
+    private static void ValidateInputArguments(Enumeration left, Enumeration right)
+    {
+        if (left is null)
+        {
+            throw new ArgumentNullException(nameof(left));
+        }
+
+        if (right is null)
+        {
+            throw new ArgumentNullException(nameof(right));
+        }
+    }
 }

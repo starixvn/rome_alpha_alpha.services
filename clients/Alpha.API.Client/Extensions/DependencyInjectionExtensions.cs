@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using Alpha.API.Client.Services;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpha.API.Client.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)

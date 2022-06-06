@@ -36,7 +36,7 @@ public class ReportDateService : IReportDateService
         => (await GetBalanceUpDayAndMoveBetsDay()).MoveBetsDay;
 
     public Task<BalanceUpDayAndMoveBetsDay> GetBalanceUpDayAndMoveBetsDay()
-        => cacheService.GetOrSetAsync<BalanceUpDayAndMoveBetsDay>(
+        => cacheService.GetOrSetAsync(
             BalanceUpDayAndMoveBetsDayCacheKey,
             () => dynamicRepository.GetAsync<BalanceUpDayAndMoveBetsDay>(new GetBalanceUpDayAndMoveBetsDayCriteria()),
             new CacheItemOptions().SetAbsoluteExpiration(

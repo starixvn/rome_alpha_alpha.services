@@ -1,4 +1,5 @@
 using System.Data.SqlClient;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace Alpha.API.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ExceptionMiddlewareExtensions
 {
     private const string BreakLine = "\r\n";
@@ -32,7 +34,7 @@ public static class ExceptionMiddlewareExtensions
 
             var apiError = exception is DomainException domainException
                 ? new ApiError(domainException)
-                : new ApiError(response.StatusCode, $"An error occurred. {(isDevelopment ? exception.ToString() : string.Empty)})");
+                : new ApiError(response.StatusCode, $"An error occurred. {BuildExceptionDetails(isDevelopment, exception)})");
 
             await response.WriteAsync(JsonSerializer.Serialize(apiError));
         }
@@ -71,10 +73,8 @@ public static class ExceptionMiddlewareExtensions
 
     private static async Task<string> GetRawBodyStringAsync(HttpRequest request)
     {
-        using (var reader = new StreamReader(request.Body, Encoding.UTF8))
-        {
-            return await reader.ReadToEndAsync();
-        }
+        using var reader = new StreamReader(request.Body, Encoding.UTF8);
+        return await reader.ReadToEndAsync();
     }
 
     private static string GetHeaderValues(HttpRequest request)
@@ -99,4 +99,7 @@ public static class ExceptionMiddlewareExtensions
 
     private static string GetSpParameters(IDictionary<string, object> parameters)
         => string.Join(BreakLine, parameters.Select(p => $"{p.Key}={p.Value}"));
+
+    private static string BuildExceptionDetails(bool isDevelopment, Exception exception)
+        => isDevelopment ? exception.ToString() : string.Empty;
 }

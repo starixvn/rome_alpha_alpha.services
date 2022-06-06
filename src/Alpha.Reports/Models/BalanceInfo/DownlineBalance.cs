@@ -4,6 +4,9 @@ namespace Alpha.Reports.Models.BalanceInfo;
 
 public record DownlineBalance
 {
+    private const int DecimalNumber = 2;
+    private const int OneHundred = 100;
+
     public DownlineBalance(
         MasterBalance balance,
         CreditInfo creditInfo,
@@ -78,8 +81,8 @@ public record DownlineBalance
     public CustomerOutstanding Outstanding { get; }
 
     private static decimal RoundUpNumber(decimal value)
-        => Math.Round(value, 2, MidpointRounding.AwayFromZero);
+        => Math.Round(value, DecimalNumber, MidpointRounding.AwayFromZero);
 
     private static decimal RoundDownNumber(decimal value)
-        => Math.Truncate(100 * value) / 100;
+        => Math.Truncate(OneHundred * value) / OneHundred;
 }

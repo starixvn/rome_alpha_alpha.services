@@ -1,3 +1,6 @@
+using Alpha.Customers.Criteria;
+using Xunit;
+
 namespace Alpha.Customers.Tests.Criteria;
 
 public class GetDownlineInfoCommandTests
@@ -50,5 +53,24 @@ public class GetDownlineInfoCommandTests
 
         // Act & Assert
         Assert.Equal(expected, criteria.IsValid());
+    }
+
+    [Fact]
+    public void Constructor_Assigns_CorrectPropertyValues()
+    {
+        // Arrange
+        var criteria = new GetDownlineInfoCommand(1176070, 1, "master1")
+        {
+            IsActive = true,
+            CustId = 123456,
+            IsSubAcc = true,
+            RoleId = 2
+        };
+
+        // Act & Assert
+        Assert.True(criteria.IsActive
+            && 123456 == criteria.CustId
+            && criteria.IsSubAcc
+            && 2 == criteria.RoleId);
     }
 }
