@@ -152,6 +152,13 @@ public class WinLossService : IWinLossService
     
     private async Task<IEnumerable<T>> GetWinLoss<T>(int custId, UserLevel custLevel, DateTime date)
     {
+        var limitDate = await reportDateService.GetLimitDate(custId);
+        
+        if (limitDate > date)
+        {
+            return Enumerable.Empty<T>();
+        }
+
         var productIdsTask = productService.GetOfferedProducts(
             custId,
             appSettings.SettingStatus,

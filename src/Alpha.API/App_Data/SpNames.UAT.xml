@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions>
+  <Function Name="Customer Limit Time Range">
+    <Setting Key="Age_CustomerSelDateLimit" SpName="Age_CustomerSelDateLimit" DbName="DBAGE.bodb02.BODBDownlineNet" />
+  </Function>
+  
   <Function Name="Customer Information">
     <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet" />
     <Setting Key="Age_CustomerSelCheckBelonging_ByUsername" SpName="Age_CustomerSelCheckBelonging_ByUsername" DbName="DBAGE.bodb02.BODBDownlineNet" />

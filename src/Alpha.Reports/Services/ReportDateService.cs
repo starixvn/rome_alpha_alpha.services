@@ -12,11 +12,14 @@ public interface IReportDateService
     Task<DateTime> GetMoveBetsDay();
 
     Task<BalanceUpDayAndMoveBetsDay> GetBalanceUpDayAndMoveBetsDay();
+
+    Task<DateTime> GetLimitDate(int custId);
 }
 
 public class ReportDateService : IReportDateService
 {
     private const string BalanceUpDayAndMoveBetsDayCacheKey = "Alpha.Reports.BalanceUpDayAndMoveBetsDay";
+    private const string CustomerLimitDateCacheKey = "Alpha.Reports.CustomerLimitDate";
 
     private readonly ICacheService cacheService;
     private readonly ReportAppSettings appSettings;
@@ -41,4 +44,20 @@ public class ReportDateService : IReportDateService
             () => dynamicRepository.GetAsync<BalanceUpDayAndMoveBetsDay>(new GetBalanceUpDayAndMoveBetsDayCriteria()),
             new CacheItemOptions().SetAbsoluteExpiration(
                 TimeSpan.FromSeconds(appSettings.BalanceUpDayAndMoveBetsDayCacheInSeconds)));
+
+    public Task<DateTime> GetLimitDate(int custId)
+        => cacheService.GetOrSetAsync(
+            $"{CustomerLimitDateCacheKey}.{custId}",
+            () => GetLimitDateFromDB(custId),
+            new CacheItemOptions().SetAbsoluteExpiration(
+                TimeSpan.FromSeconds(appSettings.CustomerLimitDateCacheInSeconds)));
+
+    private async Task<DateTime> GetLimitDateFromDB(int custId)
+    {
+        var customerLimitDate = await dynamicRepository.GetAsync<CustomerLimitDate>(new GetLimitDateCriteria(custId));
+        
+        return customerLimitDate == null
+            ? DateTime.MinValue
+            : customerLimitDate.DateLimit;
+    }
 }

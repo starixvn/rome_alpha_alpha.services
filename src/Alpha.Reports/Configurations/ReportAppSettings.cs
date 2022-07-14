@@ -7,4 +7,6 @@ public sealed class ReportAppSettings
     public int BalanceUpDayAndMoveBetsDayCacheInSeconds { get; init; }
 
     public int OfferedProductsByCustIdCacheInSeconds { get; init; }
+
+    public int CustomerLimitDateCacheInSeconds { get; init; }
 }
