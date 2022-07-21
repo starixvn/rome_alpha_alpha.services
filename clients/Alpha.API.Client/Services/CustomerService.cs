@@ -1,3 +1,4 @@
+using System.Net;
 using Alpha.API.Client.Models.Customers;
 
 namespace Alpha.API.Client.Services;
@@ -25,5 +26,5 @@ public class CustomerService : ServiceBase, ICustomerService
 
     public Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername)
         => Get<DownlineInfo>(
-            $"/api/Customer/GetDownlineInfo?custId={custId}&downlineUsername={downlineUsername}");
+            $"/api/Customer/GetDownlineInfo?custId={custId}&downlineUsername={WebUtility.UrlEncode(downlineUsername)}");
 }
