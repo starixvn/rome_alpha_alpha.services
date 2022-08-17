@@ -1,3 +1,8 @@
 namespace Alpha.Reports.Configurations;
 
-public record MinimizeUM(string StartTime, string EndTime, IDictionary<string, bool> ControllerNames);
+public sealed class MinimizeUM
+{
+    public string FunctionName { get; init; } = default!;
+
+    public string[] Controllers { get; init; } = default!;
+}

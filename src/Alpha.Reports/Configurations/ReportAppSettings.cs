@@ -9,4 +9,6 @@ public sealed class ReportAppSettings
     public int OfferedProductsByCustIdCacheInSeconds { get; init; }
 
     public int CustomerLimitDateCacheInSeconds { get; init; }
+
+    public MinimizeUM[] MinimizeUM { get; init; }
 }

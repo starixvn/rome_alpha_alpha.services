@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Alpha.Reports.Configurations;
 using Xunit;
 
@@ -10,17 +9,14 @@ public class MinimizeUMTests
     public void Constructor_Assigns_CorrectPropertyValues()
     {
         // Arrange & Act
-        var actual = new MinimizeUM(
-            "3:00",
-            "4:30",
-            new Dictionary<string, bool>
-            {
-                ["WinLoss"] = true
-            });
+        var actual = new MinimizeUM
+        {
+            FunctionName = "Outstandings",
+            Controllers = new[] { "Outstanding" }
+        };
 
         // Assert
-        Assert.True("3:00" == actual.StartTime
-            && "4:30" == actual.EndTime
-            && actual.ControllerNames["WinLoss"]);
+        Assert.True("Outstandings" == actual.FunctionName
+            && "Outstanding" == actual.Controllers[0]);
     }
 }
