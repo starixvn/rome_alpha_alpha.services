@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Customer Limit Time Range">
+    <Setting Key="Age_CustomerSelDateLimit" SpName="Age_CustomerSelDateLimit" DbName="DBAGE.bodb02.BODBDownlineNet" />
+  </Function>
+  
+  <Function Name="Customer Information">
+    <Setting Key="Age_GetCustomerInfo" SpName="Age_GetCustomerInfo" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Age_CustomerSelCheckBelonging_ByUsername" SpName="Age_CustomerSelCheckBelonging_ByUsername" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Age_Chatbot_CustomerStatusSel" SpName="Age_Chatbot_CustomerStatusSel" DbName="DBCust.CustDB.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Report">
+    <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Outstanding">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="ProductId" ObjectProperty="Id" />
+    </Setting>
+    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="ProductId" ObjectProperty="Id" />
+    </Setting>
+    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="ProductId" ObjectProperty="Id" />
+    </Setting>
+
+    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="CustId" ObjectProperty="Id" />
+      <Mapping DataField="CustName" ObjectProperty="Name" />
+    </Setting>
+    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="CustId" ObjectProperty="Id" />
+      <Mapping DataField="CustName" ObjectProperty="Name" />
+    </Setting>
+    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member" DbName="DBBOF.bodb02.BODBDownlineNet">
+      <Mapping DataField="CustId" ObjectProperty="Id" />
+      <Mapping DataField="CustName" ObjectProperty="Name" />
+    </Setting>
+
+    <Setting Key="Age_CustomerSelOutstanding" SpName="Age_CustomerSelOutstanding" DbName="DBBOF.bodb02.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Balance Info">
+    <Setting Key="Age_CustomerSelBalanceInfo_Ag" SpName="Age_CustomerSelBalanceInfo_Ag" DbName="DBAGE.bodb02.BODBDownlineNet" TimeOut="600">
+      <Mapping DataField="yesterday_CashBalance" ObjectProperty="YesterdayCashBalance" />
+      <Mapping DataField="yesterday_totalBalance" ObjectProperty="YesterdayTotalBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelBalanceInfo_MAg" SpName="Age_CustomerSelBalanceInfo_MAg" DbName="DBAGE.bodb02.BODBDownlineNet" TimeOut="600">
+      <Mapping DataField="yesterday_CashBalance" ObjectProperty="YesterdayCashBalance" />
+      <Mapping DataField="yesterday_totalBalance" ObjectProperty="YesterdayTotalBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelBalanceInfo_SAg" SpName="Age_CustomerSelBalanceInfo_SAg" DbName="DBAGE.bodb02.BODBDownlineNet" TimeOut="600">
+      <Mapping DataField="yesterday_CashBalance" ObjectProperty="YesterdayCashBalance" />
+      <Mapping DataField="yesterday_totalBalance" ObjectProperty="YesterdayTotalBalance" />
+    </Setting>
+
+    <Setting Key="Age_BalanceMemberSel" SpName="Age_BalanceMemberSel" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_Cash" ObjectProperty="YesterdayCustomerCash" />
+    </Setting>
+    <Setting Key="Age_BalanceAgentSel" SpName="Age_BalanceAgentSel" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_AgentCash" ObjectProperty="YesterdayAgentCash" />
+      <Mapping DataField="yesterday_CustomerCash" ObjectProperty="YesterdayCustomerCash" />
+    </Setting>
+    <Setting Key="Age_BalanceMasterSel" SpName="Age_BalanceMasterSel" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_MasterCash" ObjectProperty="YesterdayMasterCash" />
+      <Mapping DataField="yesterday_AgentCash" ObjectProperty="YesterdayAgentCash" />
+      <Mapping DataField="yesterday_CustomerCash" ObjectProperty="YesterdayCustomerCash" />
+    </Setting>
+
+    <Setting Key="Age_CustomerSelBalanceList_Member" SpName="Age_CustomerSelBalanceList_Member" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelBalanceList_Agent" SpName="Age_CustomerSelBalanceList_Agent" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+    <Setting Key="Age_CustomerSelBalanceList_Master" SpName="Age_CustomerSelBalanceList_Master" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="yesterday_balance" ObjectProperty="YesterdayBalance" />
+    </Setting>
+
+    <Setting Key="Age_Customer_CreditInfo_Sel" SpName="Age_Customer_CreditInfo_Sel" DbName="DBCust.CustDB.BODBDownlineNet">
+      <Mapping DataField="Credit" ObjectProperty="GivenCredit" />
+      <Mapping DataField="agentUsedCredit" ObjectProperty="UsedCredit" />
+      <Mapping DataField="masterUsedCredit" ObjectProperty="UsedCredit" />
+    </Setting>
+
+    <Setting Key="Acc_CustomerSelTotalDownline" SpName="Acc_CustomerSelTotalDownline" DbName="DBAGE.bodb02.BODBDownlineNet" />
+    <Setting Key="Acc_BalanceMemberSel" SpName="Acc_BalanceMemberSel" DbName="DBTXN.bodb02.BODBDownlineNet" />
+  
+    <Setting Key="Acc_CustomerSelOutstanding" SpName="Acc_CustomerSelOutstanding" DbName="DBAGE.bodb02.BODBDownlineNet" />
+  </Function>
+
+  <Function Name="Win Loss"> 
+    <Setting Key="Age_Rpt_WinLoss_Master" SpName="Age_Rpt_WinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
+      <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
+      <Mapping DataField="SAgComm" ObjectProperty="SuperComm" />
+    </Setting>
+    <Setting Key="Age_Rpt_WinLoss_Agent" SpName="Age_Rpt_WinLoss_Agent" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="AgTotal" ObjectProperty="AgentTotal" />
+      <Mapping DataField="MAgWinLoss" ObjectProperty="MasterWinLoss" />
+      <Mapping DataField="MAgComm" ObjectProperty="MasterComm" />
+    </Setting>
+    <Setting Key="Age_Rpt_WinLoss_Member" SpName="Age_Rpt_WinLoss_Member" DbName="DBAGE.bodb02.BODBDownlineNet">
+      <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
+      <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
+    </Setting>
+  </Function>
+</Functions>
