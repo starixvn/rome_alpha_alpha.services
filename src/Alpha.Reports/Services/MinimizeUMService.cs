@@ -1,25 +1,53 @@
 using Alpha.Reports.Configurations;
+using Alpha.Reports.Criteria;
+using Alpha.Reports.Models;
 using Alpha.Shared.Exceptions;
+using Alpha.Shared.Extensions;
+using Fanex.Data.Repository;
+using Microsoft.Extensions.Options;
 
 namespace Alpha.Reports.Services;
 
 public interface IMinimizeUMService
 {
-    void ThrowIfUM(string controllerName);
+    Task ThrowIfUM(string controllerName, int custId);
 }
 
 public class MinimizeUMService : IMinimizeUMService
 {
-    private readonly MinimizeUM minimizeUM;
+    private readonly MinimizeUM[] minimizeUMArray;
+    private readonly IDynamicRepository dynamicRepository;
 
-    public MinimizeUMService(MinimizeUM minimizeUM)
-        => this.minimizeUM = minimizeUM;
-
-    public void ThrowIfUM(string controllerName)
+    public MinimizeUMService(
+        IOptions<ReportAppSettings> options,
+        IDynamicRepository dynamicRepository)
     {
-        if (minimizeUM.ControllerNames.ContainsKey(controllerName))
+        minimizeUMArray = options.Value.MinimizeUM;
+        this.dynamicRepository = dynamicRepository;
+    }
+
+    public async Task ThrowIfUM(string controllerName, int custId)
+    {
+        var minimizeUM = minimizeUMArray
+            .FirstOrDefault(u => u.Controllers.Any(c => c.Equals(controllerName, StringComparison.OrdinalIgnoreCase)));
+
+        if (minimizeUM == null)
         {
-            throw new MinimizeUMException(minimizeUM.StartTime, minimizeUM.EndTime);
+            return;
+        }
+        
+        var umInfoList = await dynamicRepository.FetchAsync<UMInfo>(new GetUMInfoCriteria(custId));
+
+        if (!umInfoList.Any())
+        {
+            return;
+        }
+        
+        var umInfo = umInfoList.FirstOrDefault(u => u.FunctionTypeName.Equals(minimizeUM.FunctionName, StringComparison.OrdinalIgnoreCase));
+
+        if (umInfo != null)
+        {
+            throw new MinimizeUMException(umInfo.BeginTime.ToLongDateTimeMinute(), umInfo.EndTime.ToLongDateTimeMinute());
         }
     }
 }

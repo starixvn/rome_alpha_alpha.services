@@ -13,7 +13,7 @@ public sealed class MinimizeUMException : DomainException
     }
 
     public MinimizeUMException(string startTime, string endTime)
-        : base($"Sorry, the system is under maintenance from {startTime} to {endTime} GMT+8. Please come back later",
+        : base($"We're updating this function for a better experience. Thus, this function is turned off temporarily ({startTime} - {endTime} (GMT+8)). Please try again later and sorry for the inconvenience.",
         ErrorCodeConst,
         new Dictionary<string, object>
         {
