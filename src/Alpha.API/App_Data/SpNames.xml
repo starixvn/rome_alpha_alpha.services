@@ -91,11 +91,11 @@
 
     <Setting Key="Acc_CustomerSelTotalDownline" SpName="Acc_CustomerSelTotalDownline" DbName="DBAGE.bodb02.BODBDownlineNet" />
     <Setting Key="Acc_BalanceMemberSel" SpName="Acc_BalanceMemberSel" DbName="DBTXN.bodb02.BODBDownlineNet" />
-  
+
     <Setting Key="Acc_CustomerSelOutstanding" SpName="Acc_CustomerSelOutstanding" DbName="DBAGE.bodb02.BODBDownlineNet" />
   </Function>
 
-  <Function Name="Win Loss"> 
+  <Function Name="Win Loss">
     <Setting Key="Age_Rpt_WinLoss_Master" SpName="Age_Rpt_WinLoss_Master" DbName="DBAGE.bodb02.BODBDownlineNet">
       <Mapping DataField="MAgTotal" ObjectProperty="MasterTotal" />
       <Mapping DataField="SAgWinLoss" ObjectProperty="SuperWinLoss" />
@@ -110,5 +110,6 @@
       <Mapping DataField="AgWinLoss" ObjectProperty="AgentWinLoss" />
       <Mapping DataField="AgComm" ObjectProperty="AgentComm" />
     </Setting>
+    <Setting Key="Age_Rpt_MatchSelResultEntered" SpName="Age_Rpt_MatchSelResultEntered" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
   </Function>
 </Functions>

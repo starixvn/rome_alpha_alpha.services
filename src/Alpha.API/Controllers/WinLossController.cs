@@ -14,14 +14,18 @@ public class WinLossController : ControllerBaseApi
     }
 
     [HttpGet("GetWinLoss")]
-    public Task<WinLossBase> GetWinLoss([FromQuery]GetWinLossQuery query)
+    public Task<WinLossBase> GetWinLoss([FromQuery] GetWinLossQuery query)
         => ObjectAsync(query);
 
     [HttpGet("GetDownlineWinLoss")]
-    public Task<WinLossBase> GetDownlineWinLoss([FromQuery]GetDownlineWinLossQuery query)
+    public Task<WinLossBase> GetDownlineWinLoss([FromQuery] GetDownlineWinLossQuery query)
         => ObjectAsync(query);
 
     [HttpGet("GetTopUsername")]
-    public Task<IEnumerable<string>> GetTopUsername([FromQuery]GetTopUsernameWinLossQuery query)
+    public Task<IEnumerable<string>> GetTopUsername([FromQuery] GetTopUsernameWinLossQuery query)
         => ObjectAsync(query);
+
+    [HttpGet("YesterdayEnteredResult")]
+    public Task<EnteredSportResult> GetEnteredResult()
+        => ObjectAsync(new GetEnteredResultQuery());
 }

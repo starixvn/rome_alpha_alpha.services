@@ -1,7 +1,7 @@
 namespace Alpha.Reports.Configurations;
 
 public sealed class ReportAppSettings
-{    
+{
     public byte SettingStatus { get; init; }
 
     public int BalanceUpDayAndMoveBetsDayCacheInSeconds { get; init; }
@@ -11,4 +11,6 @@ public sealed class ReportAppSettings
     public int CustomerLimitDateCacheInSeconds { get; init; }
 
     public MinimizeUM[] MinimizeUM { get; init; }
+
+    public bool LocalTest { get; init; }
 }
