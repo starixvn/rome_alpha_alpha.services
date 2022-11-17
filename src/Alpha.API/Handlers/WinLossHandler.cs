@@ -9,7 +9,7 @@ public class WinLossHandler :
     IRequestHandler<GetWinLossQuery, WinLossBase>,
     IRequestHandler<GetDownlineWinLossQuery, WinLossBase>,
     IRequestHandler<GetTopUsernameWinLossQuery, IEnumerable<string>>,
-    IRequestHandler<GetEnteredResultQuery, EnteredSportResult>
+    IRequestHandler<GetEnteredResultQuery, EnteredResult>
 {
     private readonly IWinLossService winLossService;
 
@@ -25,6 +25,6 @@ public class WinLossHandler :
     public Task<IEnumerable<string>> Handle(GetTopUsernameWinLossQuery query, CancellationToken cancellationToken)
         => winLossService.GetTopUsername(query.CustId, query.CustLevel, query.Date, query.Top);
 
-    public Task<EnteredSportResult> Handle(GetEnteredResultQuery request, CancellationToken cancellationToken)
+    public Task<EnteredResult> Handle(GetEnteredResultQuery request, CancellationToken cancellationToken)
         => winLossService.GetYesterdayEnteredSportResult();
 }

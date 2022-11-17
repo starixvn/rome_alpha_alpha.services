@@ -18,7 +18,7 @@ public interface IWinLossService
 
     Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top);
 
-    Task<EnteredSportResult> GetYesterdayEnteredSportResult();
+    Task<EnteredResult> GetYesterdayEnteredSportResult();
 }
 
 public class WinLossService : IWinLossService
@@ -186,7 +186,7 @@ public class WinLossService : IWinLossService
             custLevel));
     }
 
-    public async Task<EnteredSportResult> GetYesterdayEnteredSportResult()
+    public async Task<EnteredResult> GetYesterdayEnteredSportResult()
     {
         var reportData = await cacheService.GetOrSetAsync(
             EnteredResultsCacheKey,
@@ -205,7 +205,7 @@ public class WinLossService : IWinLossService
             }
         }
 
-        return new EnteredSportResult(totalEntered, totalNonEntered);
+        return new EnteredResult(totalEntered, totalNonEntered);
     }
 
     private async Task<IEnumerable<DailyEnteredSport>> GetYesterdayEnteredSport()

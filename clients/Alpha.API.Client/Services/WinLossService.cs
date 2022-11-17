@@ -10,6 +10,8 @@ public interface IWinLossService
     Task<WinLossBase> GetDownlineWinLoss(int custId, byte custLevel, DateTime date, int downlineId);
 
     Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, DateTime date, int top = 5);
+
+    Task<EnteredResult> GetYesterdayEnteredResult();
 }
 
 public class WinLossService : ServiceBase, IWinLossService
@@ -51,6 +53,6 @@ public class WinLossService : ServiceBase, IWinLossService
     public Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, DateTime date, int top = 5)
         => Get<IEnumerable<string>>($"/api/WinLoss/GetTopUsername?custId={custId}&custLevelId={custLevel}&date={date}&top={top}");
 
-    public Task<EnteredSportResult> GetYesterdayEnteredSportResult()
-        => Get<EnteredSportResult>($"/api/WinLoss/YesterdayEnteredResult");
+    public Task<EnteredResult> GetYesterdayEnteredResult()
+        => Get<EnteredResult>($"/api/WinLoss/EnteredResult/Yesterday");
 }

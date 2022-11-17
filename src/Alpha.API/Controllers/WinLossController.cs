@@ -25,7 +25,7 @@ public class WinLossController : ControllerBaseApi
     public Task<IEnumerable<string>> GetTopUsername([FromQuery] GetTopUsernameWinLossQuery query)
         => ObjectAsync(query);
 
-    [HttpGet("YesterdayEnteredResult")]
-    public Task<EnteredSportResult> GetEnteredResult()
+    [HttpGet("EnteredResult/Yesterday")]
+    public Task<EnteredResult> GetEnteredResult()
         => ObjectAsync(new GetEnteredResultQuery());
 }
