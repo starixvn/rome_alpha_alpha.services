@@ -10,6 +10,8 @@ public interface IWinLossService
     Task<WinLossBase> GetDownlineWinLoss(int custId, byte custLevel, DateTime date, int downlineId);
 
     Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, DateTime date, int top = 5);
+
+    Task<EnteredResult> GetYesterdayEnteredResult();
 }
 
 public class WinLossService : ServiceBase, IWinLossService
@@ -34,12 +36,12 @@ public class WinLossService : ServiceBase, IWinLossService
 
         return await Get<WinLossMember>(url);
     }
-    
+
     public async Task<WinLossBase> GetDownlineWinLoss(int custId, byte custLevel, DateTime date, int downlineId)
     {
         var directDownlineLevel = custLevel - 1;
         var url = $"/api/WinLoss/GetDownlineWinLoss?custId={custId}&custLevelId={custLevel}&date={date}&downlineId={downlineId}";
-        
+
         if (directDownlineLevel == CustLevel.Master)
         {
             return await Get<WinLossAgent>(url);
@@ -50,4 +52,7 @@ public class WinLossService : ServiceBase, IWinLossService
 
     public Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, DateTime date, int top = 5)
         => Get<IEnumerable<string>>($"/api/WinLoss/GetTopUsername?custId={custId}&custLevelId={custLevel}&date={date}&top={top}");
+
+    public Task<EnteredResult> GetYesterdayEnteredResult()
+        => Get<EnteredResult>($"/api/WinLoss/EnteredResult/Yesterday");
 }

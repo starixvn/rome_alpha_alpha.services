@@ -4,6 +4,7 @@ using Alpha.Reports.Models.WinLoss;
 using Alpha.Shared.Enumerations;
 using Alpha.Shared.Extensions;
 using Alpha.Shared.Utils;
+using Fanex.Caching;
 using Fanex.Data.Repository;
 using Microsoft.Extensions.Options;
 
@@ -16,25 +17,31 @@ public interface IWinLossService
     Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime date, int downlineId);
 
     Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top);
+
+    Task<EnteredResult> GetYesterdayEnteredSportResult();
 }
 
 public class WinLossService : IWinLossService
 {
+    private const string EnteredResultsCacheKey = "Alpha.Reports.Services.WinLossService.EnteredResults";
     private readonly IProductService productService;
     private readonly IReportDateService reportDateService;
     private readonly ReportAppSettings appSettings;
     private readonly IDynamicRepository dynamicRepository;
+    private readonly ICacheService cacheService;
 
     public WinLossService(
         IProductService productService,
         IReportDateService reportDateService,
         IOptions<ReportAppSettings> options,
-        IDynamicRepository dynamicRepository)
+        IDynamicRepository dynamicRepository,
+        ICacheService cacheService)
     {
         this.productService = productService;
         this.reportDateService = reportDateService;
         appSettings = options.Value;
         this.dynamicRepository = dynamicRepository;
+        this.cacheService = cacheService;
     }
 
     public async Task<WinLossBase> GetWinLoss(int custId, UserLevel custLevel, DateTime date)
@@ -138,7 +145,7 @@ public class WinLossService : IWinLossService
         if (!winloss.Any())
         {
             return null;
-        } 
+        }
 
         var sumWinLossMember = new WinLossMember();
 
@@ -149,11 +156,11 @@ public class WinLossService : IWinLossService
 
         return sumWinLossMember;
     }
-    
+
     private async Task<IEnumerable<T>> GetWinLoss<T>(int custId, UserLevel custLevel, DateTime date)
     {
         var limitDate = await reportDateService.GetLimitDate(custId);
-        
+
         if (limitDate > date)
         {
             return Enumerable.Empty<T>();
@@ -168,7 +175,7 @@ public class WinLossService : IWinLossService
         await Task.WhenAll(productIdsTask, reportDateTask);
 
         var reportDate = await reportDateTask;
-        
+
         return await dynamicRepository.FetchAsync<T>(new GetWinLossCriteria(
             custId,
             date,
@@ -177,5 +184,40 @@ public class WinLossService : IWinLossService
             reportDate.MoveBetsDay,
             reportDate.BalanceUpDay,
             custLevel));
+    }
+
+    public async Task<EnteredResult> GetYesterdayEnteredSportResult()
+    {
+        var reportData = await cacheService.GetOrSetAsync(
+            EnteredResultsCacheKey,
+            GetYesterdayEnteredSport,
+            new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1)));
+
+        var totalEntered = 0;
+        var totalNonEntered = 0;
+
+        if (reportData.Any())
+        {
+            foreach (var data in reportData)
+            {
+                totalEntered += data.Entered;
+                totalNonEntered += data.NonEntered;
+            }
+        }
+
+        return new EnteredResult(totalEntered, totalNonEntered);
+    }
+
+    private async Task<IEnumerable<DailyEnteredSport>> GetYesterdayEnteredSport()
+    {
+        var criteria = new DailyEnteredSportCriteria(appSettings.LocalTest);
+        var dailyEnteredSportData = await dynamicRepository.FetchAsync<DailyEnteredSport>(criteria);
+
+        if (dailyEnteredSportData.Any())
+        {
+            return dailyEnteredSportData.Where(x => !x.IsToday);
+        }
+
+        return Enumerable.Empty<DailyEnteredSport>();
     }
 }

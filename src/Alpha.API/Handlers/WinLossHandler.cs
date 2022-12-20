@@ -8,13 +8,14 @@ namespace Alpha.API.Handlers;
 public class WinLossHandler :
     IRequestHandler<GetWinLossQuery, WinLossBase>,
     IRequestHandler<GetDownlineWinLossQuery, WinLossBase>,
-    IRequestHandler<GetTopUsernameWinLossQuery, IEnumerable<string>>
+    IRequestHandler<GetTopUsernameWinLossQuery, IEnumerable<string>>,
+    IRequestHandler<GetEnteredResultQuery, EnteredResult>
 {
     private readonly IWinLossService winLossService;
 
     public WinLossHandler(IWinLossService winLossService)
         => this.winLossService = winLossService;
-    
+
     public Task<WinLossBase> Handle(GetWinLossQuery query, CancellationToken cancellationToken)
         => winLossService.GetWinLoss(query.CustId, query.CustLevel, query.Date);
 
@@ -23,4 +24,7 @@ public class WinLossHandler :
 
     public Task<IEnumerable<string>> Handle(GetTopUsernameWinLossQuery query, CancellationToken cancellationToken)
         => winLossService.GetTopUsername(query.CustId, query.CustLevel, query.Date, query.Top);
+
+    public Task<EnteredResult> Handle(GetEnteredResultQuery request, CancellationToken cancellationToken)
+        => winLossService.GetYesterdayEnteredSportResult();
 }
