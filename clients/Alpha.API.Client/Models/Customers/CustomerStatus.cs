@@ -6,6 +6,7 @@ public record CustomerStatus(
     bool IsActive,
     bool IsProtectedMode,
     bool IsLocked,
+    string PageAccess,
     bool IsSubAcc,
     bool HasReportPermission,
     bool HasMemberInformationPermission);
