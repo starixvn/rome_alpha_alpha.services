@@ -9,6 +9,8 @@ using Fanex.Logging.RabbitMQ;
 using Fanex.Logging.Sentry;
 using Fanex.RemotingRef;
 using Sentry;
+using Alpha.API.Helpers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Alpha.API.Extensions;
 
@@ -22,12 +24,15 @@ public static class FanexLibsExtensions
             .GetChildren()
             .ToDictionary(
                 connection => connection.Key,
-                connection => new ConnectionConfiguration(connection.Key, connection.Value), StringComparer.OrdinalIgnoreCase);
+                connection => new ConnectionConfiguration(connection.Key, connection.Value), StringComparer.OrdinalIgnoreCase);       
 
         DbSettingProviderManager
             .StartNewSession()
-            .WithSqlServer("App_Data/SpNames.xml")
+            .WithSqlServer()
             .Use(connectionStrings)
+            .Use(new ShardDbSettingProvider(new ShardInfoAccessor(
+                services.BuildServiceProvider().GetRequiredService<IHttpContextAccessor>()),
+                    resourcePath: "App_Data/SpNames.xml"))
             .Run();
 
         return services.AddSingleton<IDynamicRepository, DynamicRepository>();

@@ -15,7 +15,7 @@ public class GetMemberBalanceCommand : NonQueryCommand
         
     public decimal PendingTransfer3rd  { get; set; }
 
-    public override string GetSettingKey() => "Acc_BalanceMemberSel";
+    public override string GetSettingKey() => "SiteDB_Acc_BalanceMemberSel";
 
     public override bool IsValid() => CustId > 0;
 }

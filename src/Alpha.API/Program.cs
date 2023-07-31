@@ -2,6 +2,7 @@ using Alpha.API.Extensions;
 using Alpha.Customers.Extensions;
 using Alpha.Reports.Extensions;
 using Alpha.Shared.Extensions;
+using Alpha.API.Helpers;
 using Fanex.Logging;
 using MediatR;
 
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var configuration = builder.Configuration;
 builder.Services
+    .AddHttpContextAccessor()
+    .AddSingleton<IShardInfoAccessor, ShardInfoAccessor>()
     .AddFanexDataWithSqlServer(configuration)
     .AddRemotingRef(configuration)
     .AddFanexLogging(configuration)
@@ -43,7 +46,6 @@ app
 app.MapGet("/", () => $"{assemblyName} is running.");
 
 app.MapControllers();
-
 await Logger.Log.InfoAsync($"{assemblyName} has been started up.");
 
 await app.RunAsync();

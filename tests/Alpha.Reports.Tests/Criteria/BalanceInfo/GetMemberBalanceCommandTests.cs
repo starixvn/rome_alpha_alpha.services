@@ -12,7 +12,7 @@ public class GetMemberBalanceCommandTests
         var criteria = new GetMemberBalanceCommand(1176070);
 
         // Assert
-        Assert.Equal("Acc_BalanceMemberSel", criteria.GetSettingKey());
+        Assert.Equal("SiteDB_Acc_BalanceMemberSel", criteria.GetSettingKey());
     }
 
     [Theory]

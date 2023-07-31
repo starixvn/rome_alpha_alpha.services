@@ -90,7 +90,7 @@
     </Setting>
 
     <Setting Key="Acc_CustomerSelTotalDownline" SpName="Acc_CustomerSelTotalDownline" DbName="DBAGE.bodb02.BODBDownlineNet" />
-    <Setting Key="Acc_BalanceMemberSel" SpName="Acc_BalanceMemberSel" DbName="DBTXN.bodb02.BODBDownlineNet" />
+    <Setting Key="SiteDB_Acc_BalanceMemberSel" SpName="Acc_BalanceMemberSel" DbName="SiteDB.bodb02.BODBDownlineNet" />
 
     <Setting Key="Acc_CustomerSelOutstanding" SpName="Acc_CustomerSelOutstanding" DbName="DBAGE.bodb02.BODBDownlineNet" />
   </Function>
