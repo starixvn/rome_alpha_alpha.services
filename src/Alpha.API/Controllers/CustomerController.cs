@@ -13,14 +13,18 @@ public class CustomerController : ControllerBaseApi
     }
 
     [HttpPost("GetCustomerStatusByBatch")]
-    public Task<IEnumerable<CustomerStatus>> GetCustomerStatusByBatch([FromBody]IEnumerable<CustomerStatusParam> query)
+    public Task<IEnumerable<CustomerStatus>> GetCustomerStatusByBatch([FromBody] IEnumerable<CustomerStatusParam> query)
         => ObjectAsync(new GetCustomerStatusByBatchQuery(query));
 
     [HttpGet("GetCustomerStatus")]
-    public Task<CustomerStatus> GetCustomerStatus([FromQuery]GetCustomerStatusQuery query)
+    public Task<CustomerStatus> GetCustomerStatus([FromQuery] GetCustomerStatusQuery query)
         => ObjectAsync(query);
 
     [HttpGet("GetDownlineInfo")]
-    public Task<DownlineInfo> GetDownlineInfo([FromQuery]GetDownlineInfoQuery query)
+    public Task<DownlineInfo> GetDownlineInfo([FromQuery] GetDownlineInfoQuery query)
+        => ObjectAsync(query);
+
+    [HttpGet("GetDomains")]
+    public Task<IEnumerable<DomainInfo>> GetDomains([FromQuery] GetDomainsQuery query)
         => ObjectAsync(query);
 }

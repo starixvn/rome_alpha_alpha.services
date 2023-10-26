@@ -67,4 +67,17 @@ public class CustomerHandlerTests
             Arg.Is<string>(downlineUsername => "master1" == downlineUsername)
         );
     }
+
+    [Fact]
+    public async Task Handle_GetDomainsQuery_CallsGetDomains()
+    {
+        // Arrange
+        var query = new GetDomainsQuery("BEST-ODDS");
+
+        // Act
+        await customerHandler.Handle(query, default);
+
+        // Assert
+        await customerService.Received().GetDomains(Arg.Is<string>(site => "BEST-ODDS" == site));
+    }
 }

@@ -112,4 +112,8 @@
     </Setting>
     <Setting Key="Age_Rpt_MatchSelResultEntered" SpName="Age_Rpt_MatchSelResultEntered" DbName="DBAGE.bodb02.BODBDownlineNet" Plain="0" />
   </Function>
+
+  <Function Name="Available Domains">
+      <Setting Key="Age_DomainListSel" SpName="Age_DomainListSel" DbName="DBACC.bodb02.BODBDownlineNet" />
+  </Function>
 </Functions>

@@ -67,4 +67,17 @@ public class CustomerServiceTests
             && downlineUsername == cmd.Username
         ));
     }
+
+    [Fact]
+    public async Task GetDomains_Always_CallsFetchAsync()
+    {
+        // Arrange
+        var sites = "BEST-ODDS";
+
+        // Act
+        await customerService.GetDomains(sites);
+
+        // Assert
+        await dynamicRepository.Received().FetchAsync<DomainInfo>(Arg.Is<GetDomainsCriteria>(criteria => "BEST-ODDS" == criteria.Site));
+    }
 }
