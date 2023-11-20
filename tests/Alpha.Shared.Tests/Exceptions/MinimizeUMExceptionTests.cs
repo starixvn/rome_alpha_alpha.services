@@ -18,7 +18,7 @@ public class MinimizeUMExceptionTests
         // Assert
         Assert.True(
             1001 == exception.ErrorCode
-            && $"Sorry, the system is under maintenance from {startTime} to {endTime} GMT+8. Please come back later" == exception.Message
+            && $"We're updating this function for a better experience. Thus, this function is turned off temporarily ({startTime} - {endTime} (GMT+8)). Please try again later and sorry for the inconvenience." == exception.Message
             && startTime == exception.ErrorData[nameof(startTime)].ToString()
             && endTime == exception.ErrorData[nameof(endTime)].ToString());
     }

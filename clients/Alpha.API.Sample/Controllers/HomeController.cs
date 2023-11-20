@@ -42,7 +42,7 @@ public class HomeController : Controller
         {
             Console.WriteLine(ex.ToString());
         }
-        
+
         const int agentId = 23_003_322;
         const byte agentLevel = 2;
         const int top = 5;
@@ -59,13 +59,13 @@ public class HomeController : Controller
         const byte superLevel = 4;
 
         ViewData["MyBalance"] = await balanceInfoService.GetMyBalance(superId, superLevel);
-        
+
         const int masterId = 23_722_864;
         const byte masterLevel = 3;
-        ViewData["DownlineBalance"] = await balanceInfoService.GetDownlineBalance(masterId, masterLevel);
-        
+        ViewData["DownlineBalance"] = await balanceInfoService.GetDownlineBalance(masterId, masterLevel, "10.18.200.55");
+
         ViewData["TopBalance"] = await balanceInfoService.GetTopBalance(superId, superLevel);
-        
+
         ViewData["TopUsername"] = await balanceInfoService.GetTopUsername(superId, superLevel);
 
         return View();
@@ -78,10 +78,10 @@ public class HomeController : Controller
         var today = DateTime.Today;
 
         ViewData["TodayWinLoss"] = await winLossService.GetWinLoss(superId, superLevel, today);
-        
+
         const int masterId = 23_722_864;
         ViewData["TodayDownlineWinLoss"] = await winLossService.GetDownlineWinLoss(superId, superLevel, today, masterId);
-                
+
         ViewData["TopUsername"] = await winLossService.GetTopUsername(superId, superLevel, today);
 
         return View();
@@ -94,10 +94,10 @@ public class HomeController : Controller
         var yesterday = DateTime.Today.AddDays(-1);
 
         ViewData["YesterdayWinLoss"] = await winLossService.GetWinLoss(superId, superLevel, yesterday);
-        
+
         const int masterId = 23_722_864;
         ViewData["YesterdayDownlineWinLoss"] = await winLossService.GetDownlineWinLoss(superId, superLevel, yesterday, masterId);
-                
+
         ViewData["TopUsername"] = await winLossService.GetTopUsername(superId, superLevel, yesterday);
 
         return View();

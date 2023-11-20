@@ -9,7 +9,8 @@ namespace Alpha.API.Handlers;
 public class CustomerHandler :
     IRequestHandler<GetCustomerStatusByBatchQuery, IEnumerable<CustomerStatus>>,
     IRequestHandler<GetCustomerStatusQuery, CustomerStatus>,
-    IRequestHandler<GetDownlineInfoQuery, DownlineInfo>
+    IRequestHandler<GetDownlineInfoQuery, DownlineInfo>,
+    IRequestHandler<GetDomainsQuery, IEnumerable<DomainInfo>>
 {
     private readonly ICustomerService customerService;
 
@@ -24,4 +25,7 @@ public class CustomerHandler :
 
     public Task<DownlineInfo> Handle(GetDownlineInfoQuery query, CancellationToken cancellationToken)
         => customerService.GetDownlineInfo(query.CustId, query.DownlineUsername);
+
+    public Task<IEnumerable<DomainInfo>> Handle(GetDomainsQuery query, CancellationToken cancellationToken)
+        => customerService.GetDomains(query.Site);
 }

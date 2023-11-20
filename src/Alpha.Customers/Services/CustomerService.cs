@@ -16,6 +16,8 @@ public interface ICustomerService
     Task<IEnumerable<CustomerStatus>> GetCustomerStatus(IEnumerable<CustomerStatusParam> customers);
 
     Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername);
+
+    Task<IEnumerable<DomainInfo>> GetDomains(string site);
 }
 
 public class CustomerService : ICustomerService
@@ -66,4 +68,7 @@ public class CustomerService : ICustomerService
 
         return new DownlineInfo(command.CustId, (byte)command.RoleId, command.IsSubAcc);
     }
+
+    public Task<IEnumerable<DomainInfo>> GetDomains(string site)
+        => dynamicRepository.FetchAsync<DomainInfo>(new GetDomainsCriteria(site));
 }

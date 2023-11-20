@@ -8,8 +8,10 @@ public interface ICustomerService
     Task<IEnumerable<CustomerStatus>> GetCustomerStatusByBatch(IEnumerable<CustomerStatusParam> data);
 
     Task<CustomerStatus> GetCustomerStatus(int custId, int subAccId);
-    
+
     Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername);
+
+    Task<IEnumerable<DomainInfo>> GetDomains(string site);
 }
 
 public class CustomerService : ServiceBase, ICustomerService
@@ -27,4 +29,7 @@ public class CustomerService : ServiceBase, ICustomerService
     public Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername)
         => Get<DownlineInfo>(
             $"/api/Customer/GetDownlineInfo?custId={custId}&downlineUsername={WebUtility.UrlEncode(downlineUsername)}");
+
+    public Task<IEnumerable<DomainInfo>> GetDomains(string site)
+        => Get<IEnumerable<DomainInfo>>($"/api/Customer/GetDomains?site={site}");
 }

@@ -77,4 +77,18 @@ public class CustomerControllerTests
             && downlineUsername == query.DownlineUsername)
         );
     }
+
+    [Fact]
+    public async Task GetDomains_Always_CallsMediatorSendGetDomainsQuery()
+    {
+        // Arrange
+        var site = "BEST-ODDS";
+        var query = new GetDomainsQuery(site);
+
+        // Act
+        await customerController.GetDomains(query);
+
+        // Assert
+        await mediator.Received().Send(Arg.Is<GetDomainsQuery>(query => "BEST-ODDS" == query.Site));
+    }
 }
