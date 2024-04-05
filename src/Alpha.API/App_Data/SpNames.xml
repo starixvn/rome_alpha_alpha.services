@@ -171,4 +171,16 @@
 	<Function Name="Setting">
 		<Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel" DbName="DBCUST.CustDB.wsv_alp" />
   </Function>
+  <Function Name="TotalBets">
+      <Setting Key="Age_TotalBets_ChatBot_SelEvent" SpName="Age_TotalBets_ChatBot_SelEvent" DbName="DBBOF.bodb02.wsv_alp">
+        <Mapping DataField="livehomescore" ObjectProperty="HomeScore" />
+        <Mapping DataField="liveawayscore" ObjectProperty="AwayScore" />
+        <Mapping DataField="turnover" ObjectProperty="TotalTO" />
+      </Setting>
+      <Setting Key="Age_TotalBets_ChatBot_SelDetail" SpName="Age_TotalBets_ChatBot_SelDetail" DbName="DBBOF.bodb02.wsv_alp">
+        <Mapping DataField="bettype" ObjectProperty="BetTypeId" />
+        <Mapping DataField="livehomescore" ObjectProperty="HomeScore" />
+        <Mapping DataField="liveawayscore" ObjectProperty="AwayScore" />
+      </Setting>
+  </Function>
 </Functions>

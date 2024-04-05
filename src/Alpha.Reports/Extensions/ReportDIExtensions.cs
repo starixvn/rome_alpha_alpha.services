@@ -17,5 +17,6 @@ public static class ReportDIExtensions
             .AddScoped<IReportDateService, ReportDateService>()
             .AddScoped<IBalanceInfoService, BalanceInfoService>()
             .AddScoped<IOutstandingService, OutstandingService>()
-            .AddScoped<IWinLossService, WinLossService>();
+            .AddScoped<IWinLossService, WinLossService>()
+            .AddScoped<ITotalBetsService, TotalBetsService>();
 }
