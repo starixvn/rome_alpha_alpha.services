@@ -12,5 +12,6 @@ public static class CustomerDIExtensions
     public static IServiceCollection AddCustomerServices(this IServiceCollection services, IConfiguration configuration)
         => services
             .Configure<CustomerAppSettings>(configuration.GetSection(nameof(CustomerAppSettings)))
-            .AddScoped<ICustomerService, CustomerService>();
+            .AddScoped<ICustomerService, CustomerService>()
+            .AddScoped<IAutoTransferService, AutoTransferService>();
 }
