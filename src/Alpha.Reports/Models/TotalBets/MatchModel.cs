@@ -22,7 +22,9 @@ public class MatchModel
     public string LeagueName {get;set;}
     public string HomeName {get;set;}
     public string AwayName {get;set;}
-    public string FormattedTurnover => TotalTO.ToString(FormatConst.TotalBetValue);
-    public string GlobalShowTime_Date => GlobalShowTime.ToString("MM/dd");
-    public string GlobalShowTime_Time => GlobalShowTime.ToString("hh:mm tt");
+
+    public DateTime GlobalShowTimeGMT8 => GlobalShowTime.AddHours(12);
+    public string FormattedTurnover => TotalTO.ToString(FormatConst.IntegerValue);
+    public string GlobalShowTime_Date => GlobalShowTimeGMT8.ToString("MM/dd");
+    public string GlobalShowTime_Time => GlobalShowTimeGMT8.ToString("hh:mm tt");
 }

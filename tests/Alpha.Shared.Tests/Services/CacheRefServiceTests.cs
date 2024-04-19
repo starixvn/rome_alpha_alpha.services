@@ -30,7 +30,7 @@ public class CacheRefServiceTests
             productId.ToString()).Returns(productName);
 
         // Act
-        var actual = cacheRefService.GetProductName(productId, language);
+        var actual = cacheRefService.GetProductName(productId, language, false);
 
         // Assert
         Assert.Equal(productName, actual);

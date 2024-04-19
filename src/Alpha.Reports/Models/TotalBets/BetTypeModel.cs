@@ -6,7 +6,7 @@ public class BetTypeModel
 {
     public int BetTypeId {get;set;}
     public decimal TotalTO {get;set;}
-    public string FormattedTurnover => TotalTO.ToString(FormatConst.TotalBetValue);
+    public string FormattedTurnover => TotalTO.ToString(FormatConst.IntegerValue);
 
     public string HDP {get;set;}
     public string TeamHDP {get;set;}
