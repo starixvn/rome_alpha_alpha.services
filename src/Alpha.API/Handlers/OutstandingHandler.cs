@@ -18,7 +18,7 @@ public class OutstandingHandler :
 
     public Task<OutstandingReport> Handle(GetDownlineOutstandingQuery query, CancellationToken cancellationToken)
         => outstandingService.GetDownlineOutstanding(
-            new GetDownlineOutstandingParam(query.CustId, query.CustLevel, query.DownlineId, query.Language));
+            new GetDownlineOutstandingParam(query.CustId, query.CustLevel, query.DownlineId, query.Language, query.SiteLabel));
     
     public Task<IEnumerable<string>> Handle(GetTopOutstandingUsernameQuery query, CancellationToken cancellationToken)
         => outstandingService.GetTopUsername(query.CustId, query.CustLevel, query.Top);

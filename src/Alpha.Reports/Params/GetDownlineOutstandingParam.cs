@@ -6,4 +6,5 @@ public record GetDownlineOutstandingParam(
     int CustId,
     UserLevel CustLevel,
     int DownlineId,
-    string Language);
+    string Language,
+    string SiteLabel);

@@ -7,4 +7,5 @@ public record GetDownlineOutstandingQuery(
     int CustId,
     byte CustLevelId,
     int DownlineId,
-    string Language) : ReportBaseQuery(CustId, CustLevelId), IRequest<OutstandingReport>;
+    string Language,
+    string SiteLabel) : ReportBaseQuery(CustId, CustLevelId), IRequest<OutstandingReport>;
