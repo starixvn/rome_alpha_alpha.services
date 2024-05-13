@@ -4,7 +4,7 @@ namespace Alpha.API.Client.Services;
 
 public interface IOutstandingService
 {
-    Task<OutstandingReport> GetDownlineOutstanding(int custId, byte custLevel, int downlineId, string language = "en-US");
+    Task<OutstandingReport> GetDownlineOutstanding(int custId, byte custLevel, int downlineId, string siteLabel, string language = "en-US");
 
     Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, int top = 5);
 
@@ -17,9 +17,9 @@ public class OutstandingService : ServiceBase, IOutstandingService
     {
     }
 
-    public Task<OutstandingReport> GetDownlineOutstanding(int custId, byte custLevel, int downlineId, string language = "en-US")
+    public Task<OutstandingReport> GetDownlineOutstanding(int custId, byte custLevel, int downlineId, string siteLabel, string language = "en-US")
         => Get<OutstandingReport>(
-            $"/api/Outstanding/GetDownlineOutstanding?custId={custId}&custLevelId={custLevel}&downlineId={downlineId}&language={language}");
+            $"/api/Outstanding/GetDownlineOutstanding?custId={custId}&custLevelId={custLevel}&downlineId={downlineId}&language={language}&sitelabel={siteLabel}");
 
     public Task<IEnumerable<string>> GetTopUsername(int custId, byte custLevel, int top = 5)
         => Get<IEnumerable<string>>(

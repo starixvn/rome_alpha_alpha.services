@@ -13,4 +13,9 @@ public sealed class ReportAppSettings
     public MinimizeUM[] MinimizeUM { get; init; }
 
     public bool LocalTest { get; init; }
+
+    public string SiteLabelBelonging777Group { get; init; }
+
+    public bool Belonging777Group(string siteLabel)
+    => !string.IsNullOrWhiteSpace(SiteLabelBelonging777Group) && SiteLabelBelonging777Group.Split(',').Select(site => site.Trim()).Any(site => site.Equals(siteLabel, System.StringComparison.CurrentCultureIgnoreCase));
 }

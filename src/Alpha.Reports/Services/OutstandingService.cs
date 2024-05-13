@@ -51,14 +51,15 @@ public class OutstandingService : IOutstandingService
             new GetDownlineOutstandingCriteria(param.CustLevel, productIds.JoinWithComma(), param.DownlineId));
 
         return outstandings.Any()
-            ? GetProductNameAndAccummulateTotal(param.CustLevel, outstandings, param.Language)
+            ? GetProductNameAndAccummulateTotal(param.CustLevel, outstandings, param.Language, param.SiteLabel)
             : new OutstandingReport();
     }
 
     private OutstandingReport GetProductNameAndAccummulateTotal(
         UserLevel custLevel,
         IEnumerable<OutstandingEntity> outstandingEntities,
-        string language)
+        string language,
+        string siteLabel)
     {
         OutstandingModel outstandingModel;
         var outstandings = new List<OutstandingModel>();
@@ -70,7 +71,7 @@ public class OutstandingService : IOutstandingService
             outstandingModel = GetOutstandingModel(
                 custLevel,
                 entity,
-                cacheRefService.GetProductName(entity.Id, language));
+                cacheRefService.GetProductName(entity.Id, language, appSettings.Belonging777Group(siteLabel)));
             outstandings.Add(outstandingModel);
 
             totalMemberOutStanding += outstandingModel.MemberOutstanding;
