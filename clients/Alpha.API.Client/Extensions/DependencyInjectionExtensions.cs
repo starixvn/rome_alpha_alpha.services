@@ -52,7 +52,14 @@ public static class DependencyInjectionExtensions
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
             });
-
+            
+        services
+            .AddHttpClient<ITotalBetsService, TotalBetsService>(httpClient
+                => httpClient.BaseAddress = new Uri(alphaAPIBaseUrl))
+            .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            });
 
         return services;
     }
