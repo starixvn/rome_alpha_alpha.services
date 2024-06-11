@@ -20,25 +20,25 @@
   </Function>
 
   <Function Name="Outstanding">
-    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Master" SpName="Age_Rpt_DownlineOutstanding_Master_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Agent" SpName="Age_Rpt_DownlineOutstanding_Agent_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
     </Setting>
-    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_DownlineOutstanding_Member" SpName="Age_Rpt_DownlineOutstanding_Member_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="ProductId" ObjectProperty="Id" />
     </Setting>
 
-    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_Outstanding_Master" SpName="Age_Rpt_Outstanding_Master_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
     </Setting>
-    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_Outstanding_Agent" SpName="Age_Rpt_Outstanding_Agent_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
     </Setting>
-    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member" DbName="DBBOF.bodb02.wsv_alp">
+    <Setting Key="Age_Rpt_Outstanding_Member" SpName="Age_Rpt_Outstanding_Member_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
       <Mapping DataField="CustId" ObjectProperty="Id" />
       <Mapping DataField="CustName" ObjectProperty="Name" />
     </Setting>
@@ -172,12 +172,12 @@
 		<Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel" DbName="DBCUST.CustDB.wsv_alp" />
   </Function>
   <Function Name="TotalBets">
-      <Setting Key="Age_TotalBets_ChatBot_SelEvent" SpName="Age_TotalBets_ChatBot_SelEvent" DbName="DBBOF.bodb02.wsv_alp">
+      <Setting Key="Age_TotalBets_ChatBot_SelEvent" SpName="Age_TotalBets_ChatBot_SelEvent_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
         <Mapping DataField="livehomescore" ObjectProperty="HomeScore" />
         <Mapping DataField="liveawayscore" ObjectProperty="AwayScore" />
         <Mapping DataField="turnover" ObjectProperty="TotalTO" />
       </Setting>
-      <Setting Key="Age_TotalBets_ChatBot_SelDetail" SpName="Age_TotalBets_ChatBot_SelDetail" DbName="DBBOF.bodb02.wsv_alp">
+      <Setting Key="Age_TotalBets_ChatBot_SelDetail" SpName="Age_TotalBets_ChatBot_SelDetail_DBTrans" DbName="DBTXN.bodb02.wsv_alp">
         <Mapping DataField="bettype" ObjectProperty="BetTypeId" />
         <Mapping DataField="livehomescore" ObjectProperty="HomeScore" />
         <Mapping DataField="liveawayscore" ObjectProperty="AwayScore" />
