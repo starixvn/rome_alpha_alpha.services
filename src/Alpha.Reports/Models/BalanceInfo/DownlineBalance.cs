@@ -22,6 +22,9 @@ public record DownlineBalance
         GivenCredit = RoundUpNumber(creditInfo.GivenCredit);
         TotalDownlines = totalDownlines;
         Outstanding = outstanding;
+        RewardReceivable = RoundUpNumber(balance.RewardReceivable ?? 0);
+        RewardPayable = RoundUpNumber(balance.RewardPayable ?? 0);
+        RewardCurrency = balance.RewardCurrency;
     }
 
     public DownlineBalance(
@@ -40,6 +43,9 @@ public record DownlineBalance
         MemberMaxCredit = RoundUpNumber(creditInfo.MemberMaxCredit ?? 0);
         TotalDownlines = totalDownlines;
         Outstanding = outstanding;
+        RewardReceivable = RoundUpNumber(balance.RewardReceivable ?? 0);
+        RewardPayable = RoundUpNumber(balance.RewardPayable ?? 0);
+        RewardCurrency = balance.RewardCurrency;
     }
 
     public DownlineBalance(
@@ -54,6 +60,8 @@ public record DownlineBalance
         NetPosition = RoundDownNumber(balance.NetPosition);
         BetCredit = RoundDownNumber(creditInfo.GivenCredit + balance.Balance + balance.NetPosition);
         Outstanding = outstanding;
+        RewardReceivable = RoundUpNumber(balance.RewardReceivable ?? 0);
+        RewardCurrency = balance.RewardCurrency;
     }
 
     public decimal? TotalCash { get; }
@@ -79,6 +87,12 @@ public record DownlineBalance
     public decimal? BetCredit { get; }
 
     public CustomerOutstanding Outstanding { get; }
+
+    public decimal RewardReceivable { get; }
+
+    public decimal RewardPayable { get; }
+
+    public string RewardCurrency { get; }
 
     private static decimal RoundUpNumber(decimal value)
         => Math.Round(value, DecimalNumber, MidpointRounding.AwayFromZero);

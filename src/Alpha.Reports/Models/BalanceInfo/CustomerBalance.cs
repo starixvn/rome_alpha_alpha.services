@@ -20,7 +20,10 @@ public class CustomerBalance
         decimal givenCredit,
         decimal memberCredit,
         decimal pendingTransfer3rd,
-        CustomerOutstanding outstanding)
+        CustomerOutstanding outstanding,
+        decimal? rewardReceivable,
+        decimal? rewardPayable,
+        string rewardCurrency)
 #pragma warning restore S107
     {
         CurrencyName = currencyName;
@@ -34,6 +37,9 @@ public class CustomerBalance
         MemberCredit = memberCredit;
         PendingTransfer3rd = pendingTransfer3rd;
         Outstanding = outstanding;
+        RewardReceivable = rewardReceivable;
+        RewardPayable = rewardPayable;
+        RewardCurrency = rewardCurrency;
     }
 
     public string CurrencyName { get; } = default!;
@@ -57,4 +63,10 @@ public class CustomerBalance
     public decimal PendingTransfer3rd { get; }
 
     public CustomerOutstanding Outstanding { get; set; }
+
+    public decimal? RewardReceivable { get; }
+
+    public decimal? RewardPayable { get; }
+
+    public string RewardCurrency { get; }
 }

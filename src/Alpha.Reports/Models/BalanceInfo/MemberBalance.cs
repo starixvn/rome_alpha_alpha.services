@@ -6,18 +6,26 @@ public class MemberBalance
     {
     }
 
-    public MemberBalance(decimal yesterdayCash)
-        => YesterdayCustomerCash = yesterdayCash;
+    public MemberBalance(decimal yesterdayCash, decimal? rewardReceivable, string rewardCurrency)
+    {
+        YesterdayCustomerCash = yesterdayCash;
+        RewardReceivable = rewardReceivable;
+        RewardCurrency = rewardCurrency;
+    }
 
     public decimal Balance { get; set; }
 
-    public decimal NetPosition  { get; set; }
+    public decimal NetPosition { get; set; }
 
     public decimal CustomerCash => Balance + CustomerOutstanding + PendingTransfer3rd;
 
     public decimal YesterdayCustomerCash { get; }
 
-    public decimal CustomerOutstanding  { get; set; }
+    public decimal CustomerOutstanding { get; set; }
 
     public decimal PendingTransfer3rd { get; set; }
+
+    public decimal? RewardReceivable { get; }
+
+    public string RewardCurrency { get; }
 }
