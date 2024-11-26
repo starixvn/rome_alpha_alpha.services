@@ -14,5 +14,7 @@ public record DownlineBalance(
     IEnumerable<TotalDownline> TotalDownlines,
     decimal? NetPosition,
     decimal? BetCredit,
-    CustomerOutstanding Outstanding
-);
+    CustomerOutstanding Outstanding,
+    decimal RewardReceivable,
+    decimal RewardPayable,
+    string RewardCurrency);

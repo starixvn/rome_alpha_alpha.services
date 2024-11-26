@@ -3,7 +3,7 @@ namespace Alpha.Reports.Models.BalanceInfo;
 public record AgentBalance
 {
     public AgentBalance()
-    { 
+    {
     }
 
     public AgentBalance(
@@ -13,7 +13,10 @@ public record AgentBalance
         decimal customerCash,
         decimal yesterdayCustomerCash,
         decimal customerOutstanding,
-        decimal pendingTransfer3rd)
+        decimal pendingTransfer3rd,
+        decimal? rewardReceivable,
+        decimal? rewardPayable,
+        string rewardCurrency)
     {
         AgentCash = agentCash;
         YesterdayAgentCash = yesterdayAgentCash;
@@ -22,8 +25,11 @@ public record AgentBalance
         YesterdayCustomerCash = yesterdayCustomerCash;
         CustomerOutstanding = customerOutstanding;
         PendingTransfer3rd = pendingTransfer3rd;
+        RewardReceivable = rewardReceivable;
+        RewardPayable = rewardPayable;
+        RewardCurrency = rewardCurrency;
     }
-    
+
     public decimal AgentCash { get; }
 
     public decimal YesterdayAgentCash { get; }
@@ -37,4 +43,10 @@ public record AgentBalance
     public decimal CustomerOutstanding { get; }
 
     public decimal PendingTransfer3rd { get; }
+
+    public decimal? RewardReceivable { get; }
+
+    public decimal? RewardPayable { get; }
+
+    public string RewardCurrency { get; }
 }

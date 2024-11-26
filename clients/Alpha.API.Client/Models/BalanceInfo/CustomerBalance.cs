@@ -13,4 +13,7 @@ public record CustomerBalance(
     decimal GivenCredit,
     decimal MemberCredit,
     decimal PendingTransfer3rd,
-    CustomerOutstanding Outstanding);
+    CustomerOutstanding Outstanding,
+    decimal RewardReceivable,
+    decimal RewardPayable,
+    string RewardCurrency);

@@ -5,7 +5,7 @@ public record MasterBalance
     public MasterBalance()
     {
     }
-    
+
 #pragma warning disable S107
     public MasterBalance(
         decimal masterCash,
@@ -16,7 +16,10 @@ public record MasterBalance
         decimal customerCash,
         decimal yesterdayCustomerCash,
         decimal customerOutstanding,
-        decimal pendingTransfer3rd)
+        decimal pendingTransfer3rd,
+        decimal? rewardReceivable,
+        decimal? rewardPayable,
+        string rewardCurrency)
 #pragma warning restore S107
     {
         MasterCash = masterCash;
@@ -28,6 +31,9 @@ public record MasterBalance
         YesterdayCustomerCash = yesterdayCustomerCash;
         CustomerOutstanding = customerOutstanding;
         PendingTransfer3rd = pendingTransfer3rd;
+        RewardReceivable = rewardReceivable;
+        RewardPayable = rewardPayable;
+        RewardCurrency = rewardCurrency;
     }
 
     public decimal MasterCash { get; }
@@ -47,4 +53,10 @@ public record MasterBalance
     public decimal CustomerOutstanding { get; }
 
     public decimal PendingTransfer3rd { get; }
+
+    public decimal? RewardReceivable { get; }
+
+    public decimal? RewardPayable { get; }
+
+    public string RewardCurrency { get; }
 }
