@@ -1,3 +1,9 @@
 namespace Alpha.Reports.Models.BalanceInfo;
 
-public record TotalDownline(byte RoleId, int TotalActive, int TotalClosed, int TotalSuspended);
+public class TotalDownline {
+    public byte RoleId { get; set; }
+    public int TotalActive { get; set; }
+    public int TotalClosed { get; set; }
+    public int TotalSuspended { get; set; }
+    public int AgentID { get; set; }
+}

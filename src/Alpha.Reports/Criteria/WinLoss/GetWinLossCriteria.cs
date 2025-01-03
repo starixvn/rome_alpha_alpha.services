@@ -13,7 +13,8 @@ public class GetWinLossCriteria : CriteriaBase
         string productIds,
         DateTime moveBetsDay,
         DateTime balanceUpDay,
-        UserLevel custLevel)
+        UserLevel custLevel,
+        int? downlineId)
     {
         CustId = custId;
         FromDate = fromDate;
@@ -22,6 +23,7 @@ public class GetWinLossCriteria : CriteriaBase
         MoveBetsDay = moveBetsDay;
         BalanceUpDay = balanceUpDay;
         CustLevel = custLevel;
+        DownlineId = downlineId;
     }
 
     public int CustId { get; }
@@ -35,6 +37,8 @@ public class GetWinLossCriteria : CriteriaBase
     public DateTime MoveBetsDay { get; }
 
     public DateTime BalanceUpDay { get; }
+
+    public int? DownlineId { get; }
 
     [SpParam(Ignored = true)]
     public UserLevel CustLevel { get; }

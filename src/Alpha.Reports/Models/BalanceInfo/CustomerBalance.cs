@@ -23,7 +23,8 @@ public class CustomerBalance
         CustomerOutstanding outstanding,
         decimal? rewardReceivable,
         decimal? rewardPayable,
-        string rewardCurrency)
+        string rewardCurrency,
+        decimal? directMemberCredit)
 #pragma warning restore S107
     {
         CurrencyName = currencyName;
@@ -40,6 +41,7 @@ public class CustomerBalance
         RewardReceivable = rewardReceivable;
         RewardPayable = rewardPayable;
         RewardCurrency = rewardCurrency;
+        DirectMemberCredit = directMemberCredit;
     }
 
     public string CurrencyName { get; } = default!;
@@ -69,4 +71,6 @@ public class CustomerBalance
     public decimal? RewardPayable { get; }
 
     public string RewardCurrency { get; }
+
+    public decimal? DirectMemberCredit { get; }
 }

@@ -27,7 +27,7 @@ public class OutstandingControllerTests
         var custLevelId = UserLevel.Super.Value;
         var downlineId = 789;
         var language = "en-US";
-        var query = new GetDownlineOutstandingQuery(custId, custLevelId, downlineId, language);
+        var query = new GetDownlineOutstandingQuery(custId, custLevelId, downlineId, language, "", UserLevel.Member.Value);
 
         // Act
         await outstandingController.GetDownlineOutstanding(query);

@@ -27,7 +27,7 @@ public class OutstandingHandlerTests
     public async Task Handle_GetDownlineOutstandingQuery_CallsGetDownlineOutstanding()
     {
         // Arrange
-        var query = new GetDownlineOutstandingQuery(123456, UserLevel.Super.Value, 789, "en-US");
+        var query = new GetDownlineOutstandingQuery(123456, UserLevel.Super.Value, 789, "en-US", "", UserLevel.Member.Value);
 
         // Act
         await outstandingHandler.Handle(query, default);

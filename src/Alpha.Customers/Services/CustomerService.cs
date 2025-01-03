@@ -66,7 +66,7 @@ public class CustomerService : ICustomerService
         var command = new GetDownlineInfoCommand(custId, 0, downlineUsername);
         await dynamicRepository.ExecuteAsync(command);
 
-        return new DownlineInfo(command.CustId, (byte)command.RoleId, command.IsSubAcc);
+        return new DownlineInfo(command.CustId, (byte)command.RoleId, command.IsSubAcc, command.AgentId);
     }
 
     public Task<IEnumerable<DomainInfo>> GetDomains(string site)

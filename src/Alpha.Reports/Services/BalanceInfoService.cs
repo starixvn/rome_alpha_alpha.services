@@ -34,11 +34,9 @@ public class BalanceInfoService : IBalanceInfoService
 
     public async Task<CustomerBalance> GetCustomerBalance(int custId, UserLevel custLevel)
     {
-        var moveBetsDay = await reportDateService.GetMoveBetsDay();
-
         var outstandingTask = outstandingService.GetCustomerOutstanding(custId);
         var balanceTask = dynamicRepository.GetAsync<CustomerBalance>(
-            new GetCustomerBalanceCriteria(custId, custLevel, moveBetsDay));
+            new GetCustomerBalanceCriteria(custId, custLevel));
 
         await Task.WhenAll(outstandingTask, balanceTask);
 

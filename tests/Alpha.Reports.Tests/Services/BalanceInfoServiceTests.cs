@@ -53,7 +53,11 @@ public class BalanceInfoServiceTests
             1_000_000_005,
             100_099_122,
             300,
-            outstanding
+            outstanding,
+            0,
+            0,
+            "",
+            null
         );
         dynamicRepository.GetAsync<CustomerBalance>(Arg.Any<GetCustomerBalanceCriteria>()).Returns(Task.FromResult(balance));
 
@@ -80,7 +84,10 @@ public class BalanceInfoServiceTests
             400,
             400,
             500,
-            600
+            600,
+            0,
+            0,
+            ""
         );
         dynamicRepository.GetAsync<MasterBalance>(Arg.Any<GetDownlineBalanceCriteria>()).Returns(Task.FromResult(balance));
 
@@ -92,8 +99,18 @@ public class BalanceInfoServiceTests
 
         var totalDownlines = new List<TotalDownline>
         {
-            new TotalDownline(2, 10, 5, 1),
-            new TotalDownline(1, 10, 4, 0)
+            new TotalDownline {
+                RoleId=2,
+                TotalActive=10,
+                TotalClosed=5,
+                TotalSuspended=1
+            },
+            new TotalDownline {
+                RoleId=1,
+                TotalActive=10,
+                TotalClosed=4,
+                TotalSuspended=0
+            }
         };
         dynamicRepository
             .FetchAsync<TotalDownline>(Arg.Any<GetTotalDownlinesCriteria>())
@@ -139,7 +156,10 @@ public class BalanceInfoServiceTests
             300,
             300,
             400,
-            500
+            500,
+            0,
+            0,
+            ""
         );
         dynamicRepository.GetAsync<AgentBalance>(Arg.Any<GetDownlineBalanceCriteria>()).Returns(Task.FromResult(balance));
 
@@ -151,7 +171,12 @@ public class BalanceInfoServiceTests
 
         var totalDownlines = new List<TotalDownline>
         {
-            new TotalDownline(1, 10, 4, 0)
+            new TotalDownline {
+                RoleId=1,
+                TotalActive=10,
+                TotalClosed=4,
+                TotalSuspended=0
+            }
         };
         dynamicRepository
             .FetchAsync<TotalDownline>(Arg.Any<GetTotalDownlinesCriteria>())
@@ -189,7 +214,7 @@ public class BalanceInfoServiceTests
 
         dynamicRepository.ExecuteAsync(Arg.Any<GetMemberBalanceCommand>()).Returns(Task.FromResult(0));
         
-        var balance = new MemberBalance(100);
+        var balance = new MemberBalance(100, 0, "");
         dynamicRepository.GetAsync<MemberBalance>(Arg.Any<GetDownlineBalanceCriteria>()).Returns(Task.FromResult(balance));
 
         var credit = new CreditInfo(1000, 2000, 3000);

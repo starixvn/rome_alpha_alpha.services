@@ -16,4 +16,5 @@ public class AutoTransferMonitoringModel
         public bool HasTransferAmount => TransferAmount.HasValue;
 
         public string FirstLastName { get; set; }
+        public bool IsDirectMember { get; set; }
 }

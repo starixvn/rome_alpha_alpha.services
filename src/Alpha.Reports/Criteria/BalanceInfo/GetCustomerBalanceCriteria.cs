@@ -6,16 +6,13 @@ namespace Alpha.Reports.Criteria.BalanceInfo;
 
 public class GetCustomerBalanceCriteria : CriteriaBase
 {
-    public GetCustomerBalanceCriteria(int custId, UserLevel custLevel, DateTime moveBetsDay)
+    public GetCustomerBalanceCriteria(int custId, UserLevel custLevel)
     {
         CustId = custId;
         CustLevel = custLevel;
-        MoveBetsDay = moveBetsDay;
     }
 
     public int CustId { get; }
-
-    public DateTime MoveBetsDay { get; }
 
     [SpParam(Ignored = true)]
     public UserLevel CustLevel { get; }

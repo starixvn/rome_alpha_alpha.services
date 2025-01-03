@@ -24,6 +24,8 @@ public class GetMonitorCriteria : CriteriaBase
 
     public int PageIndex { get; set; } = 1;
 
+    public byte LevelType { get; set; }
+
     public int TotalRow { get; set; }
 
     public int TotalCancelAll { get; set; }
