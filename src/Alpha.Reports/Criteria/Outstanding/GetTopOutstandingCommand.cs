@@ -30,6 +30,14 @@ public class GetTopOutstandingCommand : NonQueryCommand
 
     public decimal? TotalSuperOutstanding { get; set; }
 
+    public decimal? TotalMemberRiskAmount { get; set; }
+
+    public decimal? TotalAgentRiskAmount { get; set; }
+
+    public decimal? TotalMasterRiskAmount { get; set; }
+
+    public decimal? TotalSuperRiskAmount { get; set; }
+
     [SpParam(Ignored = true)]
     public UserLevel CustLevel { get; }
 

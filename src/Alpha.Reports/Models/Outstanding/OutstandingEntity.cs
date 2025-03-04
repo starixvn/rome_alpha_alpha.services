@@ -12,7 +12,11 @@ public record OutstandingEntity
         decimal memberOutstanding,
         decimal? agentOutstanding,
         decimal? masterOutstanding,
-        decimal? superOutstanding)
+        decimal? superOutstanding,
+        decimal? toWin,
+        decimal? agentRisk,
+        decimal? masterRisk,
+        decimal? superRisk)
     {
         Id = id;
         Name = name;
@@ -20,6 +24,11 @@ public record OutstandingEntity
         AgentOutstanding = agentOutstanding;
         MasterOutstanding = masterOutstanding;
         SuperOutstanding = superOutstanding;
+
+        ToWin = toWin;
+        AgentRisk = agentRisk;
+        MasterRisk = masterRisk;
+        SuperRisk = superRisk;
     }
 
     // CustId or ProductId
@@ -35,4 +44,12 @@ public record OutstandingEntity
     public decimal? MasterOutstanding { get; }
 
     public decimal? SuperOutstanding { get; }
+
+    public decimal? ToWin { get; }
+
+    public decimal? AgentRisk { get; }
+
+    public decimal? MasterRisk { get; }
+
+    public decimal? SuperRisk { get; }
 }
