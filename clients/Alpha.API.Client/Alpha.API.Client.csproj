@@ -9,9 +9,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <PackageReleaseNotes>#194024: Domain Management</PackageReleaseNotes>
+    <PackageReleaseNotes>Support Showing potential winning amount (#213676)</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1.8</Version>
+    <Version>1.0.2.2-winning-01</Version>
     <Authors>@rome</Authors>
     <Company>@starixvn</Company>
   </PropertyGroup>

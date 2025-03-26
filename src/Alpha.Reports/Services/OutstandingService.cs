@@ -65,7 +65,8 @@ public class OutstandingService : IOutstandingService
         var outstandings = new List<OutstandingModel>();
         var totalMemberOutStanding = 0M;
         var totalOutStanding = 0M;
-
+        var totalToWin = 0M;
+        var totalRiskAmount = 0M;
         foreach (var entity in outstandingEntities)
         {
             outstandingModel = GetOutstandingModel(
@@ -73,12 +74,13 @@ public class OutstandingService : IOutstandingService
                 entity,
                 cacheRefService.GetProductName(entity.Id, language, appSettings.Belonging777Group(siteLabel)));
             outstandings.Add(outstandingModel);
-
+            totalToWin += outstandingModel.ToWin ?? 0;
+            totalRiskAmount += outstandingModel.RiskAmount ?? 0;
             totalMemberOutStanding += outstandingModel.MemberOutstanding;
             totalOutStanding += outstandingModel.Outstanding;
         }
 
-        var total = new OutstandingModel(0, "Total", totalMemberOutStanding, totalOutStanding);
+        var total = new OutstandingModel(0, "Total", totalMemberOutStanding, totalOutStanding, totalToWin, totalRiskAmount);
 
         return new OutstandingReport(outstandings, total);
     }
@@ -108,21 +110,24 @@ public class OutstandingService : IOutstandingService
     private static OutstandingModel GetTotalTopOutstanding(GetTopOutstandingCommand command)
     {
         decimal totalOutStanding;
-        
+        decimal? totalRiskAmount;
         if (command.CustLevel.IsSuper())
         {
             totalOutStanding = command.TotalSuperOutstanding.Value;
+            totalRiskAmount = command.TotalSuperRiskAmount;
         }
         else if (command.CustLevel.IsMaster())
         {
             totalOutStanding = command.TotalMasterOutstanding.Value;
+            totalRiskAmount = command.TotalMasterRiskAmount;
         }
         else
         {
             totalOutStanding = command.TotalAgentOutstanding.Value;
+            totalRiskAmount = command.TotalAgentRiskAmount;
         }
-            
-        return new OutstandingModel(0, "Total", command.TotalMemberOutstanding, totalOutStanding);
+
+        return new OutstandingModel(0, "Total", command.TotalMemberOutstanding, totalOutStanding, command.TotalMemberRiskAmount, totalRiskAmount);
     }
 
     // Have to do manual mapping from OutstandingEntity --> OutstandingModel.
@@ -134,21 +139,24 @@ public class OutstandingService : IOutstandingService
         string productName = null)
     {
         decimal outstandingValue;
-
+        decimal? riskAmount;
         if (custLevel.IsSuper())
         {
             outstandingValue = entity.SuperOutstanding.Value;
+            riskAmount = entity.SuperRisk;
         }
         else if (custLevel.IsMaster())
         {
             outstandingValue = entity.MasterOutstanding.Value;
+            riskAmount = entity.MasterRisk;
         }
         else
         {
             outstandingValue = entity.AgentOutstanding.Value;
+            riskAmount = entity.AgentRisk;
         }
 
-        return new OutstandingModel(entity.Id, productName ?? entity.Name, entity.MemberOutstanding, outstandingValue);
+        return new OutstandingModel(entity.Id, productName ?? entity.Name, entity.MemberOutstanding, outstandingValue, entity.ToWin, riskAmount);
     }
 
     public Task<CustomerOutstanding> GetCustomerOutstanding(int custId)
