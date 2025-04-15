@@ -45,6 +45,8 @@ public record OutstandingEntity
 
     public decimal? SuperOutstanding { get; }
 
+    public bool IsDirectMember { get; }
+    
     public decimal? ToWin { get; }
 
     public decimal? AgentRisk { get; }

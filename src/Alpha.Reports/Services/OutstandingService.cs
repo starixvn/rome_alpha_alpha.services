@@ -48,7 +48,7 @@ public class OutstandingService : IOutstandingService
             appSettings.SettingStatus,
             SystemTime.Today);
         var outstandings = await dynamicRepository.FetchAsync<OutstandingEntity>(
-            new GetDownlineOutstandingCriteria(param.CustLevel, productIds.JoinWithComma(), param.DownlineId));
+            new GetDownlineOutstandingCriteria(param.DownlineLevel, productIds.JoinWithComma(), param.DownlineId));
 
         return outstandings.Any()
             ? GetProductNameAndAccummulateTotal(param.CustLevel, outstandings, param.Language, param.SiteLabel)
@@ -80,7 +80,7 @@ public class OutstandingService : IOutstandingService
             totalOutStanding += outstandingModel.Outstanding;
         }
 
-        var total = new OutstandingModel(0, "Total", totalMemberOutStanding, totalOutStanding, totalToWin, totalRiskAmount);
+        var total = new OutstandingModel(0, "Total", totalMemberOutStanding, totalOutStanding, totalToWin, totalRiskAmount, false);
 
         return new OutstandingReport(outstandings, total);
     }
@@ -127,7 +127,7 @@ public class OutstandingService : IOutstandingService
             totalRiskAmount = command.TotalAgentRiskAmount;
         }
 
-        return new OutstandingModel(0, "Total", command.TotalMemberOutstanding, totalOutStanding, command.TotalMemberRiskAmount, totalRiskAmount);
+        return new OutstandingModel(0, "Total", command.TotalMemberOutstanding, totalOutStanding, command.TotalMemberRiskAmount, totalRiskAmount, false);
     }
 
     // Have to do manual mapping from OutstandingEntity --> OutstandingModel.
@@ -156,7 +156,7 @@ public class OutstandingService : IOutstandingService
             riskAmount = entity.AgentRisk;
         }
 
-        return new OutstandingModel(entity.Id, productName ?? entity.Name, entity.MemberOutstanding, outstandingValue, entity.ToWin, riskAmount);
+        return new OutstandingModel(entity.Id, productName ?? entity.Name, entity.MemberOutstanding, outstandingValue, entity.ToWin, riskAmount, entity.IsDirectMember);
     }
 
     public Task<CustomerOutstanding> GetCustomerOutstanding(int custId)

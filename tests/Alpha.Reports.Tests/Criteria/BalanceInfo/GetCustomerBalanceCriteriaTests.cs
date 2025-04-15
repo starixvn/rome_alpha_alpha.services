@@ -15,10 +15,7 @@ public class GetCustomerBalanceCriteriaTests
     public void GetSettingKey_Always_ReturnsValidSettingKey(byte custLevel, string expected)
     {
         // Arrange & Act
-        var criteria = new GetCustomerBalanceCriteria(
-            1176070,
-            Enumeration.FromValue<UserLevel>(custLevel),
-            DateTime.Today);
+        var criteria = new GetCustomerBalanceCriteria(1176070, Enumeration.FromValue<UserLevel>(custLevel));
 
         // Assert
         Assert.Equal(expected, criteria.GetSettingKey());
@@ -31,10 +28,7 @@ public class GetCustomerBalanceCriteriaTests
     public void IsValid_CustId_ReturnsExpectedResult(int custId, bool expected)
     {
         // Arrange & Act
-        var criteria = new GetCustomerBalanceCriteria(
-            custId,
-            UserLevel.Super,
-            DateTime.Today);
+        var criteria = new GetCustomerBalanceCriteria(custId, UserLevel.Super);
 
         // Assert
         Assert.Equal(expected, criteria.IsValid());
@@ -47,13 +41,9 @@ public class GetCustomerBalanceCriteriaTests
         var currentDate = DateTime.Today;
 
         // Act
-        var criteria = new GetCustomerBalanceCriteria(
-            1176070,
-            UserLevel.Agent,
-            currentDate);
+        var criteria = new GetCustomerBalanceCriteria(1176070, UserLevel.Agent);
 
         // Assert
-        Assert.True(1176070 == criteria.CustId
-            && currentDate == criteria.MoveBetsDay);
+        Assert.True(1176070 == criteria.CustId);
     }
 }

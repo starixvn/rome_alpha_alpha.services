@@ -16,4 +16,5 @@ public record CustomerBalance(
     CustomerOutstanding Outstanding,
     decimal RewardReceivable,
     decimal RewardPayable,
-    string RewardCurrency);
+    string RewardCurrency,
+    decimal? DirectMemberCredit);

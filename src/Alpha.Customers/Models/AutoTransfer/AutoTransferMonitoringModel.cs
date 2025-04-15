@@ -32,4 +32,6 @@ public class AutoTransferMonitoringModel
                         return string.IsNullOrWhiteSpace(LastName) ? FirstName : $"{FirstName}/ {LastName}";
                 }
         }
+
+        public bool IsDirectMember { get; set; }
 }

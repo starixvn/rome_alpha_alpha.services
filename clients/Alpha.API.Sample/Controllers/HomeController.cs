@@ -36,7 +36,7 @@ public class HomeController : Controller
         const string language = "th-TH";
         try
         {
-            ViewData["DownlineOutstanding"] = await outstandingService.GetDownlineOutstanding(superId, superLevelId, masterId, language);
+            ViewData["DownlineOutstanding"] = await outstandingService.GetDownlineOutstanding(superId, superLevelId, 1, masterId, language);
         }
         catch (MinimizeUMException ex)
         {

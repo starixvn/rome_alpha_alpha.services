@@ -7,21 +7,21 @@ public interface IAutoTransferService
 {
     Task<bool> IsAllDayBalanceTransfer(int custId);
 
-    Task<AutoTransferMonitoringPageModel> Monitor(int custId, string username, string status, int sortedBy, int direction, string language);
+    Task<AutoTransferMonitoringPageModel> Monitor(int custId, string username, string status, int sortedBy, int direction, byte levelType, string language);
 
     Task<AutoTransferCustomersPageModel> Customers(int custId, int custLevel, string language, string username, string status, string autoTransferStatus, int pageIndex, int pageSize);
 
     Task<Result> UpdateStatus(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
         int custId, string username, bool state, string schedule, string oldTransferOption);
 
     Task<Result> UpdateSchedule(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
         int custId, string username, string schedule, string oldTransferOption);
 
     Task<UpdateMultipleAutoTransferResultModel> UpdateMultiple(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
-        string onIds, string offIds, string onNames, string offNames, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
+        string onIds, string offIds, string onNames, string offNames,
         string onSchedule, string offSchedule, bool onStatus, bool offStatus, string oldTransferOption);
 }
 
@@ -31,21 +31,24 @@ public class AutoTransferService : ServiceBase, IAutoTransferService
     {
     }
 
-    public Task<bool> IsAllDayBalanceTransfer(int custId) 
+    public Task<bool> IsAllDayBalanceTransfer(int custId)
         => Post<bool>($"/api/AutoTransfer/IsAllDayBalanceTransfer", new { CustId = custId });
 
-    public Task<AutoTransferMonitoringPageModel> Monitor(int custId, string username, string status, int sortedBy, int direction, string language)
-        => Post<AutoTransferMonitoringPageModel>("/api/AutoTransfer/Monitor", new {
+    public Task<AutoTransferMonitoringPageModel> Monitor(int custId, string username, string status, int sortedBy, int direction, byte levelType, string language)
+        => Post<AutoTransferMonitoringPageModel>("/api/AutoTransfer/Monitor", new
+        {
             CustId = custId,
             Username = username,
             Status = status,
             SortedBy = sortedBy,
             Direction = direction,
+            LevelType = levelType,
             Language = language,
         });
 
     public Task<AutoTransferCustomersPageModel> Customers(int custId, int custLevel, string language, string username, string status, string autoTransferStatus, int pageIndex, int pageSize)
-        => Post<AutoTransferCustomersPageModel>("/api/AutoTransfer/Customers", new {
+        => Post<AutoTransferCustomersPageModel>("/api/AutoTransfer/Customers", new
+        {
             CustId = custId,
             CustLevel = custLevel,
             Language = language,
@@ -57,9 +60,10 @@ public class AutoTransferService : ServiceBase, IAutoTransferService
         });
 
     public Task<Result> UpdateStatus(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
         int custId, string username, bool state, string schedule, string oldTransferOption)
-        => Post<Result>("/api/AutoTransfer/UpdateStatus", new {
+        => Post<Result>("/api/AutoTransfer/UpdateStatus", new
+        {
             UplineId = uplineId,
             SubAccId = subAccId,
             UplineRoleId = uplineRoleId,
@@ -72,9 +76,10 @@ public class AutoTransferService : ServiceBase, IAutoTransferService
         });
 
     public Task<Result> UpdateSchedule(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
         int custId, string username, string schedule, string oldTransferOption)
-        => Post<Result>("/api/AutoTransfer/UpdateSchedule", new {
+        => Post<Result>("/api/AutoTransfer/UpdateSchedule", new
+        {
             UplineId = uplineId,
             SubAccId = subAccId,
             UplineRoleId = uplineRoleId,
@@ -86,10 +91,11 @@ public class AutoTransferService : ServiceBase, IAutoTransferService
         });
 
     public Task<UpdateMultipleAutoTransferResultModel> UpdateMultiple(
-        int uplineId, int subAccId, int uplineRoleId, string language, 
-        string onIds, string offIds, string onNames, string offNames, 
+        int uplineId, int subAccId, int uplineRoleId, string language,
+        string onIds, string offIds, string onNames, string offNames,
         string onSchedule, string offSchedule, bool onStatus, bool offStatus, string oldTransferOption)
-        => Post<UpdateMultipleAutoTransferResultModel>("/api/AutoTransfer/UpdateMultiple", new {
+        => Post<UpdateMultipleAutoTransferResultModel>("/api/AutoTransfer/UpdateMultiple", new
+        {
             UplineId = uplineId,
             SubAccId = subAccId,
             UplineRoleId = uplineRoleId,

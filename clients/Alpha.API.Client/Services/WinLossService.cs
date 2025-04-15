@@ -39,10 +39,14 @@ public class WinLossService : ServiceBase, IWinLossService
 
     public async Task<WinLossBase> GetDownlineWinLoss(int custId, byte custLevel, DateTime date, int downlineId)
     {
-        var directDownlineLevel = custLevel - 1;
         var url = $"/api/WinLoss/GetDownlineWinLoss?custId={custId}&custLevelId={custLevel}&date={date}&downlineId={downlineId}";
 
-        if (directDownlineLevel == CustLevel.Master)
+        if (custLevel == CustLevel.Super)
+        {
+            return await Get<WinLossMaster>(url);
+        }
+
+        if (custLevel == CustLevel.Master)
         {
             return await Get<WinLossAgent>(url);
         }

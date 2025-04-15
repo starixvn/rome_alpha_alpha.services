@@ -22,39 +22,41 @@ public class AutoTransferHandler :
         => this.autoTransferService = autoTransferService;
 
     public Task<bool> Handle(GetIsAllDayBalanceTransferQuery query, CancellationToken cancellationToken)
-        =>  autoTransferService.IsAllDayBalanceTransfer(query.CustId);
+        => autoTransferService.IsAllDayBalanceTransfer(query.CustId);
 
     public Task<AutoTransferMonitoringPageModel> Handle(GetAutoTransferMonitorQuery query, CancellationToken cancellationToken)
         => autoTransferService.Monitor(
-            query.CustId, 
-            query.Username, 
-            query.Status, 
-            query.SortedBy, 
-            query.Direction, 
+            query.CustId,
+            query.Username,
+            query.Status,
+            query.SortedBy,
+            query.Direction,
+            query.LevelType,
             query.Language);
 
     public Task<AutoTransferCustomersPageModel> Handle(GetCustomersQuery query, CancellationToken cancellationToken)
         => autoTransferService.Customers(
-            query.CustId, 
-            query.CustLevel, 
-            query.Language, 
-            query.Username, 
-            query.Status, 
-            query.AutoTransferStatus, 
-            query.PageIndex, 
+            query.CustId,
+            query.CustLevel,
+            query.Language,
+            query.Username,
+            query.Status,
+            query.AutoTransferStatus,
+            query.PageIndex,
             query.PageSize);
 
-    public async Task<Result> Handle(UpdateStatusQuery query, CancellationToken cancellationToken) {
+    public async Task<Result> Handle(UpdateStatusQuery query, CancellationToken cancellationToken)
+    {
         if (query == null || !query.IsValid())
         {
-                return new Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), query.Language));
+            return new Result(ErrorCodes.BadRequest, ResourceHelper.Get(nameof(SharedResource.BadRequest), query.Language));
         }
 
         if (await autoTransferService.IsAllDayBalanceTransfer(query.UplineId))
         {
             return new Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), query.Language));
         }
-        
+
         return await autoTransferService.UpdateStatus(
             query.UplineId, query.SubAccId, query.UplineRoleId, query.Language,
             query.CustId, query.Username, query.State, query.Schedule, query.OldTransferOption);
@@ -71,7 +73,7 @@ public class AutoTransferHandler :
         {
             return new Result(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), query.Language));
         }
-        
+
         return await autoTransferService.UpdateSchedule(
             query.UplineId, query.SubAccId, query.UplineRoleId, query.Language,
             query.CustId, query.Username, query.Schedule, query.OldTransferOption);
@@ -88,7 +90,7 @@ public class AutoTransferHandler :
         {
             return new UpdateMultipleAutoTransferResultModel(ErrorCodes.ADBTChanged, ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), query.Language), query.Language);
         }
-        
+
         return await autoTransferService.UpdateMultiple(
             query.UplineId, query.SubAccId, query.UplineRoleId, query.Language,
             query.OnIds, query.OffIds, query.OnNames, query.OffNames,

@@ -25,6 +25,8 @@ public class GetDownlineInfoCommand : NonQueryCommand
 
     public int RoleId { get; set; }
 
+    public int AgentId { get; set; }
+
     public override string GetSettingKey() => "Age_CustomerSelCheckBelonging_ByUsername";
 
     public override bool IsValid()

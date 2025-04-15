@@ -57,7 +57,9 @@ public class OutstandingServiceTests
             custId,
             custLevel,
             downlineId,
-            "en-US"
+            "en-US",
+            "",
+            UserLevel.Member
         ));
 
         // Assert
@@ -82,8 +84,8 @@ public class OutstandingServiceTests
         
         IEnumerable<OutstandingEntity> outstandings = new List<OutstandingEntity>
         {
-            new OutstandingEntity(1, "991", 51_700, null, null, 10_340),
-            new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M)
+            new OutstandingEntity(1, "991", 51_700, null, null, 10_340, null, null, null, null),
+            new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M, null, null, null, null)
         };
         dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetDownlineOutstandingCriteria>()).Returns(Task.FromResult(outstandings));
         
@@ -92,7 +94,9 @@ public class OutstandingServiceTests
             custId,
             custLevel,
             downlineId,
-            "en-US"
+            "en-US",
+            "",
+            UserLevel.Member
         ));
 
         // Assert
@@ -121,7 +125,9 @@ public class OutstandingServiceTests
             custId,
             custLevel,
             downlineId,
-            "en-US"
+            "en-US",
+            "",
+            UserLevel.Member
         ));
 
         // Assert
@@ -143,8 +149,8 @@ public class OutstandingServiceTests
         
         IEnumerable<OutstandingEntity> outstandings = new List<OutstandingEntity>
         {
-            new OutstandingEntity(1, "991", 51_700, null, null, 10_340),
-            new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M)
+            new OutstandingEntity(1, "991", 51_700, null, null, 10_340, null, null, null, null),
+            new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M, null, null, null, null)
         };
         dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetTopOutstandingCommand>()).Returns(Task.FromResult(outstandings));
         

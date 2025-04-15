@@ -25,7 +25,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            Enumeration.FromValue<UserLevel>(custLevel));
+            Enumeration.FromValue<UserLevel>(custLevel),
+            null);
 
         // Assert
         Assert.Equal(expected, criteria.GetSettingKey());
@@ -48,7 +49,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            UserLevel.Master);
+            UserLevel.Master,
+            null);
 
         // Assert
         Assert.Equal(expected, criteria.IsValid());
@@ -68,7 +70,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            UserLevel.Master);
+            UserLevel.Master,
+            null);
 
         // Assert
         Assert.True(criteria.IsValid());
@@ -88,7 +91,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            UserLevel.Master);
+            UserLevel.Master,
+            null);
 
         // Assert
         Assert.True(criteria.IsValid());
@@ -108,7 +112,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            UserLevel.Master);
+            UserLevel.Master,
+            null);
 
         // Assert
         Assert.False(criteria.IsValid());
@@ -128,7 +133,8 @@ public class GetWinLossCriteriaTests
             "1,2,3,4,5,6",
             today,
             today,
-            UserLevel.Master);
+            UserLevel.Master,
+            null);
 
         // Assert
         Assert.True("1,2,3,4,5,6" == criteria.ProductIds
