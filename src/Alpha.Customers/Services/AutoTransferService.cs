@@ -112,7 +112,7 @@ public class AutoTransferService : IAutoTransferService
             };
         }
 
-        var siteDB = await _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId));
+        //var siteDB = await _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId));
         GetCustomersCriteria criteria;
 
         switch (custLevel)
@@ -120,7 +120,8 @@ public class AutoTransferService : IAutoTransferService
             case (int)CustomerLevel.Super:
                 criteria = new GetMastersCriteria
                 {
-                    SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    SiteDBGroupID = "0",
                     SAgId = custId,
                     PageSize = pageSize,
                     PageIndex = pageIndex,
@@ -132,7 +133,8 @@ public class AutoTransferService : IAutoTransferService
             case (int)CustomerLevel.Master:
                 criteria = new GetAgentsCriteria
                 {
-                    SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    SiteDBGroupID = "0",
                     MasterId = custId,
                     PageSize = pageSize,
                     PageIndex = pageIndex,
@@ -144,7 +146,8 @@ public class AutoTransferService : IAutoTransferService
             default:
                 criteria = new GetMembersCriteria
                 {
-                    SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                    SiteDBGroupID = "0",
                     CustId = custId,
                     PageSize = pageSize,
                     PageIndex = pageIndex,
