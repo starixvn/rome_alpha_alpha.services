@@ -2,7 +2,8 @@ using Alpha.API.Extensions;
 using Alpha.Customers.Extensions;
 using Alpha.Reports.Extensions;
 using Alpha.Shared.Extensions;
-using Alpha.API.Helpers;
+using Fanex.Data.Repository;
+using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using MediatR;
 
@@ -14,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 builder.Services
     .AddHttpContextAccessor()
-    .AddSingleton<IShardInfoAccessor, ShardInfoAccessor>()
-    .AddFanexDataWithSqlServer(configuration)
+    .AddFanexSql(configuration)
+    .AddSingleton<IDynamicRepository, DynamicRepository>()
     .AddRemotingRef(configuration)
     .AddFanexLogging(configuration)
     .AddFanexCachingMemory()

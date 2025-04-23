@@ -5,9 +5,10 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.2" />
+    <PackageReference Include="Fanex.Data.Repository" Version="4.3.2.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Alpha.Shared\Alpha.Shared.csproj" />
+    <ProjectReference Include="..\Alpha.Customers\Alpha.Customers.csproj" />
   </ItemGroup>
 </Project>

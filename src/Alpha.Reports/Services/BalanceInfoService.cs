@@ -1,3 +1,4 @@
+using Alpha.Customers.Services;
 using Alpha.Reports.Criteria.BalanceInfo;
 using Alpha.Reports.Models.BalanceInfo;
 using Alpha.Shared.Enumerations;
@@ -18,15 +19,18 @@ public interface IBalanceInfoService
 
 public class BalanceInfoService : IBalanceInfoService
 {
+    private readonly ICustomerService customerService;
     private readonly IReportDateService reportDateService;
     private readonly IOutstandingService outstandingService;
     private readonly IDynamicRepository dynamicRepository;
 
     public BalanceInfoService(
+        ICustomerService customerService,
         IReportDateService reportDateService,
         IOutstandingService outstandingService,
         IDynamicRepository dynamicRepository)
     {
+        this.customerService = customerService;
         this.reportDateService = reportDateService;
         this.outstandingService = outstandingService;
         this.dynamicRepository = dynamicRepository;
@@ -95,7 +99,8 @@ public class BalanceInfoService : IBalanceInfoService
 
     private async Task<DownlineBalance> GetMemberBalance(int custId)
     {
-        var balanceInfoCommand = new GetMemberBalanceCommand(custId);
+        var siteDBGroup = await customerService.GetSiteDBGroup(custId);
+        var balanceInfoCommand = new GetMemberBalanceCommand(custId, siteDBGroup.SiteDBGroupID);
         var balanceInfoTask = dynamicRepository.ExecuteAsync(balanceInfoCommand);
 
         var balanceTask = dynamicRepository.GetAsync<MemberBalance>(

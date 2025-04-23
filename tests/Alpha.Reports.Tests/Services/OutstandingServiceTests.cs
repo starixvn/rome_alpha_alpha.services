@@ -81,14 +81,14 @@ public class OutstandingServiceTests
         var minReportDate = SystemTime.Today;
         IEnumerable<int> productIds = new List<int> { 1, 2, 3, 4, 5, 6 };
         productService.GetOfferedProducts(custId, settingStatus, minReportDate).Returns(Task.FromResult(productIds));
-        
+
         IEnumerable<OutstandingEntity> outstandings = new List<OutstandingEntity>
         {
             new OutstandingEntity(1, "991", 51_700, null, null, 10_340, null, null, null, null),
             new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M, null, null, null, null)
         };
         dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetDownlineOutstandingCriteria>()).Returns(Task.FromResult(outstandings));
-        
+
         // Act
         var report = await outstandingService.GetDownlineOutstanding(new GetDownlineOutstandingParam(
             custId,
@@ -116,10 +116,10 @@ public class OutstandingServiceTests
         var minReportDate = SystemTime.Today;
         IEnumerable<int> productIds = new List<int> { 1, 2, 3, 4, 5, 6 };
         productService.GetOfferedProducts(custId, settingStatus, minReportDate).Returns(Task.FromResult(productIds));
-        
+
         var outstandings = Enumerable.Empty<OutstandingEntity>();
         dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetDownlineOutstandingCriteria>()).Returns(Task.FromResult(outstandings));
-        
+
         // Act
         var report = await outstandingService.GetDownlineOutstanding(new GetDownlineOutstandingParam(
             custId,
@@ -146,14 +146,14 @@ public class OutstandingServiceTests
         var minReportDate = SystemTime.Today;
         IEnumerable<int> productIds = new List<int> { 1, 2, 3, 4, 5, 6 };
         productService.GetOfferedProducts(custId, settingStatus, minReportDate).Returns(Task.FromResult(productIds));
-        
-        IEnumerable<OutstandingEntity> outstandings = new List<OutstandingEntity>
+
+        IEnumerable<OutstandingEntity> outStandings = new List<OutstandingEntity>
         {
             new OutstandingEntity(1, "991", 51_700, null, null, 10_340, null, null, null, null),
             new OutstandingEntity(2, "1002", 570_614, null, null, 114_498.70M, null, null, null, null)
         };
-        dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetTopOutstandingCommand>()).Returns(Task.FromResult(outstandings));
-        
+        dynamicRepository.FetchAsync<OutstandingEntity>(Arg.Any<GetTopOutstandingCommand>()).Returns(Task.FromResult(outStandings));
+
         // Act
         var usernames = await outstandingService.GetTopUsername(custId, custLevel, top);
 

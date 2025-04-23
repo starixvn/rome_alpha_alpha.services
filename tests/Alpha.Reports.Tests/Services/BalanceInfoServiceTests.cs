@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Alpha.Customers.Services;
 using Alpha.Reports.Criteria.BalanceInfo;
 using Alpha.Reports.Models.BalanceInfo;
 using Alpha.Reports.Models.Outstanding;
@@ -16,6 +17,7 @@ namespace Alpha.Reports.Tests.Services;
 
 public class BalanceInfoServiceTests
 {
+    private readonly ICustomerService customerService;
     private readonly IReportDateService reportDateService;
     private readonly IOutstandingService outstandingService;
     private readonly IDynamicRepository dynamicRepository;
@@ -23,22 +25,23 @@ public class BalanceInfoServiceTests
 
     public BalanceInfoServiceTests()
     {
+        customerService = Substitute.For<ICustomerService>();
         reportDateService = Substitute.For<IReportDateService>();
         outstandingService = Substitute.For<IOutstandingService>();
         dynamicRepository = Substitute.For<IDynamicRepository>();
-        balanceInfoService = new BalanceInfoService(reportDateService, outstandingService, dynamicRepository);
+        balanceInfoService = new BalanceInfoService(customerService, reportDateService, outstandingService, dynamicRepository);
     }
-    
+
     [Fact]
     public async Task GetCustomerBalance_Always_ReturnsCorrectCustomerBalance()
     {
         // Arrange
         var custId = 1176070;
         var custLevel = UserLevel.Super;
-        
+
         var moveBetsDay = DateTime.Today;
         reportDateService.GetMoveBetsDay().Returns(Task.FromResult(moveBetsDay));
-        
+
         var outstanding = new CustomerOutstanding(12, 34, 56, 78);
         outstandingService.GetCustomerOutstanding(custId).Returns(Task.FromResult(outstanding));
 
@@ -74,7 +77,7 @@ public class BalanceInfoServiceTests
         // Arrange
         var custId = 1176070;
         var custLevel = UserLevel.Master;
-        
+
         var balance = new MasterBalance(
             100,
             100,
@@ -148,7 +151,7 @@ public class BalanceInfoServiceTests
         // Arrange
         var custId = 1176070;
         var custLevel = UserLevel.Agent;
-        
+
         var balance = new AgentBalance(
             100,
             100,
@@ -213,7 +216,7 @@ public class BalanceInfoServiceTests
         var custLevel = UserLevel.Member;
 
         dynamicRepository.ExecuteAsync(Arg.Any<GetMemberBalanceCommand>()).Returns(Task.FromResult(0));
-        
+
         var balance = new MemberBalance(100, 0, "");
         dynamicRepository.GetAsync<MemberBalance>(Arg.Any<GetDownlineBalanceCriteria>()).Returns(Task.FromResult(balance));
 
@@ -249,11 +252,11 @@ public class BalanceInfoServiceTests
         var top = 10;
         var balances = new List<TopBalance>
         {
-            new TopBalance("master1", 10, 10),
-            new TopBalance("master2", 20, 20),
-            new TopBalance("master3", 30, 30),
-            new TopBalance("master4", 40, 40),
-            new TopBalance("master5", 50, 50)
+            new("master1", 10, 10),
+            new("master2", 20, 20),
+            new("master3", 30, 30),
+            new("master4", 40, 40),
+            new("master5", 50, 50)
         };
         dynamicRepository
             .FetchAsync<TopBalance>(Arg.Any<GetTopBalanceCriteria>())

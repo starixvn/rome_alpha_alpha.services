@@ -9,10 +9,10 @@ public class GetMemberBalanceCommandTests
     public void GetSettingKey_Always_ReturnsValidSettingKey()
     {
         // Arrange & Act
-        var criteria = new GetMemberBalanceCommand(1176070);
+        var criteria = new GetMemberBalanceCommand(1176070, 1);
 
         // Assert
-        Assert.Equal("SiteDB_Acc_BalanceMemberSel", criteria.GetSettingKey());
+        Assert.Equal("SiteDB1_Acc_BalanceMemberSel", criteria.GetSettingKey());
     }
 
     [Theory]
@@ -22,7 +22,7 @@ public class GetMemberBalanceCommandTests
     public void IsValid_CustId_ReturnsExpectedResult(int custId, bool expected)
     {
         // Arrange & Act
-        var criteria = new GetMemberBalanceCommand(custId);
+        var criteria = new GetMemberBalanceCommand(custId, 1);
 
         // Assert
         Assert.Equal(expected, criteria.IsValid());
@@ -32,7 +32,7 @@ public class GetMemberBalanceCommandTests
     public void Constructor_Assigns_CorrectPropertyValues()
     {
         // Arrange & Act
-        var criteria = new GetMemberBalanceCommand(1176070)
+        var criteria = new GetMemberBalanceCommand(1176070, 1)
         {
             Balance = 12,
             NetPosition = 34,

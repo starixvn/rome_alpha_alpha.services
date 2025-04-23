@@ -18,6 +18,8 @@ public interface ICustomerService
     Task<DownlineInfo> GetDownlineInfo(int custId, string downlineUsername);
 
     Task<IEnumerable<DomainInfo>> GetDomains(string site);
+
+    Task<SiteDBGroup> GetSiteDBGroup(int custId);
 }
 
 public class CustomerService : ICustomerService
@@ -71,4 +73,7 @@ public class CustomerService : ICustomerService
 
     public Task<IEnumerable<DomainInfo>> GetDomains(string site)
         => dynamicRepository.FetchAsync<DomainInfo>(new GetDomainsCriteria(site));
+
+    public Task<SiteDBGroup> GetSiteDBGroup(int custId)
+        => dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId));
 }

@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alpha.API.Handlers;
-using Alpha.API.Requests.Customers;
 using Alpha.API.Requests.Reports.Outstanding;
-using Alpha.Customers.Params;
 using Alpha.Reports.Params;
 using Alpha.Reports.Services;
 using Alpha.Shared.Enumerations;
