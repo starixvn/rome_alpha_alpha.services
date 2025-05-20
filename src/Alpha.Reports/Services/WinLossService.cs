@@ -1,4 +1,5 @@
 using Alpha.Reports.Configurations;
+using Alpha.Reports.Consts;
 using Alpha.Reports.Criteria.WinLoss;
 using Alpha.Reports.Models.WinLoss;
 using Alpha.Shared.Enumerations;
@@ -12,17 +13,18 @@ namespace Alpha.Reports.Services;
 
 public interface IWinLossService
 {
-    Task<WinLossBase> GetWinLoss(int custId, UserLevel custLevel, DateTime date);
+    Task<WinLossBase> GetWinLoss(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct);
 
-    Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime date, int downlineId);
+    Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int downlineId);
 
-    Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top);
+    Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int top);
 
     Task<EnteredResult> GetYesterdayEnteredSportResult();
 }
 
 public class WinLossService : IWinLossService
 {
+    private const int SportsbookProductId = 1;
     private const string EnteredResultsCacheKey = "Alpha.Reports.Services.WinLossService.EnteredResults";
     private readonly IProductService productService;
     private readonly IReportDateService reportDateService;
@@ -44,41 +46,41 @@ public class WinLossService : IWinLossService
         this.cacheService = cacheService;
     }
 
-    public async Task<WinLossBase> GetWinLoss(int custId, UserLevel custLevel, DateTime date)
+    public async Task<WinLossBase> GetWinLoss(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct)
     {
         if (custLevel.IsSuper())
         {
-            return await GetSumWinLossMaster(custId, custLevel, date, null);
+            return await GetSumWinLossMaster(custId, custLevel, fromDate, toDate, groupProduct, null);
         }
 
         if (custLevel.IsMaster())
         {
-            return await GetSumWinLossAgent(custId, custLevel, date, null);
+            return await GetSumWinLossAgent(custId, custLevel, fromDate, toDate, groupProduct, null);
         }
 
-        return await GetSumWinLossMember(custId, custLevel, date, null);
+        return await GetSumWinLossMember(custId, custLevel, fromDate, toDate, groupProduct, null);
     }
 
-    public async Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime date, int downlineId)
-    { 
+    public async Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int downlineId)
+    {
         if (custLevel.IsSuper())
         {
-            return await GetSumWinLossMaster(custId, custLevel, date, downlineId);
+            return await GetSumWinLossMaster(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
         }
 
         if (custLevel.IsMaster())
         {
-            return await GetSumWinLossAgent(custId, custLevel, date, downlineId);
+            return await GetSumWinLossAgent(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
         }
 
-        return await GetSumWinLossMember(custId, custLevel, date, downlineId);
+        return await GetSumWinLossMember(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
     }
 
-    public async Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top)
+    public async Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int top)
     {
         if (custLevel.IsSuper())
         {
-            return (await GetWinLoss<WinLossMaster>(custId, custLevel, date, null))
+            return (await GetWinLoss<WinLossMaster>(custId, custLevel, fromDate, toDate, groupProduct, null))
                 .OrderByDescending(w => Math.Abs(w.MasterTotal))
                 .Select(w => w.CustName)
                 .Take(top);
@@ -86,21 +88,21 @@ public class WinLossService : IWinLossService
 
         if (custLevel.IsMaster())
         {
-            return (await GetWinLoss<WinLossAgent>(custId, custLevel, date, null))
+            return (await GetWinLoss<WinLossAgent>(custId, custLevel, fromDate, toDate, groupProduct, null))
                 .OrderByDescending(w => Math.Abs(w.AgentTotal))
                 .Select(w => w.CustName)
                 .Take(top);
         }
 
-        return (await GetWinLoss<WinLossMember>(custId, custLevel, date, null))
+        return (await GetWinLoss<WinLossMember>(custId, custLevel, fromDate, toDate, groupProduct, null))
                 .OrderByDescending(w => Math.Abs(w.MemberWinLoss))
                 .Select(w => w.CustName)
                 .Take(top);
     }
 
-    private async Task<WinLossMaster> GetSumWinLossMaster(int custId, UserLevel custLevel, DateTime date, int? downlineId)
+    private async Task<WinLossMaster> GetSumWinLossMaster(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int? downlineId)
     {
-        var winloss = await GetWinLoss<WinLossMaster>(custId, custLevel, date, downlineId);
+        var winloss = await GetWinLoss<WinLossMaster>(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
 
         if (!winloss.Any())
         {
@@ -117,9 +119,9 @@ public class WinLossService : IWinLossService
         return sumWinLossMaster;
     }
 
-    private async Task<WinLossAgent> GetSumWinLossAgent(int custId, UserLevel custLevel, DateTime date, int? downlineId)
+    private async Task<WinLossAgent> GetSumWinLossAgent(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int? downlineId)
     {
-        var winloss = await GetWinLoss<WinLossAgent>(custId, custLevel, date, downlineId);
+        var winloss = await GetWinLoss<WinLossAgent>(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
 
         if (!winloss.Any())
         {
@@ -136,9 +138,9 @@ public class WinLossService : IWinLossService
         return sumWinLossAgent;
     }
 
-    private async Task<WinLossMember> GetSumWinLossMember(int custId, UserLevel custLevel, DateTime date, int? downlineId)
+    private async Task<WinLossMember> GetSumWinLossMember(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int? downlineId)
     {
-        var winloss = await GetWinLoss<WinLossMember>(custId, custLevel, date, downlineId);
+        var winloss = await GetWinLoss<WinLossMember>(custId, custLevel, fromDate, toDate, groupProduct, downlineId);
 
         if (!winloss.Any())
         {
@@ -155,38 +157,43 @@ public class WinLossService : IWinLossService
         return sumWinLossMember;
     }
 
-    private async Task<IEnumerable<T>> GetWinLoss<T>(int custId, UserLevel custLevel, DateTime date, int? downlineId)
+    private async Task<IEnumerable<T>> GetWinLoss<T>(int custId, UserLevel custLevel, DateTime fromDate, DateTime toDate, string groupProduct, int? downlineId)
     {
         var limitDate = await reportDateService.GetLimitDate(custId);
-
-        if (limitDate > date)
-        {
-            return Enumerable.Empty<T>();
-        }
+        fromDate = limitDate > fromDate ? limitDate : fromDate;
 
         var productIdsTask = productService.GetOfferedProducts(
             custId,
             appSettings.SettingStatus,
             SystemTime.Today.AddMonths(-3).FirstDayOfMonth());
         var reportDateTask = reportDateService.GetBalanceUpDayAndMoveBetsDay();
-
         await Task.WhenAll(productIdsTask, reportDateTask);
 
+        var productIds = await productIdsTask;
+        if (groupProduct.Equals(GroupProductConst.Sportsbook, StringComparison.OrdinalIgnoreCase))
+        {
+            productIds = productIds.Where(id => id == SportsbookProductId);
+        }
+        else if (!groupProduct.Equals(GroupProductConst.All, StringComparison.OrdinalIgnoreCase))
+        {
+            productIds = productIds.Where(id => id != SportsbookProductId);
+        }
+
         var reportDate = await reportDateTask;
-        CriteriaBase criteria = custLevel.IsAgent() ? 
+        CriteriaBase criteria = custLevel.IsAgent() ?
             new GetMemberWinLossCriteria(
                 custId,
-                date,
-                date,
-                (await productIdsTask).JoinWithComma(),
+                fromDate,
+                toDate,
+                productIds.JoinWithComma(),
                 reportDate.MoveBetsDay,
                 reportDate.BalanceUpDay,
                 custLevel) :
             new GetWinLossCriteria(
                 custId,
-                date,
-                date,
-                (await productIdsTask).JoinWithComma(),
+                fromDate,
+                toDate,
+                productIds.JoinWithComma(),
                 reportDate.MoveBetsDay,
                 reportDate.BalanceUpDay,
                 custLevel,

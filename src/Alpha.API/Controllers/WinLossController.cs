@@ -28,4 +28,12 @@ public class WinLossController : ControllerBaseApi
     [HttpGet("EnteredResult/Yesterday")]
     public Task<EnteredResult> GetEnteredResult()
         => ObjectAsync(new GetEnteredResultQuery());
+
+    [HttpGet("GetTopUsername2")]
+    public Task<IEnumerable<string>> GetTopUsername2([FromQuery] GetTopUsernameWinLossQuery2 query)
+        => ObjectAsync(query);
+
+    [HttpGet("GetWinLoss2")]
+    public Task<WinLossBase> GetWinLoss2([FromQuery] GetWinLossQuery2 query)
+        => ObjectAsync(query);
 }
