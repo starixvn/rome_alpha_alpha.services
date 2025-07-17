@@ -60,7 +60,7 @@ public class WinLossService : IWinLossService
     }
 
     public async Task<WinLossBase> GetDownlineWinLoss(int custId, UserLevel custLevel, DateTime date, int downlineId)
-    { 
+    {
         if (custLevel.IsSuper())
         {
             return await GetSumWinLossMaster(custId, custLevel, date, downlineId);
@@ -71,7 +71,7 @@ public class WinLossService : IWinLossService
             return await GetSumWinLossAgent(custId, custLevel, date, downlineId);
         }
 
-        return await GetSumWinLossMember(custId, custLevel, date, downlineId);
+        return (await GetWinLoss<WinLossMember>(custId, custLevel, date, null)).FirstOrDefault(w => w.CustId == downlineId);
     }
 
     public async Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top)
@@ -173,7 +173,7 @@ public class WinLossService : IWinLossService
         await Task.WhenAll(productIdsTask, reportDateTask);
 
         var reportDate = await reportDateTask;
-        CriteriaBase criteria = custLevel.IsAgent() ? 
+        CriteriaBase criteria = custLevel.IsAgent() ?
             new GetMemberWinLossCriteria(
                 custId,
                 date,
