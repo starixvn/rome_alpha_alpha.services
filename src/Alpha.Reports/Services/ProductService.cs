@@ -9,12 +9,15 @@ namespace Alpha.Reports.Services;
 
 public interface IProductService
 {
+    Task<IEnumerable<int>> GetOfferedProducts(int custId, byte settingStatus, DateTime minReportDate, string cashServiceSites);
+
     Task<IEnumerable<int>> GetOfferedProducts(int custId, byte settingStatus, DateTime minReportDate);
 }
 
 public class ProductService : IProductService
 {
     private const string ProductsCacheKey = "Alpha.Reports.OfferedProducts";
+    private const string ProductsExtraCacheKey = "Alpha.Reports.OfferedProductsExtra";
 
     private readonly ICacheService cacheService;
     private readonly ReportAppSettings appSettings;
@@ -28,6 +31,23 @@ public class ProductService : IProductService
         this.cacheService = cacheService;
         appSettings = options.Value;
         this.dynamicRepository = dynamicRepository;
+    }
+
+    public async Task<IEnumerable<int>> GetOfferedProducts(int custId, byte settingStatus, DateTime minReportDate, string cashServiceSites)
+    {
+        var products = await GetOfferedProducts(custId, settingStatus, minReportDate);
+
+        if (!string.IsNullOrWhiteSpace(cashServiceSites))
+        {
+            var productsExtra = await GetOfferedProductsExtra(custId, settingStatus, cashServiceSites);
+
+            return products.Concat(
+                productsExtra
+                    .Where(product => !product.IsHidden && IsRemainSupportProduct(product, minReportDate))
+                    .Select(product => product.ProductId));
+        }
+
+        return products;
     }
 
     public async Task<IEnumerable<int>> GetOfferedProducts(int custId, byte settingStatus, DateTime minReportDate)
@@ -50,9 +70,16 @@ public class ProductService : IProductService
     }
 
     private Task<IEnumerable<Product>> GetOfferedProducts(int custId, byte settingStatus)
-        => cacheService.GetOrSetAsync<IEnumerable<Product>>(
+        => cacheService.GetOrSetAsync(
             $"{ProductsCacheKey}.{custId}",
             () => dynamicRepository.FetchAsync<Product>(new GetOfferedProductsCriteria(custId, settingStatus)),
+            new CacheItemOptions().SetAbsoluteExpiration(
+                TimeSpan.FromSeconds(appSettings.OfferedProductsByCustIdCacheInSeconds)));
+
+    private Task<IEnumerable<Product>> GetOfferedProductsExtra(int custId, byte settingStatus, string cashServiceSites)
+        => cacheService.GetOrSetAsync(
+            $"{ProductsExtraCacheKey}.{custId}",
+            () => dynamicRepository.FetchAsync<Product>(new GetOfferedProductsExtraCriteria(custId, settingStatus, cashServiceSites)),
             new CacheItemOptions().SetAbsoluteExpiration(
                 TimeSpan.FromSeconds(appSettings.OfferedProductsByCustIdCacheInSeconds)));
 

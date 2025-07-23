@@ -76,9 +76,11 @@ public class WinLossService : IWinLossService
 
     public async Task<IEnumerable<string>> GetTopUsername(int custId, UserLevel custLevel, DateTime date, int top)
     {
+        const string CashServiceBilling = "CASH SERVICE BILLING";
         if (custLevel.IsSuper())
         {
             return (await GetWinLoss<WinLossMaster>(custId, custLevel, date, null))
+                .Where(w => !w.CustName.Equals(CashServiceBilling, StringComparison.OrdinalIgnoreCase))
                 .OrderByDescending(w => Math.Abs(w.MasterTotal))
                 .Select(w => w.CustName)
                 .Take(top);
@@ -87,12 +89,14 @@ public class WinLossService : IWinLossService
         if (custLevel.IsMaster())
         {
             return (await GetWinLoss<WinLossAgent>(custId, custLevel, date, null))
+                .Where(w => !w.CustName.Equals(CashServiceBilling, StringComparison.OrdinalIgnoreCase))
                 .OrderByDescending(w => Math.Abs(w.AgentTotal))
                 .Select(w => w.CustName)
                 .Take(top);
         }
 
         return (await GetWinLoss<WinLossMember>(custId, custLevel, date, null))
+                .Where(w => !w.CustName.Equals(CashServiceBilling, StringComparison.OrdinalIgnoreCase))
                 .OrderByDescending(w => Math.Abs(w.MemberWinLoss))
                 .Select(w => w.CustName)
                 .Take(top);
@@ -167,7 +171,8 @@ public class WinLossService : IWinLossService
         var productIdsTask = productService.GetOfferedProducts(
             custId,
             appSettings.SettingStatus,
-            SystemTime.Today.AddMonths(-3).FirstDayOfMonth());
+            SystemTime.Today.AddMonths(-3).FirstDayOfMonth(),
+            appSettings.CashServiceOfferedSites);
         var reportDateTask = reportDateService.GetBalanceUpDayAndMoveBetsDay();
 
         await Task.WhenAll(productIdsTask, reportDateTask);
