@@ -45,7 +45,7 @@ public class OutstandingServiceTests
     {
         // Arrange
         var custId = 1176070;
-        var custLevel = UserLevel.Super;
+        var downlineLevel = UserLevel.Master;
         var downlineId = 1176083;
         byte settingStatus = 1;
         var minReportDate = SystemTime.Today;
@@ -55,16 +55,16 @@ public class OutstandingServiceTests
         // Act
         await outstandingService.GetDownlineOutstanding(new GetDownlineOutstandingParam(
             custId,
-            custLevel,
+            UserLevel.Super,
             downlineId,
             "en-US",
             "",
-            UserLevel.Member
+            downlineLevel
         ));
 
         // Assert
         await dynamicRepository.Received().FetchAsync<OutstandingEntity>(Arg.Is<GetDownlineOutstandingCriteria>(
-            criteria => custLevel == criteria.CustLevel
+            criteria => downlineLevel == criteria.CustLevel
             && productIds.JoinWithComma(",") == criteria.ProductIds
             && downlineId == criteria.DownlineId
         ));

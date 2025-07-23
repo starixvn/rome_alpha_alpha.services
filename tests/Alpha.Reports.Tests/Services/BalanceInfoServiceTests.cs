@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Alpha.Customers.Models;
 using Alpha.Customers.Services;
 using Alpha.Reports.Criteria.BalanceInfo;
 using Alpha.Reports.Models.BalanceInfo;
@@ -214,7 +215,9 @@ public class BalanceInfoServiceTests
         // Arrange
         var custId = 1176070;
         var custLevel = UserLevel.Member;
+        var siteDBGroup = new SiteDBGroup { SiteDBGroupID = 3 };
 
+        customerService.GetSiteDBGroup(Arg.Any<int>()).Returns(Task.FromResult(siteDBGroup));
         dynamicRepository.ExecuteAsync(Arg.Any<GetMemberBalanceCommand>()).Returns(Task.FromResult(0));
 
         var balance = new MemberBalance(100, 0, "");
