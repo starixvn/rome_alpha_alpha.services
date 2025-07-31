@@ -3,9 +3,9 @@ using Fanex.Data.Repository;
 
 namespace Alpha.Customers.Criteria.AutoTransfer;
 
- public class GetJobStatusCriteria : NonQueryCommand
+public class GetJobStatusCriteria : NonQueryCommand
 {
-        public GetJobStatusCriteria(int fromCustId, int toCustId, bool state, int siteDB)
+    public GetJobStatusCriteria(int fromCustId, int toCustId, bool state, int siteDB)
     {
         FromCustId = fromCustId;
         ToCustId = toCustId;

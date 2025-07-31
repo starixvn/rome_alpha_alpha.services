@@ -1,6 +1,3 @@
-
-using Fanex.Data;
-
 namespace Alpha.Customers.Criteria.AutoTransfer;
 
 public class GetMembersCriteria : GetCustomersCriteria

@@ -9,7 +9,7 @@ public class GetTransferConditionCriteria : NonQueryCommand
 
     public int CustId { get; set; }
     public string TransferOption { get; set; }
-    
+
     public override string GetSettingKey() => "Acc_CustomerSelTransferOption";
 
     public override bool IsValid() => CustId > 0;
