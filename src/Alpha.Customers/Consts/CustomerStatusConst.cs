@@ -1,6 +1,7 @@
 namespace Alpha.Customers.Consts;
 
-public static class CustomerStatusConst {
+public static class CustomerStatusConst
+{
     public const int Normal = 1;
     public const int Disabled = 2;
     public const int ClosedByAdmin = 3;

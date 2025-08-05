@@ -1,8 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Alpha.Shared.Extensions;
 
-[ExcludeFromCodeCoverage]
 public static class DateTimeExtensions
 {
     private const string LongDateTimeMinute = "dd/MM/yyyy hh:mm tt";

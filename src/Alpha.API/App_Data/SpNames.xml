@@ -17,6 +17,7 @@
   <Function Name="Report">
     <Setting Key="Age_SelBalanceUpDay" SpName="Age_SelBalanceUpDay" DbName="DBAGE.bodb02.wsv_alp" />
     <Setting Key="Age_GetOfferedProductByCust" SpName="Age_GetOfferedProductByCust" DbName="DBAGE.bodb02.wsv_alp" />
+    <Setting Key="Age_GetOfferedProductByCust_Extra" SpName="Age_GetOfferedProductByCust_Extra" DbName="DBAGE.bodb02.wsv_alp" />
   </Function>
 
   <Function Name="Outstanding">
