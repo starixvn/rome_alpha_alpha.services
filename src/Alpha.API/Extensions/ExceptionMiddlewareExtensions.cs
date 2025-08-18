@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace Alpha.API.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class is middleware extension code and is excluded from code coverage as it is tested via integration tests.
+[ExcludeFromCodeCoverage(Justification = "Middleware extension code, covered by integration tests.")]
 public static class ExceptionMiddlewareExtensions
 {
     private const string BreakLine = "\r\n";

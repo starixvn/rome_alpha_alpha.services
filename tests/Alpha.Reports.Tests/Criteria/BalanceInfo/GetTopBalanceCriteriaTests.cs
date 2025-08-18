@@ -1,4 +1,3 @@
-using System;
 using Alpha.Reports.Criteria.BalanceInfo;
 using Alpha.Shared.Enumerations;
 using Xunit;

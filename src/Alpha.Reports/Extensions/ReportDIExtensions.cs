@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpha.Reports.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class contains only DI extension methods and does not require code coverage.
+[ExcludeFromCodeCoverage(Justification = "This class contains only DI extension methods and does not require code coverage.")]
 public static class ReportDIExtensions
 {
     public static IServiceCollection AddReportServices(this IServiceCollection services, IConfiguration configuration)

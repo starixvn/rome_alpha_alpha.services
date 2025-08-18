@@ -17,7 +17,11 @@ public sealed class ReportAppSettings
     public string SiteLabelBelonging777Group { get; init; }
 
     public bool Belonging777Group(string siteLabel)
-        => !string.IsNullOrWhiteSpace(SiteLabelBelonging777Group) && SiteLabelBelonging777Group.Split(',').Select(site => site.Trim()).Any(site => site.Equals(siteLabel, System.StringComparison.CurrentCultureIgnoreCase));
+        => !string.IsNullOrWhiteSpace(SiteLabelBelonging777Group)
+           && SiteLabelBelonging777Group
+               .Split(',')
+               .Select(site => site.Trim())
+               .Any(site => site.Equals(siteLabel, System.StringComparison.CurrentCultureIgnoreCase));
 
     public string CashServiceOfferedSites { get; init; }
 }

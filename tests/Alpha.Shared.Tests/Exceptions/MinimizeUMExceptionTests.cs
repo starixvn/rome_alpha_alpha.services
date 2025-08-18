@@ -18,7 +18,8 @@ public class MinimizeUMExceptionTests
         // Assert
         Assert.True(
             1001 == exception.ErrorCode
-            && $"We're updating this function for a better experience. Thus, this function is turned off temporarily ({startTime} - {endTime} (GMT+8)). Please try again later and sorry for the inconvenience." == exception.Message
+            && $"We're updating this function for a better experience. Thus, this function is turned off temporarily ({startTime} - {endTime} (GMT+8)). " +
+            "Please try again later and sorry for the inconvenience." == exception.Message
             && startTime == exception.ErrorData[nameof(startTime)].ToString()
             && endTime == exception.ErrorData[nameof(endTime)].ToString());
     }

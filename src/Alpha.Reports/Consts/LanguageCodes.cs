@@ -8,13 +8,16 @@ public static class LanguageCodes
     public const string Thai = "th-TH";
     public const string Vietnamese = "vi-VN";
     public static string[] SupportLanguages => new[] { English, ChineseTraditional, ChineseSimplified, Thai, Vietnamese };
-    public static Dictionary<string,string> LanguageKeys = new Dictionary<string, string> {
+
+    // Make the field private and expose it via a public property
+    private static readonly IReadOnlyDictionary<string, string> _languageKeys = new Dictionary<string, string> {
         [English] = "E",
         [ChineseTraditional] = "CT",
         [ChineseSimplified] = "CS",
         [Thai] = "TH",
         [Vietnamese] = "VI"
     };
+    public static IReadOnlyDictionary<string, string> LanguageKeys => _languageKeys;
 
     private static readonly IDictionary<string, string> LanguageCodeMapper = new Dictionary<string, string>
     {

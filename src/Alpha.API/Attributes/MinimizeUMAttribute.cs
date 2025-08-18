@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Alpha.API.Attributes;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Authorization attribute logic is covered by integration tests.")]
 [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
 public sealed class MinimizeUMAttribute : Attribute, IAsyncAuthorizationFilter
 {

@@ -111,16 +111,14 @@ public class AutoTransferService : IAutoTransferService
                 Message = ResourceHelper.Get(nameof(SharedResource.ADBTChangeError), language)
             };
         }
-
-        //var siteDB = await _dynamicRepository.GetAsync<SiteDBGroup>(new GetSiteDBConfigCriteria(custId));
+        
         GetCustomersCriteria criteria;
 
         switch (custLevel)
         {
             case (int)CustomerLevel.Super:
                 criteria = new GetMastersCriteria
-                {
-                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                {                   
                     SiteDBGroupID = "0",
                     SAgId = custId,
                     PageSize = pageSize,
@@ -132,8 +130,7 @@ public class AutoTransferService : IAutoTransferService
                 break;
             case (int)CustomerLevel.Master:
                 criteria = new GetAgentsCriteria
-                {
-                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                {                  
                     SiteDBGroupID = "0",
                     MasterId = custId,
                     PageSize = pageSize,
@@ -145,8 +142,7 @@ public class AutoTransferService : IAutoTransferService
                 break;
             default:
                 criteria = new GetMembersCriteria
-                {
-                    //SiteDBGroupID = siteDB.SiteDBGroupID.ToString(),
+                {                   
                     SiteDBGroupID = "0",
                     CustId = custId,
                     PageSize = pageSize,
@@ -312,7 +308,17 @@ public class AutoTransferService : IAutoTransferService
                 continue;
             }
 
-            if (stopCodes.Any(s => s == singleResult.Code))
+            bool isStopCode = false;
+            for (int j = 0; j < stopCodes.Length; j++)
+            {
+                if (stopCodes[j] == singleResult.Code)
+                {
+                    isStopCode = true;
+                    break;
+                }
+            }
+            
+            if (isStopCode)
             {
                 result.Code = singleResult.Code;
                 result.StopMessage = singleResult.Message;

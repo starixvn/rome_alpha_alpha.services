@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alpha.Reports.Configurations;
 using Alpha.Reports.Services;
-using Alpha.Shared.Exceptions;
 using Fanex.Data.Repository;
 using Microsoft.Extensions.Options;
 using NSubstitute;

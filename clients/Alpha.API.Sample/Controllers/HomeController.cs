@@ -8,7 +8,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Alpha.API.Sample.Controllers;
 
-[ExcludeFromCodeCoverage]
+// Justification: This controller is excluded from code coverage as it only contains presentation logic and delegates all business logic to services.
+[ExcludeFromCodeCoverage(Justification = "This controller is excluded from code coverage as it only contains presentation logic and delegates all business logic to services.")]
 public class HomeController : Controller
 {
     private readonly ICustomerService customerService;

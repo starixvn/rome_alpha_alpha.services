@@ -28,21 +28,25 @@ public class MinimizeUMService : IMinimizeUMService
 
     public async Task ThrowIfUM(string controllerName, int custId)
     {
-        var minimizeUM = minimizeUMArray
-            .FirstOrDefault(u => u.Controllers.Any(c => c.Equals(controllerName, StringComparison.OrdinalIgnoreCase)));
+        var minimizeUM = Array.Find(
+            minimizeUMArray,
+            u => u.Controllers != null && Array.Exists(
+                u.Controllers,
+                c => c.Equals(controllerName, StringComparison.OrdinalIgnoreCase))
+        );
 
         if (minimizeUM == null)
         {
             return;
         }
-        
+
         var umInfoList = await dynamicRepository.FetchAsync<UMInfo>(new GetUMInfoCriteria(custId));
 
         if (!umInfoList.Any())
         {
             return;
         }
-        
+
         var umInfo = umInfoList.FirstOrDefault(u => u.FunctionTypeName.Equals(minimizeUM.FunctionName, StringComparison.OrdinalIgnoreCase));
 
         if (umInfo != null)

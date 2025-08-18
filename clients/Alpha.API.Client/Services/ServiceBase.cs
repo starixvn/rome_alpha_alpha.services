@@ -36,7 +36,7 @@ public class ServiceBase
     private static Exception BuildException(ApiError apiError)
         => apiError.Code == ApiErrorCode.MinimizeUM
         ? BuildMinimizeUMException(apiError)
-        : throw new Exception(apiError.Message);
+        : new ApplicationException(apiError.Message);
 
     private static Exception BuildMinimizeUMException(ApiError apiError)
         => new MinimizeUMException(

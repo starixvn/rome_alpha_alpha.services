@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Alpha.API.Requests.Reports.WinLoss;
 
-public record GetEnteredResultQuery() : IRequest<EnteredResult>;
+public record GetEnteredResultQuery : IRequest<EnteredResult>;

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Alpha.API.Sample.Models;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Model used only for error display in sample API.")]
 public class ErrorViewModel
 {
     public string? RequestId { get; set; }

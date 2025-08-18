@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpha.Customers.Extensions;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "This class only contains DI extension methods and does not require code coverage.")]
 public static class CustomerDIExtensions
 {
     public static IServiceCollection AddCustomerServices(this IServiceCollection services, IConfiguration configuration)

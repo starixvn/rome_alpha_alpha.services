@@ -9,7 +9,8 @@ using Sentry;
 
 namespace Alpha.API.Extensions;
 
-[ExcludeFromCodeCoverage]
+// S6513: Add a justification.
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and does not require code coverage.")]
 public static class FanexLibsExtensions
 {
     public static IServiceCollection AddRemotingRef(this IServiceCollection services, IConfiguration configuration)

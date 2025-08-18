@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Alpha.Shared.Enumerations;
 
-[ExcludeFromCodeCoverage]
+[ExcludeFromCodeCoverage(Justification = "Base class for value-based enumerations, logic is covered by derived types.")]
 public class Enumeration : IComparable
 {
     protected Enumeration()
@@ -47,13 +47,12 @@ public class Enumeration : IComparable
         => Math.Abs(firstValue.Value - secondValue.Value);
 
     public static T FromValue<T>(byte value) where T : Enumeration
-        => Parse<T, byte>(item => item.Value == value);
+        => Parse<T>(item => item.Value == value);
 
-    private static T Parse<T, K>(Func<T, bool> predicate) where T : Enumeration
+    private static T Parse<T>(Func<T, bool> predicate) where T : Enumeration
     {
         var matchingItem = GetAll<T>().FirstOrDefault(predicate);
-        ArgumentNullException.ThrowIfNull(matchingItem, nameof(K));
-
+        ArgumentNullException.ThrowIfNull(matchingItem);
         return matchingItem;
     }
 

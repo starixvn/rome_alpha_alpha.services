@@ -2,11 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Alpha.API.Handlers;
 using Alpha.API.Requests.Customers;
-using Alpha.API.Requests.Reports.BalanceInfo;
 using Alpha.Customers.Params;
 using Alpha.Customers.Services;
-using Alpha.Reports.Services;
-using Alpha.Shared.Enumerations;
 using NSubstitute;
 using Xunit;
 

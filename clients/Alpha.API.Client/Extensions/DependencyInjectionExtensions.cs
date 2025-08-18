@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Alpha.API.Client.Extensions;
 
-[ExcludeFromCodeCoverage]
+// Justification: This class only contains extension methods for DI registration and does not require code coverage.
+[ExcludeFromCodeCoverage(Justification = "This class only contains extension methods for DI registration and does not require code coverage.")]
 public static class DependencyInjectionExtensions
 {
     public static IServiceCollection AddAlphaServicesClient(this IServiceCollection services, IConfiguration configuration)

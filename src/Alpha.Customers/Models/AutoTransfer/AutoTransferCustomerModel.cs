@@ -17,9 +17,10 @@ public class AutoTransferCustomerModel
     public byte Locked { get; set; }
     public bool EnableAutoTransfer { get; set; }
     public string AutoTransferSchedule { get; set; }
-
-    public IEnumerable<string> AutoTransferDates
-        => string.IsNullOrWhiteSpace(AutoTransferSchedule) ? Enumerable.Empty<string>() : AutoTransferSchedule.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
+    public IEnumerable<string> AutoTransferDates()
+      => string.IsNullOrWhiteSpace(AutoTransferSchedule)
+          ? Enumerable.Empty<string>()
+          : AutoTransferSchedule.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
 
     public int Status
     {
@@ -66,4 +67,5 @@ public class AutoTransferCustomerModel
             return CustomerStatusConst.Normal;
         }
     }
+ 
 }

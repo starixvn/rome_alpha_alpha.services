@@ -20,7 +20,6 @@ public interface IBalanceInfoService
 public class BalanceInfoService : IBalanceInfoService
 {
     private readonly ICustomerService customerService;
-    private readonly IReportDateService reportDateService;
     private readonly IOutstandingService outstandingService;
     private readonly IDynamicRepository dynamicRepository;
 
@@ -30,8 +29,7 @@ public class BalanceInfoService : IBalanceInfoService
         IOutstandingService outstandingService,
         IDynamicRepository dynamicRepository)
     {
-        this.customerService = customerService;
-        this.reportDateService = reportDateService;
+        this.customerService = customerService;     
         this.outstandingService = outstandingService;
         this.dynamicRepository = dynamicRepository;
     }
